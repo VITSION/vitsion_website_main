@@ -1,0 +1,316 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* VITSION - Cinematic Film Noir Design System */
+
+@layer base {
+  :root {
+    /* Pure black and white cinematic palette */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
+
+    --radius: 0.5rem;
+
+    /* Beam colors for light rays */
+    --beam-primary: 0 0% 100%;
+    --beam-secondary: 0 0% 70%;
+    --beam-tertiary: 0 0% 40%;
+
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
+
+    --beam-primary: 0 0% 100%;
+    --beam-secondary: 0 0% 70%;
+    --beam-tertiary: 0 0% 40%;
+
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Cinematic animations */
+@layer utilities {
+  .animate-beam {
+    animation: beam 8s ease-in-out infinite;
+  }
+
+  .animate-beam-slow {
+    animation: beam 12s ease-in-out infinite;
+  }
+
+  .animate-beam-fast {
+    animation: beam 5s ease-in-out infinite;
+  }
+}
+
+@keyframes beam {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translateY(-20px) rotate(2deg);
+  }
+}
+
+
+
+/* Text Stroke Utility */
+.stroke-text {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+  color: transparent;
+}
+
+.stroke-text:hover {
+  -webkit-text-stroke: 1px #fff;
+  color: #fff;
+}
+
+/* Outer film roll frame */
+.film-roll-frame {
+  width: 560px;
+  height: 460px;
+  background: #0a0a0a;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+/* Clipping viewport for CardSwap */
+.film-roll-viewport {
+  position: absolute;
+  inset: 40px 20px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+/* Top & bottom perforations */
+.film-roll-frame::before,
+.film-roll-frame::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 26px;
+  background:
+    repeating-linear-gradient(to right,
+      transparent 0,
+      transparent 10px,
+      #ccc 10px,
+      #ccc 18px);
+  opacity: 0.6;
+}
+
+.film-roll-frame::before {
+  top: 6px;
+}
+
+.film-roll-frame::after {
+  bottom: 6px;
+}
+
+/* Film frame container */
+.film-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* Image inside frame */
+.film-frame-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(0.95) brightness(0.95);
+}
+
+/* Film perforations */
+.film-frame::before,
+.film-frame::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  height: 18px;
+  background: repeating-linear-gradient(to right,
+      transparent 0,
+      transparent 12px,
+      rgba(255, 255, 255, 0.5) 12px,
+      rgba(255, 255, 255, 0.5) 18px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.film-frame::before {
+  top: 6px;
+}
+
+.film-frame::after {
+  bottom: 6px;
+}
+
+/* ============================
+   FILM FRAME (PER CARD)
+   ============================ */
+
+.film-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  /* solid black film */
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.75);
+}
+
+/* Visible image window */
+.film-frame-window {
+  position: absolute;
+  top: 42px;
+  bottom: 42px;
+  left: 18px;
+  right: 18px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #000;
+}
+
+/* Image itself */
+.film-frame-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  /* cinematic restraint */
+  filter: brightness(0.92) contrast(0.96);
+}
+
+/* ============================
+   PERFORATIONS (TOP & BOTTOM)
+   ============================ */
+
+.film-frame::before,
+.film-frame::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 20px;
+  background: repeating-linear-gradient(to right,
+      transparent 0px,
+      transparent 10px,
+      #666 10px,
+      #666 16px);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.film-frame::before {
+  top: 10px;
+}
+
+.film-frame::after {
+  bottom: 10px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 4s linear infinite;
+}
