@@ -10,7 +10,8 @@ import Gallery from "./pages/Gallery";
 import Globus from "./pages/Globus";
 import Team from "./pages/Team";
 import Films from "./pages/Films";
-import Padam from "./pages/films/Padam";
+
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,8 @@ const App = () => (
           <Route path="/films" element={<Films />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/team" element={<Team />} />
-          <Route path="/films/padam" element={<Padam />} />
+
+          <Route path="/contact" element={<Contact />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

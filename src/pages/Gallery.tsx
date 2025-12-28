@@ -1,8 +1,7 @@
 
 import StaggeredMenu from "@/components/StaggeredMenu";
-import CardSwap, { Card } from "@/components/CardSwap";
 import LightRaysBackground from "@/components/LightRaysBackground";
-import FilmRollFrame from "@/components/FilmRollFrame";
+import Masonry from "@/components/Masonry"; // Newly added component
 
 
 const Gallery = () => {
@@ -13,7 +12,7 @@ const Gallery = () => {
         { label: 'Films', ariaLabel: 'View our films', link: '/films' },
         { label: 'Gallery', ariaLabel: 'Browse gallery', link: '/gallery' },
         { label: 'Team', ariaLabel: 'Meet the team', link: '/team' },
-        { label: 'Contact', ariaLabel: 'Get in touch', link: '#' }
+        { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
     ];
 
     const socialItems = [
@@ -49,59 +48,51 @@ const Gallery = () => {
                 <LightRaysBackground />
             </div>
 
-            <main className="relative z-10 pt-24 px-4 container mx-auto flex flex-col items-center min-h-[calc(100vh-6rem)]">
-                <h1 className="text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-12 text-center">
+            <main className="relative z-10 pt-24 px-4 container mx-auto flex flex-col items-center w-full">
+                <h1 className="text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-4 text-center">
                     GALLERY
                 </h1>
 
-                <div className="w-full flex justify-center items-center py-12" style={{ height: '600px', position: 'relative' }}>
-                    <CardSwap
-                        cardDistance={60}
-                        verticalDistance={70}
-                        delay={5000}
-                        pauseOnHover={false}
-                    >
-                        <Card className="border-none bg-transparent">
-                            <div className="film-frame">
-                                <div className="film-frame-window">
-                                    <img
-                                        src="/Events/Shortfilm.jpg"
-                                        alt="Shortfilm"
-                                        className="absolute inset-0 h-full w-full object-cover"
-                                    />
-                                </div>
-                            </div>
-                        </Card>
-                        <Card className="border-none bg-transparent">
-                            <div className="film-frame">
-                                <div className="film-frame-window">
-                                    <img
-                                        src="/Events/MeesayaMurukku.jpg"
-                                        alt="MEESAYA MURUKKU SCREENING"
-                                        className="film-frame-image"
-                                    />
-                                </div>
-                            </div>
-                        </Card>
-
-                        <Card className="border-none bg-transparent">
-                            <div className="film-frame">
-                                <div className="film-frame-window">
-                                    <img
-                                        src="/Events/Retrograde.JPG"
-                                        alt="RETROGRADE"
-                                        className="film-frame-image"
-                                    />
-                                </div>
-                            </div>
-                        </Card>
-
-
-                    </CardSwap>
+                <div className="w-full h-full min-h-screen">
+                    <Masonry
+                        items={items}
+                        ease="power3.out"
+                        duration={0.6}
+                        stagger={0.05}
+                        animateFrom="bottom"
+                        scaleOnHover={true}
+                        hoverScale={0.95}
+                        blurToFocus={true}
+                        colorShiftOnHover={false}
+                    />
                 </div>
             </main>
         </div>
     );
 };
+
+// Mock data adapted for the new Masonry component
+const baseData = [
+    { img: "/Events/Shortfilm.jpg", height: 600 },
+    { img: "/Events/MeesayaMurukku.jpg", height: 800 },
+    { img: "/Events/Retrograde.JPG", height: 500 },
+    { img: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&q=80&w=800", height: 700 },
+    { img: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800", height: 600 },
+    { img: "https://images.unsplash.com/photo-1517604931442-71053e6e2360?auto=format&fit=crop&q=80&w=800", height: 550 },
+    { img: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=800", height: 650 },
+    { img: "https://images.unsplash.com/photo-1519709041289-e2b2c80327f3?q=80&w=1968", height: 400 },
+    { img: "https://images.unsplash.com/photo-1478720568477-152d9b164e63?auto=format&fit=crop&q=80&w=800", height: 600 },
+];
+
+const items = [
+    ...baseData,
+    ...baseData,
+    ...baseData,
+    ...baseData
+].map((item, index) => ({
+    ...item,
+    id: String(index + 1),
+    url: "#", // Placeholder link
+}));
 
 export default Gallery;

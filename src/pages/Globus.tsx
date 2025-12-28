@@ -13,7 +13,7 @@ const Globus = () => {
         { label: 'Films', ariaLabel: 'View our films', link: '/films' },
         { label: 'Gallery', ariaLabel: 'Browse gallery', link: '/gallery' },
         { label: 'Team', ariaLabel: 'Meet the team', link: '/team' },
-        { label: 'Contact', ariaLabel: 'Get in touch', link: '#' }
+        { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
     ];
 
     const socialItems = [
