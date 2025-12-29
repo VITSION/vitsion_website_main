@@ -9,8 +9,9 @@ import Events from "./pages/Events";
 import Gallery from "./pages/Gallery";
 import Globus from "./pages/Globus";
 import Team from "./pages/Team";
-import Films from "./pages/Films";
+import Events25_26 from "./pages/Events/Events25-26";
 
+import Films from "./pages/Films";
 import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/globus" element={<Globus />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/2025-26" element={<Events25_26 />} />
           <Route path="/films" element={<Films />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/team" element={<Team />} />
@@ -32,10 +34,10 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
 
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+        </Routes >
+      </BrowserRouter >
+    </TooltipProvider >
+  </QueryClientProvider >
 );
 
 export default App;

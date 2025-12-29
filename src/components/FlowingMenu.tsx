@@ -13,7 +13,7 @@ const demoItems = [
 
 function FlowingMenu({ items = demoItems }) {
     return (
-        <div className="flowing-menu-container h-screen w-full relative z-20">
+        <div className="flowing-menu-container h-48 w-full relative z-20">
             <div className="menu-wrap">
                 <nav className="menu">
                     {items.map((item, idx) => (

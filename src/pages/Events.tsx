@@ -2,7 +2,7 @@
 import StaggeredMenu from "@/components/StaggeredMenu";
 
 import LightRaysBackground from "@/components/LightRaysBackground"; // Or reuse the LightRays one
-import ClapperBoard from "@/components/ClapperBoard";
+
 import FlowingMenu from "@/components/FlowingMenu";
 
 import EventAnnouncement from "@/components/EventAnnouncement";
@@ -27,7 +27,7 @@ const Events = () => {
 
     return (
         <div className="relative min-h-screen w-full overflow-x-hidden bg-background">
-            <div className="absolute inset-0 z-50 pointer-events-none sticky top-0 h-screen w-full">
+            <div className="fixed inset-0 z-50 pointer-events-none">
                 <StaggeredMenu
                     position="right"
                     items={menuItems}
@@ -47,22 +47,48 @@ const Events = () => {
                     onMenuClose={() => { }}
                 />
             </div>
-            <ClapperBoard />
+
 
             {/* Reuse background or keep it simple */}
             <div className="absolute inset-0 z-0 opacity-50">
                 <LightRaysBackground />
             </div>
 
-            <main className="relative z-10 pt-24 px-4 container mx-auto flex flex-col items-center min-h-[calc(100vh-6rem)]">
-                <h1 className="text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-12 text-center">
+            {/* Header Section (Like Films) */}
+            <section
+                className="relative z-10"
+                style={{
+                    height: "auto",
+                    minHeight: "0",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 0,
+                    margin: 0,
+                }}
+            >
+                <h1
+                    style={{
+                        fontSize: "clamp(3rem, 7vw, 6rem)",
+                        letterSpacing: "0",
+                        margin: 0,
+                        fontWeight: 900,
+                        textAlign: "center",
+                        fontFamily: "Arial Black, sans-serif",
+                        textTransform: "uppercase"
+                    }}
+                >
                     OUR EVENTS
                 </h1>
+            </section>
 
-                <EventAnnouncement />
+            <main className="relative z-10 px-4 container mx-auto flex flex-col items-center min-h-[calc(100vh-6rem)]">
+                <div className="mt-8 w-full">
+                    <EventAnnouncement />
+                </div>
 
-                <div className="mt-40 w-full relative z-20">
-                    <FlowingMenu />
+                <div className="mt-20 w-full relative z-20">
+                    <FlowingMenu items={[{ link: '/events/2025-26', text: '2025-26', image: '/Events/Shortfilm.jpg' }]} />
                 </div>
             </main>
         </div>
