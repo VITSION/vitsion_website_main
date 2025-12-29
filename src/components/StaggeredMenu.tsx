@@ -2,7 +2,7 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
-import { Instagram, Youtube, Facebook, Twitter, Clapperboard } from 'lucide-react';
+import { Instagram, Youtube, Facebook, Twitter, Clapperboard, Linkedin } from 'lucide-react';
 import './StaggeredMenu.css';
 
 export const StaggeredMenu = ({
@@ -369,13 +369,13 @@ export const StaggeredMenu = ({
                 })()}
             </div>
             <header className="staggered-menu-header" aria-label="Main navigation header" style={{ pointerEvents: 'none' }}>
-                <div className="sm-logo" aria-label="Logo" style={{ pointerEvents: 'auto' }}>
+                <div className="sm-logo" aria-label="Logo" style={{ pointerEvents: 'auto', transform: 'translateY(-10px)' }}>
                     <img
                         src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
                         alt="Logo"
                         className="sm-logo-img"
                         draggable={false}
-                        width={110}
+                        width={200}
                         height={24}
                     />
 
@@ -470,6 +470,11 @@ export const StaggeredMenu = ({
                                         case 'letterboxd':
                                             Icon = Clapperboard; // Placeholder for Letterboxd if not available
                                             colorClass = "hover:text-[#40bcf4]";
+                                            break;
+                                        case 'linkedin':
+                                        case 'linked in':
+                                            Icon = Linkedin;
+                                            colorClass = "hover:text-[#0077b5]";
                                             break;
                                         default:
                                             Icon = null;

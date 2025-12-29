@@ -150,7 +150,9 @@ export default function Films() {
 
   const socialItems = [
     { label: "Instagram", link: "https://www.instagram.com/vitsionmoviemakers" },
+    { label: "Linkedin", link: "https://www.linkedin.com/company/vitsionmoviemakersclub/" },
     { label: "LetterBox", link: "https://letterboxd.com/vitsion/" },
+    { label: "YouTube", link: "http://www.youtube.com/@VITSIONMovieMakers" },
   ];
 
   const filmsRow1 = [...row1, ...row1, ...row1, ...row1];
@@ -178,7 +180,7 @@ export default function Films() {
             openMenuButtonColor="#0f0e0eff"
             changeMenuColorOnOpen={true}
             colors={["#0a0a0aff", "#f1ececff", "#3a3a3a"]}
-            logoUrl="/vitsion_new_logo.png"
+            logoUrl="/vitsion white.png"
             accentColor="#0c0c0cff"
             isFixed={true}
             className=""

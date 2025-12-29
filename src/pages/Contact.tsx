@@ -19,7 +19,9 @@ const Contact = () => {
 
     const socialItems = [
         { label: "Instagram", link: "https://www.instagram.com/vitsionmoviemakers" },
+        { label: "Linkedin", link: "https://www.linkedin.com/company/vitsionmoviemakersclub/" },
         { label: "LetterBox", link: "https://letterboxd.com/vitsion/" },
+        { label: "YouTube", link: "http://www.youtube.com/@VITSIONMovieMakers" },
     ];
 
     return (
@@ -37,7 +39,7 @@ const Contact = () => {
                         openMenuButtonColor="#0f0e0eff"
                         changeMenuColorOnOpen={true}
                         colors={["#0a0a0aff", "#f1ececff", "#3a3a3a"]}
-                        logoUrl="/vitsion_new_logo.png"
+                        logoUrl="/vitsion white.png"
                         accentColor="#0c0c0cff"
                         isFixed={true}
                         className=""
@@ -65,46 +67,46 @@ const Contact = () => {
                                 href="https://www.instagram.com/vitsionmoviemakers"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-4 text-xl text-gray-300 hover:text-white transition-colors group"
+                                className="flex items-center gap-4 text-xl text-gray-300 group transition-colors hover:text-[#E1306C]"
                             >
-                                <div className="p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-colors">
+                                <div className="p-3 bg-white/5 rounded-lg group-hover:bg-[#E1306C]/10 transition-colors">
                                     <Instagram className="w-6 h-6" />
                                 </div>
                                 <span>Instagram</span>
                             </a>
 
                             <a
-                                href="https://www.linkedin.com/company/vitsion"
+                                href="https://www.linkedin.com/company/vitsionmoviemakersclub/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-4 text-xl text-gray-300 hover:text-white transition-colors group"
+                                className="flex items-center gap-4 text-xl text-gray-300 group transition-colors hover:text-[#0077b5]"
                             >
-                                <div className="p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-colors">
+                                <div className="p-3 bg-white/5 rounded-lg group-hover:bg-[#0077b5]/10 transition-colors">
                                     <Linkedin className="w-6 h-6" />
                                 </div>
                                 <span>LinkedIn</span>
                             </a>
 
                             <a
-                                href="https://www.youtube.com/@VITSION"
+                                href="http://www.youtube.com/@VITSIONMovieMakers"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-4 text-xl text-gray-300 hover:text-white transition-colors group"
+                                className="flex items-center gap-4 text-xl text-gray-300 group transition-colors hover:text-[#FF0000]"
                             >
-                                <div className="p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-colors">
+                                <div className="p-3 bg-white/5 rounded-lg group-hover:bg-[#FF0000]/10 transition-colors">
                                     <Youtube className="w-6 h-6" />
                                 </div>
                                 <span>YouTube</span>
                             </a>
 
                             <a
-                                href="mailto:contact@vitsion.club"
-                                className="flex items-center gap-4 text-xl text-gray-300 hover:text-white transition-colors group"
+                                href="mailto:vitsionmoviemakers@gmail.com"
+                                className="flex items-center gap-4 text-xl text-gray-300 group transition-colors hover:text-[#FBBF24]"
                             >
-                                <div className="p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-colors">
+                                <div className="p-3 bg-white/5 rounded-lg group-hover:bg-[#FBBF24]/10 transition-colors">
                                     <Mail className="w-6 h-6" />
                                 </div>
-                                <span>contact@vitsion.club</span>
+                                <span>vitsionmoviemakers@gmail.com</span>
                             </a>
                         </div>
                     </div>

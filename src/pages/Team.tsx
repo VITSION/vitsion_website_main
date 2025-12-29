@@ -69,8 +69,9 @@ export default function Team() {
 
     const socialItems = [
         { label: 'Instagram', link: 'https://www.instagram.com/vitsionmoviemakers' },
+        { label: 'Linkedin', link: 'https://www.linkedin.com/company/vitsionmoviemakersclub/' },
         { label: 'LetterBox', link: 'https://letterboxd.com/vitsion/' },
-
+        { label: 'YouTube', link: 'http://www.youtube.com/@VITSIONMovieMakers' }
     ];
 
     return (
@@ -90,7 +91,7 @@ export default function Team() {
                     changeMenuColorOnOpen={true}
                     colors={['#0a0a0aff', '#f1ececff', '#3a3a3a']}
                     // Using a simple placeholder logo or text if no SVG available
-                    logoUrl="/vitsion_new_logo.png"
+                    logoUrl="/vitsion white.png"
                     accentColor="#0c0c0cff"
                     isFixed={true}
                     className=""

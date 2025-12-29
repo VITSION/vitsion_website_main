@@ -8,7 +8,7 @@ const EventAnnouncement = () => {
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{
                     backgroundImage: 'url("/Events/Retrograde.JPG")',
-                    opacity:0.5
+                    opacity: 0.5
                 }}
             />
 
@@ -36,7 +36,7 @@ const EventAnnouncement = () => {
                     <div className="pt-8 flex gap-4">
                         <Button
                             className="rounded-full px-10 py-7 text-lg bg-white text-black hover:bg-gray-200 hover:scale-105 transition-all duration-300 font-bold tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-                            onClick={() => window.location.href = '#'}
+                            onClick={() => window.location.href = '/globus'}
                         >
                             EXPLORE
                         </Button>

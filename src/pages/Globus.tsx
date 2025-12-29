@@ -18,105 +18,120 @@ const Globus = () => {
 
     const socialItems = [
         { label: 'Instagram', link: 'https://www.instagram.com/vitsionmoviemakers' },
-        { label: 'LetterBox', link: 'https://letterboxd.com/vitsion/' }
+        { label: 'Linkedin', link: 'https://www.linkedin.com/company/vitsionmoviemakersclub/' },
+        { label: 'LetterBox', link: 'https://letterboxd.com/vitsion/' },
+        { label: 'YouTube', link: 'http://www.youtube.com/@VITSIONMovieMakers' }
     ];
 
     return (
-        <div className="relative min-h-screen w-full overflow-hidden bg-white text-black">
-            {/* Background stars in Gold, White background */}
-            <StarField speed={1} backgroundColor="#ffffff" starColor="#D4AF37" />
+        <div className="relative min-h-screen w-full overflow-hidden bg-[#2a0845] text-white">
+            {/* Background stars in Gold, Purple background */}
+            <StarField speed={1} backgroundColor="#2a0845" starColor="#D4AF37" />
 
             {/* Wrapping Paper Animation Overlay */}
-            <AnimatePresence>
+            <AnimatePresence mode='wait'>
                 {!isUnwrapped && (
                     <motion.div
-                        className="absolute inset-0 z-[100] flex pointer-events-none"
-                        onAnimationComplete={() => setIsUnwrapped(true)}
+                        className="absolute inset-0 z-[100] flex items-center justify-center perspective-[2500px] cursor-pointer"
+                        onClick={() => setIsUnwrapped(true)}
+                        initial={{ opacity: 1 }}
+                        exit={{ opacity: 0, transition: { duration: 1, delay: 1 } }}
                     >
-                        {/* Left Half of Gift */}
+                        {/* Interactive Hint */}
                         <motion.div
-                            initial={{ x: 0 }}
-                            animate={{ x: "-100%" }}
-                            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
-                            className="w-1/2 h-full bg-white relative border-r-2 border-[#D4AF37] overflow-hidden shadow-2xl z-10"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1, duration: 1, repeat: Infinity, repeatType: "reverse" }}
+                            className="absolute bottom-20 z-[60] text-white/80 font-light tracking-[0.3em] text-sm uppercase"
                         >
-                            {/* Texture: Gold Dots on White */}
-                            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_#D4AF37_1.5px,_transparent_1.5px)] bg-[length:30px_30px]" />
+                            Click to Open
+                        </motion.div>
+
+                        {/* Shadow/Depth behind the paper */}
+                        <div className="absolute inset-0 bg-black/40 z-0" />
+
+                        {/* Left Flap */}
+                        <motion.div
+                            initial={{ rotateY: 0 }}
+                            exit={{
+                                rotateY: -130,
+                                transition: { duration: 1.5, ease: "easeInOut" }
+                            }}
+                            style={{ transformOrigin: "left center" }}
+                            className="w-1/2 h-full absolute left-0 bg-[#1a0b2e] border-r border-[#2d1b4e] shadow-2xl z-10 flex flex-col items-end justify-center overflow-hidden preserve-3d"
+                        >
+                            {/* Royal Rich Texture */}
+                            <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#240046] to-[#10002b]" />
 
                             {/* Horizontal Ribbon (Left) */}
-                            <div className="absolute top-1/2 left-0 w-full h-20 -translate-y-1/2 bg-gradient-to-b from-[#8E2DE2] to-[#4A00E0] shadow-xl flex items-center justify-center border-y-2 border-[#D4AF37]">
-                                <div className="w-full h-[1px] bg-[#ffffff]/30"></div>
+                            <div className="w-full h-16 bg-gradient-to-r from-[#D4AF37] via-[#F7E7CE] to-[#AA8c2C] shadow-lg relative flex items-center justify-center">
+                                {/* Slight fabric texture overlay on ribbon */}
+                                <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')]" />
+                                <div className="absolute top-0 w-full h-[1px] bg-white/40" />
+                                <div className="absolute bottom-0 w-full h-[1px] bg-black/20" />
                             </div>
-
-                            {/* Vertical Ribbon (Left Edge) */}
-                            <div className="absolute top-0 right-0 w-10 h-full bg-gradient-to-r from-[#8E2DE2] to-[#4A00E0] shadow-xl border-l-[1px] border-[#D4AF37]"></div>
                         </motion.div>
 
-                        {/* Right Half of Gift */}
+                        {/* Right Flap */}
                         <motion.div
-                            initial={{ x: 0 }}
-                            animate={{ x: "100%" }}
-                            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
-                            className="w-1/2 h-full bg-white relative border-l-2 border-[#D4AF37] overflow-hidden shadow-2xl z-10"
+                            initial={{ rotateY: 0 }}
+                            exit={{
+                                rotateY: 130,
+                                transition: { duration: 1.5, ease: "easeInOut" }
+                            }}
+                            style={{ transformOrigin: "right center" }}
+                            className="w-1/2 h-full absolute right-0 bg-[#1a0b2e] border-l border-[#2d1b4e] shadow-2xl z-10 flex flex-col items-start justify-center overflow-hidden preserve-3d"
                         >
-                            {/* Texture */}
-                            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_#D4AF37_1.5px,_transparent_1.5px)] bg-[length:30px_30px]" />
+                            {/* Royal Rich Texture */}
+                            <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay" />
+                            <div className="absolute inset-0 bg-gradient-to-bl from-[#240046] to-[#10002b]" />
 
                             {/* Horizontal Ribbon (Right) */}
-                            <div className="absolute top-1/2 left-0 w-full h-20 -translate-y-1/2 bg-gradient-to-b from-[#8E2DE2] to-[#4A00E0] shadow-xl flex items-center justify-center border-y-2 border-[#D4AF37]">
-                                <div className="w-full h-[1px] bg-[#ffffff]/30"></div>
+                            <div className="w-full h-16 bg-gradient-to-l from-[#D4AF37] via-[#F7E7CE] to-[#AA8c2C] shadow-lg relative flex items-center justify-center">
+                                {/* Slight fabric texture overlay on ribbon */}
+                                <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')]" />
+                                <div className="absolute top-0 w-full h-[1px] bg-white/40" />
+                                <div className="absolute bottom-0 w-full h-[1px] bg-black/20" />
                             </div>
-
-                            {/* Vertical Ribbon (Right Edge) */}
-                            <div className="absolute top-0 left-0 w-10 h-full bg-gradient-to-l from-[#8E2DE2] to-[#4A00E0] shadow-xl border-r-[1px] border-[#D4AF37]"></div>
                         </motion.div>
 
-                        {/* Central Bow / Knot - Animated */}
+                        {/* Vertical Ribbon (Center Overlap) */}
                         <motion.div
-                            initial={{ scale: 1, opacity: 1, rotate: 0 }}
-                            animate={{ scale: [1, 1.2, 0], opacity: [1, 1, 0], rotate: [0, 15, 0] }}
-                            transition={{ duration: 0.8, delay: 0.4, ease: "easeInOut", times: [0, 0.4, 1] }}
-                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center justify-center filter drop-shadow-2xl"
+                            className="absolute h-full w-16 z-20"
+                            exit={{ opacity: 0, scale: 1.1, transition: { duration: 0.5 } }}
                         >
-                            {/* The Bow Loops - Using SVG for smoother look */}
-                            <svg width="200" height="200" viewBox="0 0 200 200" className="overflow-visible">
-                                <defs>
-                                    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#9d4edd" />
-                                        <stop offset="100%" stopColor="#3c096c" />
-                                    </linearGradient>
-                                    <filter id="glow">
-                                        <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-                                        <feMerge>
-                                            <feMergeNode in="coloredBlur" />
-                                            <feMergeNode in="SourceGraphic" />
-                                        </feMerge>
-                                    </filter>
-                                </defs>
-                                {/* Left Loop */}
-                                <motion.path
-                                    d="M100 100 C 60 40, 0 60, 40 100 C 0 140, 60 160, 100 100"
-                                    fill="url(#purpleGradient)"
-                                    stroke="#D4AF37"
-                                    strokeWidth="2"
-                                    initial={{ pathLength: 0, opacity: 0 }}
-                                    animate={{ pathLength: 1, opacity: 1 }}
-                                    transition={{ duration: 0.5 }}
-                                />
-                                {/* Right Loop */}
-                                <motion.path
-                                    d="M100 100 C 140 40, 200 60, 160 100 C 200 140, 140 160, 100 100"
-                                    fill="url(#purpleGradient)"
-                                    stroke="#D4AF37"
-                                    strokeWidth="2"
-                                    initial={{ pathLength: 0, opacity: 0 }}
-                                    animate={{ pathLength: 1, opacity: 1 }}
-                                    transition={{ duration: 0.5 }}
-                                />
-                                {/* Center Knot */}
-                                <circle cx="100" cy="100" r="15" fill="#D4AF37" stroke="#ffffff" strokeWidth="1" />
-                            </svg>
+                            <div className="w-full h-full bg-gradient-to-b from-[#D4AF37] via-[#F7E7CE] to-[#AA8c2C] shadow-2xl flex justify-center">
+                                <div className="w-[1px] h-full bg-white/30" />
+                            </div>
                         </motion.div>
+
+                        {/* Realistic Wax Seal (Replaces the 'Kid Loop' Bow) */}
+                        <motion.div
+                            initial={{ scale: 1 }}
+                            whileHover={{ scale: 1.05 }}
+                            exit={{
+                                scale: 2,
+                                opacity: 0,
+                                rotate: 180,
+                                transition: { duration: 0.8, ease: "backIn" }
+                            }}
+                            className="absolute z-50 rounded-full flex items-center justify-center drop-shadow-2xl"
+                        >
+                            {/* The Wax Seal Body */}
+                            <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-[#9d0208] to-[#370617] shadow-[0_10px_20px_rgba(0,0,0,0.5),inset_0_2px_10px_rgba(255,255,255,0.2)] border-4 border-[#6a040f] flex items-center justify-center">
+                                {/* Inner indented ring */}
+                                <div className="w-24 h-24 rounded-full border-2 border-[#9d0208]/50 flex items-center justify-center shadow-[inset_0_4px_8px_rgba(0,0,0,0.4)]">
+                                    {/* Gold Emblem/Logo in Center */}
+                                    <div className="text-[#D4AF37] font-serif text-4xl font-bold opacity-90 drop-shadow-md">
+                                        V
+                                    </div>
+                                </div>
+                                {/* Highlight Sheen */}
+                                <div className="absolute top-4 left-4 w-8 h-4 bg-white/10 rounded-[50%] blur-sm rotate-[-45deg]" />
+                            </div>
+                        </motion.div>
+
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -133,7 +148,7 @@ const Globus = () => {
                     openMenuButtonColor="#0f0e0eff"
                     changeMenuColorOnOpen={true}
                     colors={['#fff', '#f9f9f9', '#D4AF37']}
-                    logoUrl="/vitsion_new_logo.png"
+                    logoUrl="/vitsion white.png"
                     accentColor="#D4AF37"
                     isFixed={true}
                     className=""
@@ -145,8 +160,8 @@ const Globus = () => {
             <main className="relative z-10 flex flex-col items-center justify-center h-screen px-4">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.5, ease: "easeOut", delay: 1.5 }}
+                    animate={{ opacity: isUnwrapped ? 1 : 0, scale: isUnwrapped ? 1 : 0.8 }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
                     className="text-center"
                 >
                     <motion.h1
@@ -166,7 +181,7 @@ const Globus = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 2, duration: 1 }}
+                        transition={{ delay: 2.3, duration: 1 }}
                         className="flex items-center justify-center gap-4"
                     >
                         <div className="h-[2px] w-12 bg-[#D4AF37]"></div>

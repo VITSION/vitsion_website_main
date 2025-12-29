@@ -1,5 +1,6 @@
 import LightRays from "@/components/LightRays";
 import StaggeredMenu from "@/components/StaggeredMenu";
+import EventAnnouncement from "@/components/EventAnnouncement";
 
 const Index = () => {
   const menuItems = [
@@ -14,7 +15,9 @@ const Index = () => {
 
   const socialItems = [
     { label: 'Instagram', link: 'https://www.instagram.com/vitsionmoviemakers' },
-    { label: 'LetterBox', link: 'https://letterboxd.com/vitsion/' }
+    { label: 'Linkedin', link: 'https://www.linkedin.com/company/vitsionmoviemakersclub/' },
+    { label: 'LetterBox', link: 'https://letterboxd.com/vitsion/' },
+    { label: 'YouTube', link: 'http://www.youtube.com/@VITSIONMovieMakers' }
   ];
 
   return (
@@ -48,7 +51,7 @@ const Index = () => {
           changeMenuColorOnOpen={true}
           colors={['#0a0a0aff', '#f1ececff', '#3a3a3a']}
           // Using a simple placeholder logo or text if no SVG available
-          logoUrl="/vitsion_new_logo.png"
+          logoUrl="/vitsion white.png"
           accentColor="#0c0c0cff"
           isFixed={false}
           className=""
@@ -57,9 +60,9 @@ const Index = () => {
         />
       </div>
 
-      {/* Main Content Area - Empty for now, full viewport */}
-      <main className="relative z-10 h-full flex items-center justify-center pointer-events-none">
-        {/* Content placeholder - can be expanded later */}
+      {/* Main Content Area */}
+      <main className="relative z-10 h-full flex items-center justify-center">
+        <EventAnnouncement />
       </main>
     </div>
   );
