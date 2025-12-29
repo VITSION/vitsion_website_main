@@ -4,6 +4,8 @@ import { gsap } from 'gsap';
 
 import './Masonry.css';
 
+
+
 const useMedia = (queries, values, defaultValue) => {
     const get = () => values[queries.findIndex(q => matchMedia(q).matches)] ?? defaultValue;
 
@@ -18,9 +20,8 @@ const useMedia = (queries, values, defaultValue) => {
 
     return value;
 };
-
 const useMeasure = () => {
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
     const [size, setSize] = useState({ width: 0, height: 0 });
 
     useLayoutEffect(() => {
@@ -33,26 +34,33 @@ const useMeasure = () => {
         return () => ro.disconnect();
     }, []);
 
-    return [ref, size];
+    return { ref, ...size }; // Return object instead of array to be cleaner
 };
 
-const preloadImages = async (urls) => {
+const preloadImages = async (urls: string[]) => {
+    const dimensions = new Map();
     await Promise.all(
         urls.map(
             src =>
-                new Promise(resolve => {
+                new Promise<void>(resolve => {
                     const img = new Image();
                     img.src = src;
-                    // @ts-ignore
-                    img.onload = img.onerror = () => resolve();
+                    img.onload = () => {
+                        dimensions.set(src, { width: img.naturalWidth, height: img.naturalHeight });
+                        resolve();
+                    };
+                    img.onerror = () => {
+                        dimensions.set(src, { width: 1, height: 1 }); // Fallback
+                        resolve();
+                    };
                 })
         )
     );
+    return dimensions;
 };
 
 interface MasonryProps {
-    // @ts-ignore
-    items: any[];
+    items: { id: string; img: string; height: number; url?: string }[];
     ease?: string;
     duration?: number;
     stagger?: number;
@@ -70,22 +78,21 @@ const Masonry = ({
     stagger = 0.05,
     animateFrom = 'bottom',
     scaleOnHover = true,
-    hoverScale = 0.95,
+    hoverScale = 1.1, // Default zoom in
     blurToFocus = true,
     colorShiftOnHover = false
 }: MasonryProps) => {
     const columns = useMedia(
         ['(min-width:1500px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
-        [5, 4, 3, 2],
+        [4, 3, 2, 1], // Fewer columns for larger images
         1
     );
 
-    const [containerRef, { width }] = useMeasure();
+    const { ref: containerRef, width } = useMeasure();
     const [imagesReady, setImagesReady] = useState(false);
+    const [imageDimensions, setImageDimensions] = useState(new Map());
 
-    // @ts-ignore
-    const getInitialPosition = item => {
-        // @ts-ignore
+    const getInitialPosition = (item: { x: number; y: number; w: number; h: number }) => {
         const containerRect = containerRef.current?.getBoundingClientRect();
         if (!containerRect) return { x: item.x, y: item.y };
 
@@ -116,28 +123,43 @@ const Masonry = ({
     };
 
     useEffect(() => {
-        // @ts-ignore
-        preloadImages(items.map(i => i.img)).then(() => setImagesReady(true));
+        preloadImages(items.map(i => i.img)).then((dims) => {
+            setImageDimensions(dims);
+            setImagesReady(true);
+        });
     }, [items]);
 
     const grid = useMemo(() => {
-        if (!width) return [];
+        if (!width || !imagesReady) return [];
 
         const colHeights = new Array(columns).fill(0);
-        // @ts-ignore
         const columnWidth = width / columns;
 
         return items.map(child => {
             const col = colHeights.indexOf(Math.min(...colHeights));
             const x = columnWidth * col;
-            const height = child.height / 2;
+
+            const dimensions = imageDimensions.get(child.img);
+            let height;
+            if (dimensions && dimensions.width > 0) {
+                const aspectRatio = dimensions.height / dimensions.width;
+                height = columnWidth * aspectRatio;
+            } else {
+                height = (child.height || 200) / 2;
+            }
+
             const y = colHeights[col];
 
             colHeights[col] += height;
 
             return { ...child, x, y, w: columnWidth, h: height };
         });
-    }, [columns, items, width]);
+    }, [columns, items, width, imagesReady, imageDimensions]);
+
+    const containerHeight = useMemo(() => {
+        if (!grid.length) return '100vh';
+        return Math.max(...grid.map(item => item.y + item.h)) + 100; // Add some padding
+    }, [grid]);
 
     const hasMounted = useRef(false);
 
@@ -186,15 +208,14 @@ const Masonry = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
 
-    // @ts-ignore
-    const handleMouseEnter = (e, item) => {
+    const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>, item: typeof items[number]) => {
         const element = e.currentTarget;
-        const selector = `[data-key="${item.id}"]`;
+        const imgElement = element.querySelector('.item-img');
 
-        if (scaleOnHover) {
-            gsap.to(selector, {
+        if (scaleOnHover && imgElement) {
+            gsap.to(imgElement, {
                 scale: hoverScale,
-                duration: 0.3,
+                duration: 0.5,
                 ease: 'power2.out'
             });
         }
@@ -210,15 +231,14 @@ const Masonry = ({
         }
     };
 
-    // @ts-ignore
-    const handleMouseLeave = (e, item) => {
+    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>, item: typeof items[number]) => {
         const element = e.currentTarget;
-        const selector = `[data-key="${item.id}"]`;
+        const imgElement = element.querySelector('.item-img');
 
-        if (scaleOnHover) {
-            gsap.to(selector, {
+        if (scaleOnHover && imgElement) {
+            gsap.to(imgElement, {
                 scale: 1,
-                duration: 0.3,
+                duration: 0.5,
                 ease: 'power2.out'
             });
         }
@@ -234,44 +254,65 @@ const Masonry = ({
         }
     };
 
+    const [selectedItem, setSelectedItem] = useState<{ id: string; img: string } | null>(null);
+
+
+
+
+
     return (
-        // @ts-ignore
-        <div ref={containerRef} className="list">
-            {grid.map(item => {
-                return (
-                    <div
-                        key={item.id}
-                        data-key={item.id}
-                        className="item-wrapper"
-                        // @ts-ignore
-                        onClick={() => window.open(item.url, '_blank', 'noopener')}
-                        // @ts-ignore
-                        onMouseEnter={e => handleMouseEnter(e, item)}
-                        // @ts-ignore
-                        onMouseLeave={e => handleMouseLeave(e, item)}
-                    >
-                        <div className="item-img" style={{ backgroundImage: `url(${item.img})` }}>
-                            {colorShiftOnHover && (
-                                <div
-                                    className="color-overlay"
-                                    style={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        left: 0,
-                                        width: '100%',
-                                        height: '100%',
-                                        background: 'linear-gradient(45deg, rgba(255,0,150,0.5), rgba(0,150,255,0.5))',
-                                        opacity: 0,
-                                        pointerEvents: 'none',
-                                        borderRadius: '8px'
-                                    }}
-                                />
-                            )}
+        <>
+            <div ref={containerRef} className="list" style={{ height: containerHeight }}>
+                {grid.map((item, index) => {
+                    return (
+                        <div
+                            key={item.id}
+                            data-key={item.id}
+                            className="item-wrapper"
+                            onClick={() => setSelectedItem(item)}
+                            onMouseEnter={e => handleMouseEnter(e, item)}
+                            onMouseLeave={e => handleMouseLeave(e, item)}
+                        >
+                            <div className="item-clipper">
+                                <div className="item-img" style={{ backgroundImage: `url(${item.img})` }}>
+                                    {colorShiftOnHover && (
+                                        <div
+                                            className="color-overlay"
+                                            style={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0,
+                                                width: '100%',
+                                                height: '100%',
+                                                background: 'linear-gradient(45deg, rgba(255,0,150,0.5), rgba(0,150,255,0.5))',
+                                                opacity: 0,
+                                                pointerEvents: 'none',
+                                                borderRadius: '8px'
+                                            }}
+                                        />
+                                    )}
+                                </div>
+                            </div>
                         </div>
+                    );
+                })}
+            </div>
+
+            {selectedItem && (
+                <div
+                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm cursor-zoom-out"
+                    onClick={() => setSelectedItem(null)}
+                >
+                    <div className="relative max-w-[90vw] max-h-[90vh] p-2">
+                        <img
+                            src={selectedItem.img}
+                            alt="Selected"
+                            className="w-full h-full object-contain max-h-[85vh] rounded-lg shadow-2xl"
+                        />
                     </div>
-                );
-            })}
-        </div>
+                </div>
+            )}
+        </>
     );
 };
 

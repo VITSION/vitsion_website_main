@@ -49,11 +49,11 @@ const Gallery = () => {
             </div>
 
             <main className="relative z-10 pt-24 px-4 container mx-auto flex flex-col items-center w-full">
-                <h1 className="text-3xl md:text-5xl font-bold tracking-tighter text-foreground mb-4 text-center">
+                <h1 className="text-4xl md:text-6xl font-black tracking-widest text-white mb-8 text-center uppercase">
                     GALLERY
                 </h1>
 
-                <div className="w-full h-full min-h-screen">
+                <div className="w-full h-full min-h-screen px-2 md:px-0">
                     <Masonry
                         items={items}
                         ease="power3.out"
@@ -61,7 +61,6 @@ const Gallery = () => {
                         stagger={0.05}
                         animateFrom="bottom"
                         scaleOnHover={true}
-                        hoverScale={0.95}
                         blurToFocus={true}
                         colorShiftOnHover={false}
                     />
@@ -73,15 +72,22 @@ const Gallery = () => {
 
 // Mock data adapted for the new Masonry component
 const baseData = [
-    { img: "/Events/Shortfilm.jpg", height: 600 },
-    { img: "/Events/MeesayaMurukku.jpg", height: 800 },
-    { img: "/Events/Retrograde.JPG", height: 500 },
-    { img: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&q=80&w=800", height: 700 },
-    { img: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800", height: 600 },
-    { img: "https://images.unsplash.com/photo-1517604931442-71053e6e2360?auto=format&fit=crop&q=80&w=800", height: 550 },
-    { img: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=800", height: 650 },
-    { img: "https://images.unsplash.com/photo-1519709041289-e2b2c80327f3?q=80&w=1968", height: 400 },
-    { img: "https://images.unsplash.com/photo-1478720568477-152d9b164e63?auto=format&fit=crop&q=80&w=800", height: 600 },
+    { img: "/Events/Shortfilm.jpg", height: 900 },
+    { img: "/Events/MeesayaMurukku.jpg", height: 1100 },
+    { img: "/Events/Retrograde.JPG", height: 800 },
+    { img: "/Gallery/Curtain1.jpg", height: 1000 },
+    { img: "/Gallery/Screening1.JPG", height: 900 },
+    { img: "/Gallery/Screening2.jpg", height: 850 },
+    { img: "/Gallery/Screening3.jpg", height: 950 },
+    { img: "/Gallery/Screening4.jpeg", height: 700 },
+    { img: "/Gallery/workshop1.jpg", height: 900 },
+    { img: "/Gallery/workshop2.jpg", height: 900 },
+    { img: "/Gallery/Expo1.jpg", height: 900 },
+    { img: "/Gallery/Expo2.JPG", height: 900 },
+    { img: "/Gallery/Expo3.jpg", height: 900 },
+    { img: "/Gallery/CIneShark1.jpg", height: 900 },
+    { img: "/Gallery/Cineshark2.jpg", height: 1100 },
+    { img: "/Gallery/Ework1.jpg", height: 1200 },
 ];
 
 const items = [
