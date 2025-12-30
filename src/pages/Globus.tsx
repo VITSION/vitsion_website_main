@@ -28,7 +28,7 @@ const Globus = () => {
         <div className="relative min-h-screen w-full overflow-hidden bg-[#2a0845] text-white">
             <CurtainReveal />
             {/* Background stars in Gold, Purple background */}
-            <StarField speed={1} backgroundColor="#000000ff" starColor="#d1ab2eff" />
+            <StarField speed={1} backgroundColor="#080708ff" starColor="#d1ab2eff" />
 
             {/* Staggered Menu Overlay */}
             <div className="absolute inset-0 z-50 pointer-events-none  top-0 h-screen w-full">
