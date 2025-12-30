@@ -165,7 +165,7 @@ const Globus = () => {
                     className="text-center"
                 >
                     <motion.h1
-                        className="text-6xl md:text-9xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#F7E7CE] to-[#AA8c2C] mb-8 drop-shadow-sm"
+                        className="text-5xl md:text-9xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#F7E7CE] to-[#AA8c2C] mb-8 drop-shadow-sm"
                         animate={{
                             backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                         }}
