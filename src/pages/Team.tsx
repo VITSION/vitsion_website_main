@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import StaggeredMenu from "@/components/StaggeredMenu";
 import Galaxy from "@/components/Galaxy";
 
+import StarField from "@/components/StarField";
+
 export default function Team() {
 
     const menuItems = [
@@ -96,9 +98,9 @@ export default function Team() {
     return (
         <div className="w-full min-h-screen bg-black overflow-x-hidden relative font-sans overscroll-none">
 
-            {/* GALAXY BACKGROUND */}
+            {/* STARFIELD BACKGROUND */}
             <div className="fixed inset-0 z-0 bg-black">
-                <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+                <StarField speed={1} backgroundColor="#000000" starColor="#ffffff" />
             </div>
 
             {/* MENU - Fixed Wrapper */}
