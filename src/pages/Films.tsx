@@ -2,9 +2,10 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import StaggeredMenu from "@/components/StaggeredMenu";
-import { X, Play, ArrowLeft, ArrowRight } from "lucide-react"; // Added ArrowLeft/Right for potential controls
+import { X, Play, ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import UpcomingMovie from "@/components/UpcomingMovie";
+import Galaxy from "@/components/Galaxy";
 
 
 type Film = {
@@ -61,6 +62,10 @@ export default function Films() {
 
   return (
     <>
+      <div className="fixed inset-0 z-0">
+        <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+      </div>
+
       {/* MENU - Updated button color for white bg */}
       <div
         style={{
@@ -93,7 +98,7 @@ export default function Films() {
 
       {/* PAGE CONTAINER */}
       <div
-        className="w-full min-h-screen bg-black flex flex-col items-start justify-start overflow-x-hidden relative gap-8 pt-24 md:gap-12 md:pt-32 pb-20"
+        className="w-full min-h-screen bg-transparent flex flex-col items-start justify-start overflow-x-hidden relative gap-8 pt-24 md:gap-12 md:pt-32 pb-20"
       >
         {/* UPCOMING MOVIE TITLE */}
         <div className="w-full px-4 md:px-8">
@@ -308,24 +313,25 @@ export default function Films() {
 
         @media (max-width: 768px) {
           .film-track {
-            height: 240px;
-            padding-top: 30px;
-            padding-bottom: 30px;
+            height: 210px;
+            min-height: 210px;
+            padding-top: 15px;
+            padding-bottom: 15px;
             background-color: #1E1E1E;
           }
           .film-card-item {
-            width: 140px;
+            width: 130px;
             height: 180px;
-            padding: 6px;
-            margin-right: 16px;
+            padding: 4px;
+            margin-right: 12px;
           }
           .film-perforation {
-            height: 14px;
-            background-image: linear-gradient(90deg, #FFFFFF 8px, transparent 8px);
-            background-size: 16px 100%;
+            height: 8px;
+            background-image: linear-gradient(90deg, #FFFFFF 6px, transparent 6px);
+            background-size: 14px 100%;
           }
-          .film-perforation-top { top: 6px; }
-          .film-perforation-bottom { bottom: 6px; }
+          .film-perforation-top { top: 4px; }
+          .film-perforation-bottom { bottom: 4px; }
         }
 
         @keyframes moveFilmRoll {

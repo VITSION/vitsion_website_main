@@ -3,9 +3,8 @@
 import React, { useState, useEffect } from "react";
 import StaggeredMenu from "@/components/StaggeredMenu";
 import MagicBento from "@/components/MagicBento";
+import Galaxy from "@/components/Galaxy";
 import { X } from "lucide-react";
-
-// import eventsData from "@/data/events.json";
 
 type EventItem = {
     id: string;
@@ -19,8 +18,6 @@ type EventItem = {
     participants?: string;
     row?: string;
 };
-
-// const eventItems: EventItem[] = eventsData;
 
 export default function Events25_26() {
     const [showBento, setShowBento] = useState(false);
@@ -66,6 +63,11 @@ export default function Events25_26() {
 
     return (
         <>
+            {/* GALAXY BACKGROUND */}
+            <div className="fixed inset-0 z-0">
+                <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+            </div>
+
             <div className={`fixed inset-0 z-[2000] bg-black/50 transition-opacity duration-300 ${showBento ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setShowBento(false)} />
 
             <div
@@ -132,46 +134,21 @@ export default function Events25_26() {
                 </div>
             </div>
 
-            {/* PAGE */}
-            <div
-                style={{
-                    background: "#000",
-                    color: "#fff",
-                    minHeight: "100vh",
-                    overflowX: "hidden",
-                    fontFamily: "system-ui, sans-serif",
-                }}
-            >
-                {/* HERO */}
-                <section
-                    style={{
-                        height: "auto",
-                        minHeight: "0",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        background: "#000",
-                        padding: 0,
-                        margin: 0,
-                    }}
-                >
-                    <h1
-                        style={{
-                            fontSize: "clamp(3rem, 7vw, 6rem)",
-                            letterSpacing: "0.12em",
-                            margin: 0,
-                            fontWeight: 700,
-                        }}
-                    >
+            {/* PAGE CONTENT */}
+            <div className="relative w-full min-h-screen bg-transparent overflow-x-hidden pt-32 md:pt-40 pb-20 font-sans z-10">
+
+                {/* HERO TITLE */}
+                <div className="w-full flex justify-center items-center mb-16 md:mb-24 px-4">
+                    <h1 className="text-white text-5xl md:text-8xl font-bold tracking-widest text-center">
                         EVENTS
                     </h1>
-                </section>
+                </div>
 
                 {/* ROW 1: MOVES LEFT */}
                 <section
                     style={{
-                        padding: "40px 0 80px",
-                        margin: "0 0 60px",
+                        padding: "0 0 60px",
+                        margin: "0 0 40px",
                         overflow: "visible",
                     }}
                 >
@@ -220,13 +197,26 @@ export default function Events25_26() {
                                     <h3
                                         style={{
                                             fontSize: "1rem",
-                                            margin: "0 0 6px 0",
+                                            margin: "0 0 4px 0",
                                             color: "#111",
                                             fontWeight: 700,
                                         }}
                                     >
                                         {item.title}
                                     </h3>
+                                    {item.date && (
+                                        <p style={{
+                                            fontSize: "0.75rem",
+                                            color: "#666",
+                                            margin: "0 0 6px 0",
+                                            fontWeight: 500
+                                        }}>
+                                            {(() => {
+                                                const [y, m, d] = item.date.split('-').map(Number);
+                                                return new Date(y, m - 1, d).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                                            })()}
+                                        </p>
+                                    )}
                                     <p
                                         className="line-clamp-2"
                                         style={{
@@ -251,7 +241,7 @@ export default function Events25_26() {
                 {/* ROW 2: MOVES RIGHT */}
                 <section
                     style={{
-                        padding: "40px 0 80px",
+                        padding: "0 0 60px",
                         margin: 0,
                         overflow: "visible",
                     }}
@@ -301,13 +291,26 @@ export default function Events25_26() {
                                     <h3
                                         style={{
                                             fontSize: "1rem",
-                                            margin: "0 0 6px 0",
+                                            margin: "0 0 4px 0",
                                             color: "#111",
                                             fontWeight: 700,
                                         }}
                                     >
                                         {item.title}
                                     </h3>
+                                    {item.date && (
+                                        <p style={{
+                                            fontSize: "0.75rem",
+                                            color: "#666",
+                                            margin: "0 0 6px 0",
+                                            fontWeight: 500
+                                        }}>
+                                            {(() => {
+                                                const [y, m, d] = item.date.split('-').map(Number);
+                                                return new Date(y, m - 1, d).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+                                            })()}
+                                        </p>
+                                    )}
                                     <p
                                         className="line-clamp-2"
                                         style={{

@@ -4,15 +4,29 @@
 
 /* VITSION - Cinematic Film Noir Design System */
 html,
-body{
+body,
+:root {
+  background-color: #000 !important;
+  overscroll-behavior: none;
+  height: 100%;
+}
+
+#root {
+  min-height: 100vh;
+  background-color: #000;
+  isolation: isolate;
+  overscroll-behavior: none;
+}
+
+body {
   padding: 0;
   margin: 0;
   overflow-x: hidden;
-
-}
-body {
+  background-color: #000 !important;
+  overscroll-behavior: none;
   @apply bg-background text-foreground antialiased;
 }
+
 @layer base {
   :root {
     /* Pure black and white cinematic palette */
@@ -323,17 +337,14 @@ body {
 .animate-shimmer {
   animation: shimmer 4s linear infinite;
 }
+
 .video-fade-mask {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 18%,
-    black 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 18%,
-    black 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      black 18%,
+      black 100%);
+  mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      black 18%,
+      black 100%);
 }

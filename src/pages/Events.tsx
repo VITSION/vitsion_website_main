@@ -1,10 +1,7 @@
 
 import StaggeredMenu from "@/components/StaggeredMenu";
-
-import LightRaysBackground from "@/components/LightRaysBackground"; // Or reuse the LightRays one
-
+import Galaxy from "@/components/Galaxy";
 import FlowingMenu from "@/components/FlowingMenu";
-
 import EventAnnouncement from "@/components/EventAnnouncement";
 
 const Events = () => {
@@ -26,71 +23,53 @@ const Events = () => {
     ];
 
     return (
-        <div className="relative min-h-screen w-full overflow-x-hidden bg-background">
+        <div className="relative min-h-screen w-full overflow-x-hidden bg-black">
+
+            {/* GALAXY BACKGROUND */}
+            <div className="fixed inset-0 z-0">
+                <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+            </div>
+
             <div className="fixed inset-0 z-50 pointer-events-none">
-                <StaggeredMenu
-                    position="right"
-                    items={menuItems}
-                    socialItems={socialItems}
-                    displaySocials={true}
-                    displayItemNumbering={false}
-                    menuButtonColor="#f1efefff"
-                    openMenuButtonColor="#0f0e0eff"
-                    changeMenuColorOnOpen={true}
-                    colors={['#0a0a0aff', '#f1ececff', '#3a3a3a']}
-                    // Using a simple placeholder logo or text if no SVG available
-                    logoUrl="/vitsion white.png"
-                    accentColor="#0c0c0cff"
-                    isFixed={true}
-                    className=""
-                    onMenuOpen={() => { }}
-                    onMenuClose={() => { }}
-                />
+                <div className="pointer-events-auto">
+                    <StaggeredMenu
+                        position="right"
+                        items={menuItems}
+                        socialItems={socialItems}
+                        displaySocials={true}
+                        displayItemNumbering={false}
+                        menuButtonColor="#f1efefff"
+                        openMenuButtonColor="#0f0e0eff"
+                        changeMenuColorOnOpen={true}
+                        colors={['#0a0a0aff', '#f1ececff', '#3a3a3a']}
+                        // Using a simple placeholder logo or text if no SVG available
+                        logoUrl="/vitsion white.png"
+                        accentColor="#0c0c0cff"
+                        isFixed={true}
+                        className=""
+                        onMenuOpen={() => { }}
+                        onMenuClose={() => { }}
+                    />
+                </div>
             </div>
 
+            {/* Page Content */}
+            <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-start gap-8 pt-24 md:gap-12 md:pt-32 pb-20 px-4 container mx-auto">
+                {/* OUR EVENTS TITLE */}
+                <div className="w-full px-4 md:px-8">
+                    <h2 className="text-white text-3xl md:text-5xl font-black uppercase tracking-tighter text-center">
+                        Our Events
+                    </h2>
+                </div>
 
-            {/* Reuse background or keep it simple */}
-            <div className="absolute inset-0 z-0 opacity-50">
-                <LightRaysBackground />
-            </div>
-
-            {/* Header Section (Like Films) */}
-            <section
-                className="relative z-10"
-                style={{
-                    height: "auto",
-                    minHeight: "0",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: 0,
-                    margin: 0,
-                }}
-            >
-                <h1
-                    style={{
-                        fontSize: "clamp(3rem, 7vw, 6rem)",
-                        letterSpacing: "0",
-                        margin: 0,
-                        fontWeight: 900,
-                        textAlign: "center",
-                        fontFamily: "Arial Black, sans-serif",
-                        textTransform: "uppercase"
-                    }}
-                >
-                    OUR EVENTS
-                </h1>
-            </section>
-
-            <main className="relative z-10 px-4 container mx-auto flex flex-col items-center min-h-[calc(100vh-6rem)]">
-                <div className="mt-8 w-full">
+                <div className="w-full">
                     <EventAnnouncement />
                 </div>
 
-                <div className="mt-20 w-full relative z-20">
+                <div className="mt-12 w-full relative z-20">
                     <FlowingMenu items={[{ link: '/events/2025-26', text: '2025-26', image: '/Events/Shortfilm.jpg' }]} />
                 </div>
-            </main>
+            </div>
         </div>
     );
 };

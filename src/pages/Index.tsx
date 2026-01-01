@@ -14,9 +14,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+import Galaxy from "@/components/Galaxy";
+
 const Index = () => {
   const titleRef = useRef(null);
   const upcomingTextRef = useRef(null);
+  // ... rest of refs
 
   const { scrollYProgress } = useScroll({
     target: titleRef,
@@ -27,6 +30,7 @@ const Index = () => {
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   useEffect(() => {
+    // ... animation logic
     const el = upcomingTextRef.current;
     if (el) {
       const ctx = gsap.context(() => {
@@ -55,8 +59,7 @@ const Index = () => {
 
       {/* FIXED BACKGROUND VIDEO */}
       <section className="relative h-screen w-full overflow-hidden">
-
-        {/* BACKGROUND VIDEO */}
+        {/* ... video logic ... */}
         <video
           autoPlay
           loop
@@ -104,8 +107,14 @@ const Index = () => {
         <FloatingDockNav />
       </header>
 
-      <section className="relative z-20 bg-black">
-        <AboutSection />
+      {/* ABOUT SECTION WITH GALAXY */}
+      <section className="relative z-20 bg-black overflow-hidden">
+        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+          <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+        </div>
+        <div className="relative z-10">
+          <AboutSection />
+        </div>
       </section>
 
       {/* TITLE */}
@@ -121,23 +130,31 @@ const Index = () => {
         </motion.h6>
       </section>
 
-      {/* UPCOMING MOVIE */}
+      {/* UPCOMING MOVIE WITH GALAXY */}
       <motion.section
-        className="relative z-10 w-full flex justify-center px-4 py-20 md:py-10 "
+        className="relative z-10 w-full flex justify-center px-4 py-20 md:py-10 bg-black/50 overflow-hidden"
         initial={{ opacity: 0, y: 150 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <UpcomingMovie />
+        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+          <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+        </div>
+        <div className="relative z-10 w-full flex justify-center">
+          <UpcomingMovie />
+        </div>
       </motion.section>
       <motion.section>
         <div
-          className="relative z-10 w-full flex justify-center px-4 py-20 md:py-10"
+          className="relative z-10 w-full flex flex-col items-center justify-center px-4 py-20 md:py-10 gap-10 bg-black/50 overflow-hidden"
         >
+          <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+            <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+          </div>
           <div
             ref={upcomingTextRef}
-            className="text-white text-center w-[clamp(20rem,80vw,90rem)]
+            className="relative z-10 text-white text-center w-[clamp(20rem,80vw,90rem)]
  font-sans font-black text-[clamp(1.6rem,3vw,10rem)] leading-[1] tracking-tight opacity-0">
             Upcoming Event
           </div>

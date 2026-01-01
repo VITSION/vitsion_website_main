@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const AboutSection = () => {
     return (
-        <div className="w-full bg-black py-24 relative">
+        <div className="w-full bg-transparent py-24 relative">
             <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 gap-24">
 
                 {/* Main Heading */}

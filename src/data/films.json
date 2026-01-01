@@ -22,16 +22,23 @@
     {
       "title": "Cameo",
       "desc": "CAMEO is a silent short film Written and Directed by Mohana Ramanan(DMR) and performed by Hemshyam, Spoorthi",
-      "poster": "/uploads/file-1767253699191-234110054.jpg",
+      "poster": "/uploads/file-1767271688544-584470004.jpg",
       "director": " Mohana Ramanan",
       "link": "https://youtu.be/HMlmdInIsF8?si=at3zGUD3s6QA4Bt7"
     }
   ],
   "row2": [
     {
+      "title": "UNNODU NADANTHA",
+      "desc": "Dev and Yazhini’s journey dances in whispers and silences, weaving the essence of their unspoken bond. A story that transcends words.",
+      "poster": "/uploads/file-1767271361739-19459036.jpg",
+      "director": "Bhuvaan Palanivel",
+      "link": "https://youtu.be/NefikgTtvAw?si=nTL8EJEwe77c4lL4"
+    },
+    {
       "title": "DUPE",
       "desc": "DUPE is a Tamil Thriller short film starring Sibi, Ramanan, Divyesh, Madesh. This film is a pure work of confusion. If you don’t understand the film mean that the film worked for you.",
-      "poster": "/uploads/file-1767253911695-676046056.jpg",
+      "poster": "/uploads/file-1767271805066-364268994.jpg",
       "banner": "https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&q=80&w=2000",
       "color": "#F7F3E7",
       "year": "2021",
@@ -46,13 +53,6 @@
       ],
       "link": "https://youtu.be/sPEp1kH1H30?si=-FZgANPYkoGP_maF",
       "director": "Mohana Ramanan"
-    },
-    {
-      "title": "UNNODU NADANTHA",
-      "desc": "Dev and Yazhini’s journey dances in whispers and silences, weaving the essence of their unspoken bond. A story that transcends words, stay tuned",
-      "poster": "/uploads/file-1767256618491-670490651.jpg",
-      "director": "Bhuvaan Palanivel",
-      "link": "https://youtu.be/NefikgTtvAw?si=nTL8EJEwe77c4lL4"
     }
   ]
 }

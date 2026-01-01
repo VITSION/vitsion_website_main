@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import StaggeredMenu from "@/components/StaggeredMenu";
+import Galaxy from "@/components/Galaxy";
 import { Instagram, Linkedin, Youtube, Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -62,10 +63,14 @@ const Contact = () => {
         }
     };
 
-    // Easter egg removed
-
     return (
-        <div className="min-h-screen w-full overflow-y-auto md:h-screen md:overflow-hidden bg-[#0a0a0aff] text-white font-sans selection:bg-white/20 flex flex-col items-center justify-center">
+        <div className="min-h-screen w-full overflow-y-auto md:h-screen md:overflow-hidden bg-[#0a0a0aff] text-white font-sans selection:bg-white/20 flex flex-col items-center justify-center relative">
+
+            {/* GALAXY BACKGROUND */}
+            <div className="fixed inset-0 z-0">
+                <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+            </div>
+
             {/* MENU */}
             <div className="fixed inset-0 z-[999] pointer-events-none">
                 <div className="pointer-events-auto">
@@ -212,7 +217,6 @@ const Contact = () => {
 
                 </div>
             </main>
-            {/* FOOTER REMOVED (Global Footer used) */}
         </div>
     );
 };

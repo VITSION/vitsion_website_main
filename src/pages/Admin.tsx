@@ -5,6 +5,27 @@ import MagicBento from "@/components/MagicBento";
 import { X, Upload, Trash, ArrowLeft, Crop as CropIcon } from "lucide-react";
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../utils/cropImage';
+import heic2any from 'heic2any';
+
+const processFile = async (file: File): Promise<File> => {
+    if (file.type === 'image/heic' || file.name.toLowerCase().endsWith('.heic')) {
+        try {
+            console.log("Converting HEIC file...");
+            const convertedBlob = await heic2any({
+                blob: file,
+                toType: 'image/jpeg',
+                quality: 0.8
+            });
+            const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+            console.log("Conversion successful");
+            return new File([blob], file.name.replace(/\.heic$/i, '.jpg'), { type: 'image/jpeg' });
+        } catch (e) {
+            console.error("HEIC conversion failed", e);
+            return file;
+        }
+    }
+    return file;
+};
 
 const Admin = () => {
     const navigate = useNavigate();
@@ -112,8 +133,9 @@ const Admin = () => {
 
     // --- HOME HANDLERS ---
     const handleHomeImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, fieldPath: string) => {
-        const file = e.target.files?.[0];
+        let file = e.target.files?.[0];
         if (!file) return;
+        file = await processFile(file);
         try {
             const url = await uploadFile(file);
             if (fieldPath === 'eventAnnouncement.backgroundImage') {
@@ -142,7 +164,8 @@ const Admin = () => {
     // --- EVENTS HANDLERS & CROP ---
     const handleEventImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string, index?: number) => {
         if (e.target.files && e.target.files.length > 0) {
-            const file = e.target.files[0];
+            let file = e.target.files[0];
+            file = await processFile(file);
             const imageDataUrl = await readFile(file);
             setCropImageSrc(imageDataUrl as string);
             setCropConfig({ field, index });
@@ -172,7 +195,7 @@ const Admin = () => {
         setCropConfig({ field, index });
 
         // Set Aspect Ratio based on field
-        if (field === 'poster') {
+        if (field === 'poster' || field === 'film_poster') {
             setAspectRatio(2 / 3);
         } else if (field === 'gallery' && index === 0) {
             setAspectRatio(9 / 16); // Image 1 (Right Poster)
@@ -201,6 +224,8 @@ const Admin = () => {
 
             if (cropConfig.field === 'poster') {
                 setEditingEvent((prev: any) => ({ ...prev, poster: url }));
+            } else if (cropConfig.field === 'film_poster') {
+                setEditingFilm((prev: any) => ({ ...prev, poster: url }));
             } else if (cropConfig.field === 'gallery' && typeof cropConfig.index === 'number') {
                 setEditingEvent((prev: any) => {
                     const newGallery = [...(prev.galleryImages || ['', '', ''])];
@@ -237,31 +262,41 @@ const Admin = () => {
 
     // --- FILMS HANDLERS ---
     const handleFilmImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        try {
-            const url = await uploadFile(file);
-            if (field === 'poster') {
-                setEditingFilm((prev: any) => ({ ...prev, poster: url }));
-            }
-        } catch (err) { console.error(err); }
+        if (e.target.files && e.target.files.length > 0) {
+            let file = e.target.files[0];
+            file = await processFile(file);
+            const imageDataUrl = await readFile(file);
+            setCropImageSrc(imageDataUrl as string);
+            setCropConfig({ field: 'film_poster', index: undefined }); // Use specific field for film
+            setAspectRatio(2 / 3); // Standard for posters
+            setZoom(1);
+            setCrop({ x: 0, y: 0 });
+            setCropModalOpen(true);
+            e.target.value = '';
+        }
     };
 
     const handleFilmSave = async () => {
         if (!editingFilm) return;
 
         const newFilmsData = { ...filmsData };
-        const targetRowList = editingFilmRow === 'row1' ? [...newFilmsData.row1] : [...newFilmsData.row2];
-        const existingIndex = targetRowList.findIndex(f => f.title === editingFilm.title);
+        // Determine which row the film belongs to. Note: Logic to move between rows is implied if editingFilmRow changes.
+        // We need to remove the film from its OLD location first if we are moving it, or simply replacing it.
+        // Since we don't track 'originalRow', we'll search both rows for the 'originalTitle' and remove it, then add the new one.
 
-        if (existingIndex >= 0) {
-            targetRowList[existingIndex] = editingFilm;
-        } else {
-            targetRowList.push(editingFilm);
-        }
+        const originalTitle = editingFilm.originalTitle || editingFilm.title;
 
-        if (editingFilmRow === 'row1') newFilmsData.row1 = targetRowList;
-        else newFilmsData.row2 = targetRowList;
+        // Remove existing film with this title from ANY row (to handle row changes or updates)
+        newFilmsData.row1 = newFilmsData.row1.filter(f => f.title !== originalTitle);
+        newFilmsData.row2 = newFilmsData.row2.filter(f => f.title !== originalTitle);
+
+        // Add the updated film to the selected row
+        const targetRow = editingFilmRow === 'row1' ? 'row1' : 'row2';
+        // Clean up the temporary 'originalTitle' property before saving
+        const filmToSave = { ...editingFilm };
+        delete filmToSave.originalTitle;
+
+        newFilmsData[targetRow].push(filmToSave);
 
         setFilmsData(newFilmsData);
         setEditingFilm(null);
@@ -305,6 +340,8 @@ const Admin = () => {
         setIsAuthenticated(false);
         setUsername("");
         setPassword("");
+        sessionStorage.removeItem('admin_access_unlocked');
+        navigate('/');
     };
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -468,10 +505,12 @@ const Admin = () => {
                                         <input
                                             type="file"
                                             className="absolute inset-0 opacity-0 cursor-pointer"
-                                            onChange={(e) => {
+                                            onChange={async (e) => {
                                                 if (e.target.files && e.target.files[0]) {
+                                                    let file = e.target.files[0];
+                                                    file = await processFile(file);
                                                     const formData = new FormData();
-                                                    formData.append('image', e.target.files[0]);
+                                                    formData.append('image', file);
                                                     fetch('http://localhost:5000/api/upload', { method: 'POST', body: formData })
                                                         .then(res => res.json())
                                                         .then(data => {
@@ -711,7 +750,7 @@ const Admin = () => {
                                                     </div>
                                                     <h3 className="font-bold truncate">{film.title}</h3>
                                                     <div className="flex gap-2 mt-2">
-                                                        <Button onClick={() => { setEditingFilm(film); setEditingFilmRow(row); }} variant="outline" size="sm" className="flex-1">Edit</Button>
+                                                        <Button onClick={() => { setEditingFilm({ ...film, originalTitle: film.title }); setEditingFilmRow(row); }} variant="outline" size="sm" className="flex-1">Edit</Button>
                                                         <Button onClick={() => handleFilmDelete(film, row as 'row1' | 'row2')} variant="destructive" size="sm" className="flex-1">Del</Button>
                                                     </div>
                                                 </div>
@@ -743,7 +782,18 @@ const Admin = () => {
                                         <div>
                                             <label className="block text-gray-400 mb-2">Poster</label>
                                             <input type="file" onChange={(e) => handleFilmImageUpload(e, 'poster')} className="file-input" />
-                                            {editingFilm.poster && <img src={editingFilm.poster} className="mt-4 h-48 rounded border border-white/20" />}
+                                            {editingFilm.poster && (
+                                                <div className="mt-4 relative inline-block group">
+                                                    <img src={editingFilm.poster} className="h-48 rounded border border-white/20" />
+                                                    <button
+                                                        onClick={() => handleReCrop(editingFilm.poster, 'film_poster')}
+                                                        className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-[#d1ab2e] text-white hover:text-black rounded-full transition-colors opacity-0 group-hover:opacity-100"
+                                                        title="Re-crop Image"
+                                                    >
+                                                        <CropIcon size={16} />
+                                                    </button>
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className="flex gap-4 pt-4">

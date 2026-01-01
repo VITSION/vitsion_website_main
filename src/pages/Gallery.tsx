@@ -1,9 +1,8 @@
 
 import { useState, useEffect } from 'react';
 import StaggeredMenu from "@/components/StaggeredMenu";
-import LightRaysBackground from "@/components/LightRaysBackground";
-import Masonry from "@/components/Masonry"; // Newly added component
-
+import Galaxy from "@/components/Galaxy";
+import Masonry from "@/components/Masonry";
 
 const Gallery = () => {
     const [galleryItems, setGalleryItems] = useState<any[]>([]);
@@ -41,7 +40,12 @@ const Gallery = () => {
     ];
 
     return (
-        <div className="relative min-h-screen w-full overflow-x-hidden bg-background">
+        <div className="relative min-h-screen w-full overflow-x-hidden bg-black">
+
+            <div className="fixed inset-0 z-0">
+                <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+            </div>
+
             <div className="fixed top-6 right-6 z-50">
 
                 <StaggeredMenu
@@ -62,11 +66,6 @@ const Gallery = () => {
                     onMenuOpen={() => { }}
                     onMenuClose={() => { }}
                 />
-            </div>
-
-
-            <div className="absolute inset-0 z-0 opacity-50">
-                <LightRaysBackground />
             </div>
 
             <main className="relative z-10 pt-24 px-4 container mx-auto flex flex-col items-center w-full">

@@ -22,7 +22,7 @@ const EventAnnouncement = () => {
     }, []);
 
     return (
-        <div className="relative w-full max-w-6xl mx-auto h-[500px] md:h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl my-12 group mx-4 md:mx-auto">
+        <div className="relative w-full max-w-6xl mx-auto min-h-[500px] md:min-h-[600px] h-auto rounded-3xl overflow-hidden border border-white/10 shadow-2xl my-12 group md:mx-auto">
             {/* Background Image with low opacity */}
             <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
@@ -38,8 +38,8 @@ const EventAnnouncement = () => {
             {/* Dark Overlay for better text readability */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-            {/* Content */}
-            <div className="absolute inset-0 flex flex-col justify-center p-6 md:p-16 items-start z-10 text-white">
+            {/* Content - Set to relative so it dictates height, but min-h ensures it matches parent visual */}
+            <div className="relative w-full flex flex-col justify-center p-6 md:p-16 items-start z-10 text-white min-h-[500px] md:min-h-[600px]">
                 <div className="space-y-6 max-w-3xl w-full">
                     {/* Tagline/Label */}
                     <span className="text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-gray-300">
