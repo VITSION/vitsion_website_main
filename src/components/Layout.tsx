@@ -1,0 +1,26 @@
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import Footer from './Footer';
+
+interface LayoutProps {
+    children: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
+    const location = useLocation();
+
+    // Check for paths where footer should be hidden
+    const hideFooterPaths = ['/admin', '/globus'];
+    const shouldHideFooter = hideFooterPaths.some(path => location.pathname.startsWith(path));
+
+    return (
+        <div className="flex flex-col min-h-screen">
+            <main className="flex-grow">
+                {children}
+            </main>
+            {!shouldHideFooter && <Footer />}
+        </div>
+    );
+};
+
+export default Layout;

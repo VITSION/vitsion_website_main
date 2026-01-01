@@ -212,16 +212,7 @@ const Contact = () => {
 
                 </div>
             </main>
-            {/* FOOTER */}
-            <footer
-                className="w-full py-6 text-center text-gray-500 text-xs select-none"
-                onDoubleClick={() => {
-                    sessionStorage.setItem('admin_access_unlocked', 'true');
-                    navigate('/admin');
-                }}
-            >
-                &copy; {new Date().getFullYear()} VITSION Movie Makers. All rights reserved.
-            </footer>
+            {/* FOOTER REMOVED (Global Footer used) */}
         </div>
     );
 };

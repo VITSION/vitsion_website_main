@@ -14,6 +14,7 @@ import Events25_26 from "./pages/Events/Events25-26";
 import Films from "./pages/Films";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
+import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
 
@@ -23,21 +24,23 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/globus" element={<Globus />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/events/2025-26" element={<Events25_26 />} />
-          <Route path="/films" element={<Films />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/team" element={<Team />} />
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/globus" element={<Globus />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/events/2025-26" element={<Events25_26 />} />
+            <Route path="/films" element={<Films />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/team" element={<Team />} />
 
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/admin" element={<Admin />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<Admin />} />
 
-          <Route path="*" element={<NotFound />} />
-        </Routes >
-      </BrowserRouter >
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
     </TooltipProvider >
   </QueryClientProvider >
 );

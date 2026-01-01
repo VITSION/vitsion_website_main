@@ -1,8 +1,8 @@
-import LightRays from "@/components/LightRays";
+
 import FloatingDockNav from "@/components/FloatingDockNav";
 import UpcomingMovie from "@/components/UpcomingMovie";
 import EventAnnouncement from "@/components/EventAnnouncement";
-
+import AboutSection from "@/components/AboutSection";
 import {
   motion,
   useScroll,
@@ -54,27 +54,59 @@ const Index = () => {
     <div className="relative w-full overflow-x-hidden ">
 
       {/* FIXED BACKGROUND VIDEO */}
-      <section >
+      <section className="relative h-screen w-full overflow-hidden">
 
+        {/* BACKGROUND VIDEO */}
         <video
           autoPlay
           loop
           muted
           playsInline
           preload="metadata"
-          className="w-full h-full object-cover opacity-15 md:opacity-20 "
+          className="absolute inset-0 w-full h-full object-cover opacity-30 z-0"
         >
           <source src="/Globus/Theaterscreen.mp4" type="video/mp4" />
-
         </video>
+
+        {/* DARK OVERLAY (optional, improves text contrast) */}
+        <div className="absolute inset-0 bg-black/40 z-10" />
+
+        {/* TEXT ABOVE VIDEO */}
+        <div className="relative z-10 flex flex-col h-full items-end justify-center gap-4 pb-16 px-8 md:px-20">
+
+          <motion.h2
+            className="
+        font-black tracking-[0.5em] text-[#AA8c2C] text-right font-black
+        text-[clamp(2rem,4vw,5rem)]
+        tracking-wide
+      "
+            animate={{
+              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{ backgroundSize: "200% auto" }}
+          >
+            VITSION MOVIE MAKERS
+          </motion.h2>
+
+          <h3 className="text-white text-right font-bold text-[clamp(1rem,1.2vw,1.8rem)] leading-relaxed max-w-3xl">
+            VITSION Movie Makers Club is VIT Chennai’s official filmmaking community, uniting students to create films through storytelling,  workshops, collaboration, and campus cinema culture.
+          </h3>
+        </div>
+
       </section>
       {/* NAV */}
       <header className="fixed top-0 left-0 w-full z-50">
         <FloatingDockNav />
       </header>
 
-      {/* HERO */}
-
+      <section className="relative z-20 bg-black">
+        <AboutSection />
+      </section>
 
       {/* TITLE */}
       <section
@@ -91,7 +123,7 @@ const Index = () => {
 
       {/* UPCOMING MOVIE */}
       <motion.section
-        className="relative z-10 w-full flex justify-center px-4 py-20 md:py-10 border-b-8 border-[#d1ab2e]"
+        className="relative z-10 w-full flex justify-center px-4 py-20 md:py-10 "
         initial={{ opacity: 0, y: 150 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
@@ -101,24 +133,23 @@ const Index = () => {
       </motion.section>
       <motion.section>
         <div
-          className="relative z-10 w-full flex flex-col xl:flex-row items-center justify-center px-4 py-20 md:py-10 gap-8"
+          className="relative z-10 w-full flex justify-center px-4 py-20 md:py-10"
         >
           <div
             ref={upcomingTextRef}
-            className="text-white text-center xl:text-left font-sans font-black text-[clamp(2.5rem,4vw,6rem)] leading-[1] tracking-tight opacity-0 xl:w-1/3 p-4"
-          >
+            className="text-white text-center w-[clamp(20rem,80vw,90rem)]
+ font-sans font-black text-[clamp(1.6rem,3vw,10rem)] leading-[1] tracking-tight opacity-0">
             Upcoming Event
           </div>
-
-          <motion.div
-            className="relative z-10 w-full xl:w-2/3 flex justify-center"
+          <motion.section
+            className="relative z-10 w-full flex justify-center px-4 py-20 md:py-10"
             initial={{ opacity: 0, y: 150 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true, margin: "-100px" }}
           >
             <EventAnnouncement />
-          </motion.div>
+          </motion.section>
         </div>
 
       </motion.section>
@@ -128,5 +159,8 @@ const Index = () => {
 };
 
 export default Index;
+
+
+
 
 
