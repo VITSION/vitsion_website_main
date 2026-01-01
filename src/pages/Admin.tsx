@@ -83,27 +83,27 @@ const Admin = () => {
     // --- EFFECTS ---
     useEffect(() => {
         if (activeTab === 'home') {
-            fetch('http://localhost:5000/api/home')
+            fetch('https://vitsion-website-backend.onrender.com/api/home')
                 .then(res => res.json())
                 .then(data => setHomeData(data))
                 .catch(err => console.error("Error loading home:", err));
         } else if (activeTab === 'events') {
-            fetch('http://localhost:5000/api/events')
+            fetch('https://vitsion-website-backend.onrender.com/api/events')
                 .then(res => res.json())
                 .then(data => setEvents(data))
                 .catch(err => console.error("Error loading events:", err));
         } else if (activeTab === 'films') {
-            fetch('http://localhost:5000/api/films')
+            fetch('https://vitsion-website-backend.onrender.com/api/films')
                 .then(res => res.json())
                 .then(data => setFilmsData(data))
                 .catch(err => console.error("Error loading films:", err));
         } else if (activeTab === 'contact') {
-            fetch('http://localhost:5000/api/contact')
+            fetch('https://vitsion-website-backend.onrender.com/api/contact')
                 .then(res => res.json())
                 .then(data => setContactMessages(data))
                 .catch(err => console.error("Error loading messages:", err));
         } else if (activeTab === 'gallery') {
-            fetch('http://localhost:5000/api/gallery')
+            fetch('https://vitsion-website-backend.onrender.com/api/gallery')
                 .then(res => res.json())
                 .then(data => setGalleryData(data))
                 .catch(err => console.error("Error loading gallery:", err));
@@ -114,7 +114,7 @@ const Admin = () => {
     const uploadFile = async (file: File) => {
         const formData = new FormData();
         formData.append('image', file);
-        const res = await fetch('http://localhost:5000/api/upload', { method: 'POST', body: formData });
+        const res = await fetch('https://vitsion-website-backend.onrender.com/api/upload', { method: 'POST', body: formData });
         const data = await res.json();
         return data.url;
     };
@@ -153,7 +153,7 @@ const Admin = () => {
     };
 
     const handleHomeSave = async () => {
-        await fetch('http://localhost:5000/api/home', {
+        await fetch('https://vitsion-website-backend.onrender.com/api/home', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(homeData)
@@ -253,7 +253,7 @@ const Admin = () => {
         }
         setEvents(updatedEvents);
         setEditingEvent(null);
-        await fetch('http://localhost:5000/api/events', {
+        await fetch('https://vitsion-website-backend.onrender.com/api/events', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedEvents)
@@ -301,7 +301,7 @@ const Admin = () => {
         setFilmsData(newFilmsData);
         setEditingFilm(null);
 
-        await fetch('http://localhost:5000/api/films', {
+        await fetch('https://vitsion-website-backend.onrender.com/api/films', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newFilmsData)
@@ -313,7 +313,7 @@ const Admin = () => {
         const newFilmsData = { ...filmsData };
         newFilmsData[rowName] = newFilmsData[rowName].filter(f => f.title !== film.title);
         setFilmsData(newFilmsData);
-        await fetch('http://localhost:5000/api/films', {
+        await fetch('https://vitsion-website-backend.onrender.com/api/films', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newFilmsData)
@@ -324,7 +324,7 @@ const Admin = () => {
     const handleDeleteMessage = async (id: number) => {
         if (!window.confirm("Delete this message?")) return;
         try {
-            const res = await fetch(`http://localhost:5000/api/contact/${id}`, { method: 'DELETE' });
+            const res = await fetch(`https://vitsion-website-backend.onrender.com/api/contact/${id}`, { method: 'DELETE' });
             if (res.ok) {
                 setContactMessages(prev => prev.filter(msg => msg.id !== id));
             } else {
@@ -347,7 +347,7 @@ const Admin = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5000/api/login', {
+            const res = await fetch('https://vitsion-website-backend.onrender.com/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -483,7 +483,7 @@ const Admin = () => {
                                                     const newImages = homeData.upcomingMovie.images.filter((_, i) => i !== index);
                                                     const newData = { ...homeData, upcomingMovie: { ...homeData.upcomingMovie, images: newImages } };
                                                     setHomeData(newData);
-                                                    fetch('http://localhost:5000/api/home', {
+                                                    fetch('https://vitsion-website-backend.onrender.com/api/home', {
                                                         method: 'POST',
                                                         headers: { 'Content-Type': 'application/json' },
                                                         body: JSON.stringify(newData)
@@ -511,7 +511,7 @@ const Admin = () => {
                                                     file = await processFile(file);
                                                     const formData = new FormData();
                                                     formData.append('image', file);
-                                                    fetch('http://localhost:5000/api/upload', { method: 'POST', body: formData })
+                                                    fetch('https://vitsion-website-backend.onrender.com/api/upload', { method: 'POST', body: formData })
                                                         .then(res => res.json())
                                                         .then(data => {
                                                             const currentImages = homeData.upcomingMovie.images || [];
@@ -523,7 +523,7 @@ const Admin = () => {
                                                                 }
                                                             };
                                                             setHomeData(newData);
-                                                            fetch('http://localhost:5000/api/home', {
+                                                            fetch('https://vitsion-website-backend.onrender.com/api/home', {
                                                                 method: 'POST',
                                                                 headers: { 'Content-Type': 'application/json' },
                                                                 body: JSON.stringify(newData)

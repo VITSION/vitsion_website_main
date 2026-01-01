@@ -8,7 +8,7 @@ const Gallery = () => {
     const [galleryItems, setGalleryItems] = useState<any[]>([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/gallery')
+        fetch('https://vitsion-website-backend.onrender.com/api/gallery')
             .then(res => res.json())
             .then(data => {
                 // Add IDs and URLs to the data

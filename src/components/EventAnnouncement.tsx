@@ -11,7 +11,7 @@ const EventAnnouncement = () => {
     });
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/home')
+        fetch('https://vitsion-website-backend.onrender.com/api/home')
             .then(res => res.json())
             .then(apiData => {
                 if (apiData.eventAnnouncement) {

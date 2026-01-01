@@ -32,7 +32,7 @@ export default function Films() {
   const [filmsData, setFilmsData] = useState<{ row1: Film[]; row2: Film[] }>({ row1: [], row2: [] });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/films')
+    fetch('https://vitsion-website-backend.onrender.com/api/films')
       .then(res => res.json())
       .then(data => setFilmsData(data))
       .catch(err => console.error("Failed to fetch films:", err));

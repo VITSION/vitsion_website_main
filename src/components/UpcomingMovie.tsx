@@ -9,7 +9,7 @@ const UpcomingMovie = () => {
     const [images, setImages] = useState<string[]>([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/home')
+        fetch('https://vitsion-website-backend.onrender.com/api/home')
             .then(res => res.json())
             .then(data => {
                 if (data.upcomingMovie && data.upcomingMovie.images) {
