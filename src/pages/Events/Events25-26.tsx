@@ -25,7 +25,7 @@ export default function Events25_26() {
     const [eventItems, setEventItems] = useState<EventItem[]>([]);
 
     useEffect(() => {
-        fetch('https://vitsion-website-backend.onrender.com/api/events')
+        fetch('http://localhost:5000/api/events')
             .then(res => res.json())
             .then(data => setEventItems(data))
             .catch(err => console.error("Failed to fetch events:", err));
