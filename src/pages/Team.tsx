@@ -162,7 +162,7 @@ export default function Team() {
                                 onMouseLeave={() => setHoveredMember(null)}
                                 onClick={() => setHoveredMember(hoveredMember === member.id ? null : member.id)}
                             >
-                                <div className="w-48 h-48 md:w-[13vw] md:h-[13vw] rounded-full bg-[#d0d6fc] flex items-center justify-center mb-6 md:mb-[1.5vw] shadow-lg shadow-blue-900/10 overflow-hidden relative transition-transform duration-300 group-hover:scale-105">
+                                <div className="w-48 h-48 md:w-[13vw] md:h-[13vw] rounded-full bg-black flex items-center justify-center mb-6 md:mb-[1.5vw] shadow-lg shadow-blue-900/10 overflow-hidden relative transition-transform duration-300 group-hover:scale-105">
                                     {member.image ? (
                                         <img
                                             src={member.image}
@@ -170,7 +170,7 @@ export default function Team() {
                                             className="w-full h-full object-cover object-top"
                                         />
                                     ) : (
-                                        <span className="text-[#101014] text-7xl md:text-[5vw] font-medium tracking-tighter">{member.initial}</span>
+                                        <span className="text-white text-7xl md:text-[5vw] font-medium tracking-tighter">{member.initial}</span>
                                     )}
                                 </div>
 
@@ -210,7 +210,7 @@ export default function Team() {
                                 onMouseLeave={() => setHoveredMember(null)}
                                 onClick={() => setHoveredMember(hoveredMember === member.id ? null : member.id)}
                             >
-                                <div className="w-48 h-48 md:w-[13vw] md:h-[13vw] rounded-full bg-[#d0d6fc] flex items-center justify-center mb-6 md:mb-[1.5vw] shadow-lg shadow-blue-900/10 overflow-hidden relative transition-transform duration-300 group-hover:scale-105">
+                                <div className="w-48 h-48 md:w-[13vw] md:h-[13vw] rounded-full bg-black flex items-center justify-center mb-6 md:mb-[1.5vw] shadow-lg shadow-blue-900/10 overflow-hidden relative transition-transform duration-300 group-hover:scale-105">
                                     {member.image ? (
                                         <img
                                             src={member.image}
@@ -218,7 +218,7 @@ export default function Team() {
                                             className="w-full h-full object-cover object-top"
                                         />
                                     ) : (
-                                        <span className="text-[#101014] text-7xl md:text-[5vw] font-medium tracking-tighter">{member.initial}</span>
+                                        <span className="text-white text-7xl md:text-[5vw] font-medium tracking-tighter">{member.initial}</span>
                                     )}
                                 </div>
 
