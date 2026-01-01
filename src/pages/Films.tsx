@@ -54,10 +54,10 @@ export default function Films() {
     { label: "YouTube", link: "http://www.youtube.com/@VITSIONMovieMakers" },
   ];
 
-  // Combine rows for the single strip - duplicated 8x for safety on wide screens
-  // Use loaded data, fallback to empty array prevents errors during load
+  // Create separate display lists for each row - duplicated for infinite loop illusion
   const { row1, row2 } = filmsData;
-  const allFilms = [...row1, ...row2, ...row1, ...row2, ...row1, ...row2, ...row1, ...row2, ...row1, ...row2, ...row1, ...row2, ...row1, ...row2, ...row1, ...row2];
+  const displayRow1 = [...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1, ...row1];
+  const displayRow2 = [...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2, ...row2];
 
   return (
     <>
@@ -128,8 +128,8 @@ export default function Films() {
             {/* PERFORATIONS TOP */}
             <div className="film-perforation film-perforation-top" />
 
-            {/* FILMS */}
-            {allFilms.map((film, i) => (
+            {/* FILMS - ROW 1 ONLY */}
+            {displayRow1.map((film, i) => (
               <div
                 key={`r1-film-${i}`}
                 onClick={() => setSelectedFilm(film)}
@@ -173,8 +173,8 @@ export default function Films() {
             {/* PERFORATIONS TOP */}
             <div className="film-perforation film-perforation-top" />
 
-            {/* FILMS */}
-            {allFilms.map((film, i) => (
+            {/* FILMS - ROW 2 ONLY */}
+            {displayRow2.map((film, i) => (
               <div
                 key={`r2-film-${i}`}
                 onClick={() => setSelectedFilm(film)}
@@ -210,53 +210,45 @@ export default function Films() {
       {/* MODAL OVERLAY (Kept largely the same but ensured z-index covers white bg) */}
       {selectedFilm && (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-300">
-          <div className="relative w-full max-w-5xl bg-[#141414] rounded-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 border border-white/10">
+          <div className="relative w-auto max-w-[95vw] bg-[#141414] rounded-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 border border-white/10 flex flex-col md:flex-row max-h-[90vh]">
 
-            <div className="flex flex-col md:flex-row h-full max-h-[90vh] overflow-y-auto md:overflow-hidden">
+            {/* Image Area - Fits content */}
+            <div className="relative flex-shrink-0 bg-black/20 flex items-center justify-center">
+              <img
+                src={selectedFilm.poster}
+                alt={selectedFilm.title}
+                className="block w-full md:w-auto h-auto max-h-[40vh] md:max-h-[90vh] max-w-full md:max-w-[65vw] object-contain"
+              />
+            </div>
 
-              {/* Mobile: Image Area */}
-              <div className="relative w-full md:w-2/3 h-auto md:h-full flex-shrink-0">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent z-10 md:hidden" />
-                <img
-                  src={selectedFilm.banner}
-                  alt={selectedFilm.title}
-                  className="w-full h-auto md:h-full object-cover"
-                />
+            {/* Content Area - Fixed width on desktop, scrollable */}
+            <div className="w-full md:w-[450px] relative p-6 md:p-10 flex flex-col justify-center items-start gap-6 bg-[#141414] overflow-y-auto">
+
+              <h2 className="text-2xl md:text-3xl font-bold text-white tracking-wide uppercase leading-tight text-left">
+                {selectedFilm.title}
+              </h2>
+
+              <div className="text-gray-400 text-lg font-medium">
+                <span className="text-gray-500 uppercase text-sm tracking-wider mr-2">Director :</span>
+                {selectedFilm.director}
               </div>
 
-              {/* Content Area */}
-              <div className="w-full md:w-1/3 relative p-6 md:p-12 flex flex-col justify-start md:justify-center items-start gap-6 bg-[#141414] z-20">
-
-                <h2 className="text-2xl md:text-4xl font-bold text-white tracking-wide uppercase leading-tight text-left pr-10">
-                  {selectedFilm.title}
-                </h2>
-
-                <div className="text-gray-400 text-lg md:text-xl font-medium">
-                  <span className="text-gray-500 uppercase text-sm tracking-wider mr-2">Director :</span>
-                  {selectedFilm.director}
-                </div>
-
-                {/* Metadata */}
-
-
-                {/* Action Buttons */}
-                <div className="w-full flex items-center gap-4">
-                  <Button
-                    onClick={() => window.open(selectedFilm.link, '_blank')}
-                    className="flex-1 md:flex-none h-12 px-8 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg transition-all shadow-lg flex items-center justify-center gap-2"
-                  >
-                    <Play className="w-5 h-5 fill-current" />
-                    Watch Now
-                  </Button>
-                </div>
-
-                {/* Description */}
-                <p className="text-gray-300 text-sm md:text-base leading-relaxed text-left">
-                  {selectedFilm.desc}
-                </p>
-
-
+              {/* Action Buttons */}
+              <div className="w-full flex items-center gap-4">
+                <Button
+                  onClick={() => window.open(selectedFilm.link, '_blank')}
+                  className="flex-1 h-12 px-6 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg transition-all shadow-lg flex items-center justify-center gap-2"
+                >
+                  <Play className="w-5 h-5 fill-current" />
+                  Watch Now
+                </Button>
               </div>
+
+              {/* Description */}
+              <p className="text-gray-300 text-sm leading-relaxed text-center w-full">
+                {selectedFilm.desc}
+              </p>
+
             </div>
 
             {/* Close Button */}

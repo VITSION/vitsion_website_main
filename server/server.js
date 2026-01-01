@@ -62,6 +62,21 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
     res.json({ url: relativePath });
 });
 
+// Admin Login Endpoint
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Credentials stored on server-side (not visible to frontend inspection)
+    const VALID_USER = "vitsion_2025";
+    const VALID_PASS = "pepperspray";
+
+    if (username === VALID_USER && password === VALID_PASS) {
+        return res.json({ success: true, message: "Authenticated" });
+    } else {
+        return res.status(401).json({ success: false, message: "Invalid credentials" });
+    }
+});
+
 // -- Existing Contact Route Logic --
 const CONTACTS_DATA_FILE = path.join(__dirname, 'contacts.json');
 

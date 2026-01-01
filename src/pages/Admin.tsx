@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import MagicBento from "@/components/MagicBento";
-import { X, Upload, Trash, ArrowLeft } from "lucide-react";
+import { X, Upload, Trash, ArrowLeft, Crop as CropIcon } from "lucide-react";
+import Cropper from 'react-easy-crop';
+import getCroppedImg from '../utils/cropImage';
 
 const Admin = () => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('home');
+
+    // SECURITY: Ensure user came from the double-click entry
+    useEffect(() => {
+        const isUnlocked = sessionStorage.getItem('admin_access_unlocked');
+        if (!isUnlocked) {
+            navigate('/', { replace: true });
+        }
+    }, [navigate]);
 
     // --- HOME STATE ---
     const [homeData, setHomeData] = useState({
@@ -32,6 +44,20 @@ const Admin = () => {
 
     // --- GALLERY STATE ---
     const [galleryData, setGalleryData] = useState<any[]>([]);
+
+    // --- CROPPER STATE ---
+    const [cropModalOpen, setCropModalOpen] = useState(false);
+    const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
+    const [cropConfig, setCropConfig] = useState<{ field: string, index?: number } | null>(null);
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+    const [aspectRatio, setAspectRatio] = useState(1);
+
+    // --- AUTH STATE ---
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     // --- EFFECTS ---
     useEffect(() => {
@@ -63,13 +89,25 @@ const Admin = () => {
         }
     }, [activeTab]);
 
-    // --- UPLOAD HANDLER ---
+    // --- HELPER FUNCTIONS ---
     const uploadFile = async (file: File) => {
         const formData = new FormData();
         formData.append('image', file);
         const res = await fetch('http://localhost:5000/api/upload', { method: 'POST', body: formData });
         const data = await res.json();
         return data.url;
+    };
+
+    const readFile = (file: File) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.addEventListener('load', () => resolve(reader.result), false);
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+        setCroppedAreaPixels(croppedAreaPixels);
     };
 
     // --- HOME HANDLERS ---
@@ -101,22 +139,82 @@ const Admin = () => {
         alert("Home saved!");
     };
 
-    // --- EVENTS HANDLERS ---
+    // --- EVENTS HANDLERS & CROP ---
     const handleEventImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string, index?: number) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        try {
-            const url = await uploadFile(file);
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            const imageDataUrl = await readFile(file);
+            setCropImageSrc(imageDataUrl as string);
+            setCropConfig({ field, index });
+
+            // Set Aspect Ratio based on field
             if (field === 'poster') {
+                setAspectRatio(2 / 3);
+            } else if (field === 'gallery' && index === 0) {
+                setAspectRatio(9 / 16); // Image 1 (Right Poster)
+            } else if (field === 'gallery' && index === 1) {
+                setAspectRatio(16 / 9); // Image 2 (Below Poster)
+            } else if (field === 'gallery' && index === 2) {
+                setAspectRatio(1);    // Image 3 (Bottom Right)
+            } else {
+                setAspectRatio(1);
+            }
+
+            setZoom(1);
+            setCrop({ x: 0, y: 0 });
+            setCropModalOpen(true);
+            e.target.value = ''; // Reset input
+        }
+    };
+
+    const handleReCrop = (imageUrl: string, field: string, index?: number) => {
+        setCropImageSrc(imageUrl);
+        setCropConfig({ field, index });
+
+        // Set Aspect Ratio based on field
+        if (field === 'poster') {
+            setAspectRatio(2 / 3);
+        } else if (field === 'gallery' && index === 0) {
+            setAspectRatio(9 / 16); // Image 1 (Right Poster)
+        } else if (field === 'gallery' && index === 1) {
+            setAspectRatio(16 / 9); // Image 2 (Below Poster)
+        } else if (field === 'gallery' && index === 2) {
+            setAspectRatio(1);    // Image 3 (Bottom Right)
+        } else {
+            setAspectRatio(1);
+        }
+
+        setZoom(1);
+        setCrop({ x: 0, y: 0 });
+        setCropModalOpen(true);
+    };
+
+    const handleCropSave = async () => {
+        if (!cropImageSrc || !croppedAreaPixels || !cropConfig) return;
+
+        try {
+            const croppedImageBlob = await getCroppedImg(cropImageSrc, croppedAreaPixels);
+            if (!croppedImageBlob) return;
+
+            const file = new File([croppedImageBlob], "cropped_image.jpg", { type: "image/jpeg" });
+            const url = await uploadFile(file);
+
+            if (cropConfig.field === 'poster') {
                 setEditingEvent((prev: any) => ({ ...prev, poster: url }));
-            } else if (field === 'gallery' && typeof index === 'number') {
+            } else if (cropConfig.field === 'gallery' && typeof cropConfig.index === 'number') {
                 setEditingEvent((prev: any) => {
                     const newGallery = [...(prev.galleryImages || ['', '', ''])];
-                    newGallery[index] = url;
+                    newGallery[cropConfig.index!] = url;
                     return { ...prev, galleryImages: newGallery };
                 });
             }
-        } catch (err) { console.error(err); }
+
+            setCropModalOpen(false);
+            setCropImageSrc(null);
+        } catch (e) {
+            console.error(e);
+            alert("Error cropping image");
+        }
     };
 
     const handleEventSave = async () => {
@@ -153,15 +251,8 @@ const Admin = () => {
         if (!editingFilm) return;
 
         const newFilmsData = { ...filmsData };
-        // Remove from current row if exists (for move logic or update) - Simplified: just replace in target row
-        // Ideally we check if ID exists in either row. For now assuming films are unique objects.
-        // Let's rely on reference or create a temp ID.
-        // Actually, let's just update the target row array.
-
-        // Remove from old location if moving (complex, skip for now, just Add/Update in target row)
-        // If editing, find index in target row.
         const targetRowList = editingFilmRow === 'row1' ? [...newFilmsData.row1] : [...newFilmsData.row2];
-        const existingIndex = targetRowList.findIndex(f => f.title === editingFilm.title); // using title as ID for now as films don't have IDs in original data
+        const existingIndex = targetRowList.findIndex(f => f.title === editingFilm.title);
 
         if (existingIndex >= 0) {
             targetRowList[existingIndex] = editingFilm;
@@ -216,17 +307,24 @@ const Admin = () => {
         setPassword("");
     };
 
-
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (username === "vitsion_2025" && password === "pepperspray") {
-            setIsAuthenticated(true);
-        } else {
-            alert("Incorrect Username or Password");
+        try {
+            const res = await fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                setIsAuthenticated(true);
+            } else {
+                alert("Incorrect Username or Password");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Login error");
         }
     };
 
@@ -264,11 +362,51 @@ const Admin = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black text-white p-8 pt-24">
+        <div className="min-h-screen bg-black text-white p-8 pt-24 relative">
+            {/* CROP MODAL */}
+            {cropModalOpen && (
+                <div className="fixed inset-0 z-[100] bg-black/90 flex flex-col items-center justify-center p-8">
+                    <div className="relative w-full max-w-4xl h-[60vh] bg-[#222] border border-white/10 rounded-lg overflow-hidden mb-6">
+                        <Cropper
+                            image={cropImageSrc || undefined}
+                            crop={crop}
+                            zoom={zoom}
+                            aspect={aspectRatio}
+                            onCropChange={setCrop}
+                            onCropComplete={onCropComplete}
+                            onZoomChange={setZoom}
+                        />
+                    </div>
+                    <div className="flex flex-col items-center w-full max-w-md gap-6">
+                        <div className="w-full flex items-center gap-4">
+                            <span className="text-sm">Zoom</span>
+                            <input
+                                type="range"
+                                value={zoom}
+                                min={1}
+                                max={3}
+                                step={0.1}
+                                aria-labelledby="Zoom"
+                                onChange={(e) => setZoom(Number(e.target.value))}
+                                className="w-full accent-[#d1ab2e]"
+                            />
+                        </div>
+                        <div className="flex gap-4 w-full">
+                            <Button onClick={handleCropSave} className="flex-1 bg-[#d1ab2e] text-black font-bold h-12">
+                                CROP & SAVE
+                            </Button>
+                            <Button onClick={() => setCropModalOpen(false)} variant="ghost" className="flex-1 border border-white/20 h-12">
+                                CANCEL
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Back/Logout Button */}
             <button
                 onClick={handleLogout}
-                className="fixed top-8 left-8 flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors z-50"
+                className="fixed top-8 left-8 flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors z-[50]"
             >
                 <ArrowLeft size={20} />
                 <span>Logout</span>
@@ -383,7 +521,7 @@ const Admin = () => {
                             <>
                                 <div className="flex justify-between items-center">
                                     <h2 className="text-2xl font-bold">Manage Events</h2>
-                                    <Button onClick={() => setEditingEvent({ id: '', title: '', description: '', poster: '', color: '#000000', galleryImages: ['', '', ''] })} className="bg-[#d1ab2e] text-black">ADD NEW EVENT</Button>
+                                    <Button onClick={() => setEditingEvent({ id: '', title: '', description: '', longDescription: '', poster: '', color: '#000000', galleryImages: ['', '', ''] })} className="bg-[#d1ab2e] text-black">ADD NEW EVENT</Button>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
                                     {events.map(event => (
@@ -426,9 +564,25 @@ const Admin = () => {
                             <div className="bg-[#222] p-6 rounded-2xl border border-white/10">
                                 <h2 className="text-xl font-bold mb-6">Edit Event</h2>
                                 <div className="space-y-4">
-                                    <input value={editingEvent.title} onChange={e => setEditingEvent({ ...editingEvent, title: e.target.value })} placeholder="Title" className="input-field" />
-                                    <input type="color" value={editingEvent.color} onChange={e => setEditingEvent({ ...editingEvent, color: e.target.value })} className="h-10 w-full" />
-                                    <textarea value={editingEvent.description} onChange={e => setEditingEvent({ ...editingEvent, description: e.target.value })} placeholder="Description" className="input-field h-24" />
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-1 block">Event Title</label>
+                                        <input value={editingEvent.title} onChange={e => setEditingEvent({ ...editingEvent, title: e.target.value })} placeholder="Title" className="input-field" />
+                                    </div>
+
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-1 block">Theme Color</label>
+                                        <input type="color" value={editingEvent.color} onChange={e => setEditingEvent({ ...editingEvent, color: e.target.value })} className="h-10 w-full cursor-pointer rounded border border-white/20" />
+                                    </div>
+
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-1 block">Event Tag (Card Summary)</label>
+                                        <textarea value={editingEvent.description} onChange={e => setEditingEvent({ ...editingEvent, description: e.target.value })} placeholder="Short summary for the event card..." className="input-field h-20" />
+                                    </div>
+
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-1 block">Event Description (Bento/About)</label>
+                                        <textarea value={editingEvent.longDescription || ''} onChange={e => setEditingEvent({ ...editingEvent, longDescription: e.target.value })} placeholder="Full event details for the About section..." className="input-field h-32" />
+                                    </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
@@ -455,20 +609,77 @@ const Admin = () => {
                                     <div>
                                         <label className="text-gray-400">Poster</label>
                                         <input type="file" onChange={(e) => handleEventImageUpload(e, 'poster')} className="file-input mt-2" />
-                                        {editingEvent.poster && <img src={editingEvent.poster} className="mt-2 h-32 rounded" />}
+                                        {editingEvent.poster && (
+                                            <div className="mt-2 relative inline-block group">
+                                                <img src={editingEvent.poster} className="h-32 rounded border border-white/20" />
+                                                <button
+                                                    onClick={() => handleReCrop(editingEvent.poster, 'poster')}
+                                                    className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-[#d1ab2e] text-white hover:text-black rounded-full transition-colors opacity-0 group-hover:opacity-100"
+                                                    title="Re-crop Image"
+                                                >
+                                                    <CropIcon size={16} />
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div>
                                         <label className="text-gray-400">Gallery Images (3)</label>
                                         <div className="grid grid-cols-3 gap-2 mt-2">
-                                            {[0, 1, 2].map(i => (
-                                                <div key={i}>
-                                                    <input type="file" onChange={(e) => handleEventImageUpload(e, 'gallery', i)} className="text-xs text-gray-400 mb-2" />
-                                                    <div className="aspect-[3/4] bg-black/50 overflow-hidden rounded border border-white/10">
-                                                        {editingEvent.galleryImages?.[i] && <img src={editingEvent.galleryImages[i]} className="w-full h-full object-cover" />}
-                                                    </div>
+                                            <div>
+                                                <label className="text-xs font-bold text-[#d1ab2e] mb-1 block">Image 1 (Right Poster)</label>
+                                                <input type="file" onChange={(e) => handleEventImageUpload(e, 'gallery', 0)} className="text-xs text-gray-400 mb-2" />
+                                                <div className="aspect-[9/16] bg-black/50 overflow-hidden rounded border border-white/10 relative group">
+                                                    {editingEvent.galleryImages?.[0] && (
+                                                        <>
+                                                            <img src={editingEvent.galleryImages[0]} className="w-full h-full object-cover" />
+                                                            <button
+                                                                onClick={() => handleReCrop(editingEvent.galleryImages[0], 'gallery', 0)}
+                                                                className="absolute top-2 right-2 p-1.5 bg-black/50 hover:bg-[#d1ab2e] text-white hover:text-black rounded-full transition-colors opacity-0 group-hover:opacity-100"
+                                                                title="Re-crop Image"
+                                                            >
+                                                                <CropIcon size={14} />
+                                                            </button>
+                                                        </>
+                                                    )}
                                                 </div>
-                                            ))}
+                                            </div>
+                                            <div>
+                                                <label className="text-xs font-bold text-[#d1ab2e] mb-1 block">Image 2 (Below Poster)</label>
+                                                <input type="file" onChange={(e) => handleEventImageUpload(e, 'gallery', 1)} className="text-xs text-gray-400 mb-2" />
+                                                <div className="aspect-video bg-black/50 overflow-hidden rounded border border-white/10 relative group">
+                                                    {editingEvent.galleryImages?.[1] && (
+                                                        <>
+                                                            <img src={editingEvent.galleryImages[1]} className="w-full h-full object-cover" />
+                                                            <button
+                                                                onClick={() => handleReCrop(editingEvent.galleryImages[1], 'gallery', 1)}
+                                                                className="absolute top-2 right-2 p-1.5 bg-black/50 hover:bg-[#d1ab2e] text-white hover:text-black rounded-full transition-colors opacity-0 group-hover:opacity-100"
+                                                                title="Re-crop Image"
+                                                            >
+                                                                <CropIcon size={14} />
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label className="text-xs font-bold text-[#d1ab2e] mb-1 block">Image 3 (Bottom Right)</label>
+                                                <input type="file" onChange={(e) => handleEventImageUpload(e, 'gallery', 2)} className="text-xs text-gray-400 mb-2" />
+                                                <div className="aspect-square bg-black/50 overflow-hidden rounded border border-white/10 relative group">
+                                                    {editingEvent.galleryImages?.[2] && (
+                                                        <>
+                                                            <img src={editingEvent.galleryImages[2]} className="w-full h-full object-cover" />
+                                                            <button
+                                                                onClick={() => handleReCrop(editingEvent.galleryImages[2], 'gallery', 2)}
+                                                                className="absolute top-2 right-2 p-1.5 bg-black/50 hover:bg-[#d1ab2e] text-white hover:text-black rounded-full transition-colors opacity-0 group-hover:opacity-100"
+                                                                title="Re-crop Image"
+                                                            >
+                                                                <CropIcon size={14} />
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex gap-4">
@@ -713,7 +924,7 @@ const Admin = () => {
                     background-color: #d1ab2e;
                     color: black;
                     cursor: pointer;
-                }
+                    }
                 .file-input::file-selector-button:hover {
                     background-color: #e2bd44;
                 }

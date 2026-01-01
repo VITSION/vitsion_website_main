@@ -11,6 +11,7 @@ type EventItem = {
     id: string;
     title: string;
     description: string;
+    longDescription?: string;
     poster: string;
     color: string;
     galleryImages?: string[];
@@ -76,7 +77,7 @@ export default function Events25_26() {
                 >
                     <X size={24} />
                 </button>
-                <div className="h-full overflow-y-auto p-4 md:p-12 flex items-center justify-center">
+                <div className="h-full overflow-y-auto p-4 md:p-12 flex items-start justify-center">
                     <MagicBento
                         textAutoHide={true}
                         enableStars={true}
@@ -92,7 +93,7 @@ export default function Events25_26() {
                         teamworkImage={selectedEvent?.poster}
                         galleryImages={selectedEvent?.galleryImages}
                         title={selectedEvent?.title}
-                        description={selectedEvent?.description}
+                        description={selectedEvent?.longDescription || selectedEvent?.description}
                         // @ts-ignore
                         date={selectedEvent?.date}
                         // @ts-ignore

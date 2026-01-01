@@ -79,9 +79,9 @@
 }
 
 .magic-bento-card__description {
-    font-size: 12px;
-    line-height: 1.2;
-    opacity: 0.9;
+    font-size: 14px;
+    line-height: 1.4;
+    opacity: 1;
 }
 
 .magic-bento-card--text-autohide .magic-bento-card__title,
@@ -98,21 +98,96 @@
 }
 
 .magic-bento-card--text-autohide .magic-bento-card__description {
-    -webkit-line-clamp: var(--clamp-desc);
-    line-clamp: var(--clamp-desc);
+    /* Removed line clamp to show full text */
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 @media (max-width: 599px) {
     .card-grid {
-        grid-template-columns: 1fr;
-        width: 90%;
+        grid-template-columns: repeat(2, 1fr);
+        /* Switch to 2 columns */
+        width: 95%;
+        /* Use more width on mobile */
         margin: 0 auto;
+        gap: 0.5em;
+        /* Smaller gap */
         padding: 0.5em;
     }
 
     .magic-bento-card {
         width: 100%;
-        min-height: 180px;
+        min-height: 140px;
+        /* Reduced min-height for compact grid */
+    }
+
+    /* Full Width Items: Description only */
+    .magic-bento-card:nth-child(5) {
+        grid-column: 1 / -1;
+    }
+
+    /* Mobile optimization for Title Card (Index 0) - Left Side */
+    .magic-bento-card:nth-child(1) {
+        min-height: auto;
+        height: auto;
+        padding: 1rem;
+        aspect-ratio: 1/1;
+        /* Make it square-ish or auto */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Mobile optimization for Date/Participants Card (Index 1) - Right Side */
+    .magic-bento-card:nth-child(2) {
+        min-height: auto;
+        height: auto;
+        padding: 1rem;
+        aspect-ratio: 1/1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Side-by-Side Images (Row 3: Poster & Gallery 1) */
+    .magic-bento-card:nth-child(3),
+    /* Poster */
+    .magic-bento-card:nth-child(4) {
+        /* Gallery 1 */
+        aspect-ratio: 2/3;
+        /* Vertical aspect for images */
+        min-height: auto;
+    }
+
+    /* Mobile optimization for Description Card (Index 4) */
+    .magic-bento-card:nth-child(5) {
+        max-height: 250px;
+        /* decreased height of date box/desc box slightly */
+        overflow: hidden;
+    }
+
+    .magic-bento-card:nth-child(5) .magic-bento-card__description {
+        overflow-y: auto;
+        max-height: 100%;
+        padding-right: 5px;
+    }
+
+    /* Bottom Gallery Images (Row 5: Gallery 2 & 3) */
+    .magic-bento-card:nth-child(6),
+    .magic-bento-card:nth-child(7) {
+        aspect-ratio: 1/1;
+        /* Square for bottom gallery */
+        min-height: auto;
+    }
+
+    /* Ensure images cover the card area on mobile */
+    .magic-bento-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        inset: 0;
     }
 }
 
@@ -235,4 +310,57 @@
 .bento-section {
     position: relative;
     user-select: none;
+}
+
+/* Specific styling for the Title Card (Index 0 / nth-child 1) */
+.magic-bento-card:nth-child(1) {
+    justify-content: center;
+    align-items: center;
+}
+
+.magic-bento-card:nth-child(1) .magic-bento-card__content {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* CRITICAL: Allow full title to show on Title Card, overriding auto-hide text clamps */
+.magic-bento-card:nth-child(1) .magic-bento-card__title {
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    max-height: none !important;
+}
+
+/* Specific styling for the Description Card (Index 4 / nth-child 5) */
+.magic-bento-card:nth-child(5) {
+    justify-content: flex-start;
+    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure the content wrapper takes remaining space but doesn't overflow parent */
+.magic-bento-card:nth-child(5) .magic-bento-card__content {
+    flex: 1;
+    min-height: 0;
+    /* Crucial for nested flex scrolling */
+    overflow: hidden;
+    /* Contain the children */
+    display: flex;
+    flex-direction: column;
+}
+
+.magic-bento-card:nth-child(5) .magic-bento-card__description {
+    font-size: 18px;
+    text-align: center;
+    line-height: 1.6;
+    width: 100%;
+    /* Make description take all available height in the content wrapper */
+    height: 100%;
+    /* Enable scrolling */
+    overflow-y: auto;
+    /* Add padding for scrollbar aesthetics */
+    padding-right: 10px;
 }

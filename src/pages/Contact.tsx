@@ -7,7 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
+import { useNavigate } from "react-router-dom";
+
 const Contact = () => {
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
@@ -212,7 +215,10 @@ const Contact = () => {
             {/* FOOTER */}
             <footer
                 className="w-full py-6 text-center text-gray-500 text-xs select-none"
-                onDoubleClick={() => window.location.href = '/admin'}
+                onDoubleClick={() => {
+                    sessionStorage.setItem('admin_access_unlocked', 'true');
+                    navigate('/admin');
+                }}
             >
                 &copy; {new Date().getFullYear()} VITSION Movie Makers. All rights reserved.
             </footer>

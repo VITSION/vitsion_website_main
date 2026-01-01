@@ -528,11 +528,13 @@ const MagicBento = ({
                     const safeGalleryImages = Array.isArray(galleryImages) ? galleryImages : [];
 
                     // Map gallery images to specific 'filler' slots
-                    // Moved Index 1 (next to title) to Index 6 (Protection/Bottom Right) per user request
                     let galleryImage = null;
-                    if (index === 6 && safeGalleryImages[0]) galleryImage = safeGalleryImages[0];
-                    if (index === 3 && safeGalleryImages[1]) galleryImage = safeGalleryImages[1];
-                    if (index === 5 && safeGalleryImages[2]) galleryImage = safeGalleryImages[2];
+                    // Image 1 (Right Poster) -> Index 3
+                    if (index === 3 && safeGalleryImages[0]) galleryImage = safeGalleryImages[0];
+                    // Image 2 (Below Poster) -> Index 5
+                    if (index === 5 && safeGalleryImages[1]) galleryImage = safeGalleryImages[1];
+                    // Image 3 (Bottom Right) -> Index 6
+                    if (index === 6 && safeGalleryImages[2]) galleryImage = safeGalleryImages[2];
 
                     const isTeamworkCard = card.title === 'Event Display';
 
@@ -561,29 +563,48 @@ const MagicBento = ({
                         );
                     } else {
                         // Dynamic Content Overrides
-                        let displayTitle = card.title;
+                        let displayTitle: React.ReactNode = card.title;
                         let displayDesc = card.description;
                         let customHeader = null;
 
                         if (index === 0 && title) {
-                            displayTitle = title;
-                            displayDesc = ""; // Hide default desc if title is overridden
+                            // Remove "EVENT NAME" label, just show Title centered
+                            customHeader = <div style={{ display: 'none' }} />;
+                            displayTitle = (
+                                <span style={{
+                                    fontFamily: "'Outfit', sans-serif",
+                                    fontSize: 'clamp(0.9rem, 4vw, 1.6rem)',
+                                    fontWeight: '800',
+                                    color: '#fff',
+                                    display: 'block',
+                                    lineHeight: '1.2',
+                                    textAlign: 'center',
+                                    width: '100%',
+                                    whiteSpace: 'normal',
+                                    overflowWrap: 'break-word',
+                                    wordBreak: 'break-word',
+                                    padding: '0 2px'
+                                }}>
+                                    {title}
+                                </span>
+                            );
+                            displayDesc = "";
                         }
                         if (index === 1) {
                             if (date || participants) {
-                                // User Request: Date in Yellow region (Header) with bigger font
+                                // Orange Region (Top): Participants (Bold)
                                 customHeader = (
-                                    <div className="magic-bento-card__label" style={{ fontSize: '1.8rem', fontWeight: '700', lineHeight: '1.1', color: '#fff' }}>
-                                        {date || "Date N/A"}
+                                    <div className="magic-bento-card__label" style={{ fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', fontWeight: '900', color: '#fff', lineHeight: '1.2' }}>
+                                        {participants ? `${participants} Participants` : "Participants N/A"}
                                     </div>
                                 );
-                                // Participants in Blue region (Body)
-                                displayTitle = participants ? `${participants} Participants` : "Participants N/A";
+                                // Red Region (Bottom): Date (Normal)
+                                displayTitle = <span style={{ fontSize: 'clamp(0.75rem, 2.5vw, 1rem)', fontWeight: '400', opacity: 0.9, lineHeight: '1.2' }}>{date || "Date N/A"}</span>;
                                 displayDesc = "";
                             }
                         }
                         if (index === 4 && description) {
-                            displayTitle = "About"; // Or keep generic? Let's use "About" or just hide title
+                            displayTitle = ""; // Remove heading completely
                             displayDesc = description;
                         }
 
@@ -592,9 +613,10 @@ const MagicBento = ({
                                 <div className="magic-bento-card__header">
                                     {customHeader ? customHeader : <div className="magic-bento-card__label">{card.label}</div>}
                                 </div>
-                                <div className="magic-bento-card__content">
-                                    <h2 className="magic-bento-card__title">{displayTitle}</h2>
-                                    <p className="magic-bento-card__description">{displayDesc}</p>
+                                <div className="magic-bento-card__content" style={{ justifyContent: 'flex-start', paddingTop: index === 4 ? '0' : undefined }}>
+                                    {/* Check if displayTitle is a string or JSX */}
+                                    {displayTitle && <div className="magic-bento-card__title" style={{ fontWeight: 'inherit' }}>{displayTitle}</div>}
+                                    <p className="magic-bento-card__description" style={{ marginTop: index === 4 ? '0' : undefined }}>{displayDesc}</p>
                                 </div>
                             </>
                         );
