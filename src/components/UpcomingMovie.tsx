@@ -4,15 +4,21 @@ import { Link } from 'react-router-dom';
 
 // const images = [ ... ] removed
 
+import homeData from '@/data/home.json';
+
+// ...
+
 const UpcomingMovie = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [images, setImages] = useState<string[]>([]);
+    const [images, setImages] = useState<string[]>(homeData.upcomingMovie.images || []);
 
     useEffect(() => {
         fetch('https://vitsion-website-backend.onrender.com/api/home')
             .then(res => res.json())
             .then(data => {
-                if (data.upcomingMovie && data.upcomingMovie.images) {
+                // Only override if API has valid images and we want to prefer API in prod
+                // For now, let's merge or just stick to local if user wants to test local
+                if (data.upcomingMovie && data.upcomingMovie.images && data.upcomingMovie.images.length > 0) {
                     setImages(data.upcomingMovie.images);
                 }
             })
