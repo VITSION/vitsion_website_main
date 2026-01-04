@@ -26,7 +26,7 @@ const coreMembers = [
         link: '#',
         title: 'Sam Rozario D',
         description: 'Core',
-        image: '/teams/Core/sam.webp'
+        image: '/teams/Core/sam.jpg'
     },
     {
         link: '#',

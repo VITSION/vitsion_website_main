@@ -1,7 +1,8 @@
 {
   "upcomingMovie": {
     "images": [
-      "/film1.webp"
+      "/film1.webp",
+      "/film2.webp"
     ]
   },
   "eventAnnouncement": {
