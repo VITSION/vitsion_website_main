@@ -21,7 +21,7 @@ const Footer = () => {
                             <span className="text-2xl font-bold tracking-[0.2em] text-white">VITSION</span>
                         </Link>
                         <p className="text-gray-400 max-w-sm leading-relaxed">
-                            VITSION Movie Makers Club is the official filmmaking community of VIT Chennai, bringing students together to explore storytelling, create films through hands-on projects, host workshops, collaborate creatively, and foster a vibrant campus cinema culture. 🎥
+                            VITSION Movie Makers Club is the official filmmaking community of VIT Chennai, bringing students together to explore storytelling, create films through hands-on projects, host workshops, collaborate creatively, and foster a vibrant campus cinema culture.
                         </p>
                         <div className="flex gap-4 pt-2">
                             <SocialLink href="https://www.instagram.com/vitsionmoviemakers/" icon={<Instagram size={20} />} />
@@ -45,7 +45,16 @@ const Footer = () => {
 
                     {/* Contact Info */}
                     <div>
-                        <h3 className="text-white font-semibold tracking-wider mb-6">CONTACT</h3>
+                        <h3
+                            className="text-white font-semibold tracking-wider mb-6 cursor-pointer select-none"
+                            onDoubleClick={() => {
+                                if (location.pathname === '/team') {
+                                    navigate('/core');
+                                }
+                            }}
+                        >
+                            CONTACT
+                        </h3>
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3 text-gray-400">
                                 <MapPin size={20} className="mt-1 text-blue-400 shrink-0" />

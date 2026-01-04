@@ -55,11 +55,16 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="relative w-full overflow-x-hidden ">
+    <div className="relative w-full overflow-x-hidden bg-black min-h-screen">
+
+      {/* GLOBAL GALAXY BACKGROUND */}
+      <div className="fixed inset-0 z-0 opacity-40 pointer-events-none">
+        <Galaxy mouseRepulsion={false} mouseInteraction={false} />
+      </div>
 
       {/* FIXED BACKGROUND VIDEO */}
       <section className="relative h-screen w-full overflow-hidden">
-        {/* ... video logic ... */}
+        {/* VIDEO + OVERLAY */}
         <video
           autoPlay
           loop
@@ -107,11 +112,8 @@ const Index = () => {
         <FloatingDockNav />
       </header>
 
-      {/* ABOUT SECTION WITH GALAXY */}
-      <section className="relative z-20 bg-black overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
-          <Galaxy mouseRepulsion={false} mouseInteraction={false} />
-        </div>
+      {/* ABOUT SECTION */}
+      <section className="relative z-20 overflow-hidden">
         <div className="relative z-10">
           <AboutSection />
         </div>
@@ -130,7 +132,7 @@ const Index = () => {
         </motion.h6>
       </section>
 
-      {/* UPCOMING MOVIE WITH GALAXY */}
+      {/* UPCOMING MOVIE */}
       <motion.section
         className="relative z-10 w-full flex justify-center px-4 py-20 md:py-10 bg-black/50 overflow-hidden"
         initial={{ opacity: 0, y: 150 }}
@@ -138,9 +140,6 @@ const Index = () => {
         transition={{ duration: 1, ease: "easeOut" }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
-          <Galaxy mouseRepulsion={false} mouseInteraction={false} />
-        </div>
         <div className="relative z-10 w-full flex justify-center">
           <UpcomingMovie />
         </div>
@@ -149,9 +148,6 @@ const Index = () => {
         <div
           className="relative z-10 w-full flex flex-col items-center justify-center px-4 py-20 md:py-10 gap-10 bg-black/50 overflow-hidden"
         >
-          <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
-            <Galaxy mouseRepulsion={false} mouseInteraction={false} />
-          </div>
           <div
             ref={upcomingTextRef}
             className="relative z-10 text-white text-center w-[clamp(20rem,80vw,90rem)]

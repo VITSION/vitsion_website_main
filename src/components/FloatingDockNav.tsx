@@ -9,9 +9,18 @@ const FloatingDockNav = () => {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleScroll);
+        handleScroll(); // Initial check
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleScroll);
+        };
     }, []);
 
     const navLinks = [
@@ -21,6 +30,7 @@ const FloatingDockNav = () => {
         { label: "Films", path: "/films" },
         { label: "Gallery", path: "/gallery" },
         { label: "Team", path: "/team" },
+        { label: "Contact", path: "/contact" },
     ];
 
     return (
@@ -35,7 +45,7 @@ const FloatingDockNav = () => {
                 "fixed left-1/2 -translate-x-1/2 z-50 flex items-center",
                 "max-w-[96vw]", // ✅ prevent overflow on mobile
                 scrolled
-                    ? "bg-black/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-full px-2 py-2 gap-2"
+                    ? "bg-transparent justify-between md:bg-black/80 md:backdrop-blur-xl md:border md:border-white/10 md:shadow-2xl md:rounded-full md:px-2 md:py-2 md:gap-2"
                     : "bg-transparent justify-between px-3 md:px-6 py-2 md:py-3"
             )}
         >
@@ -50,13 +60,13 @@ const FloatingDockNav = () => {
                     alt="Logo"
                     className={cn(
                         "object-contain",
-                        scrolled ? "h-12 w-auto" : "h-[7rem] w-auto"
+                        scrolled ? "w-6 h-6" : "w-8 h-8 md:w-10 md:h-10"
                     )}
                 />
 
                 {/* Logo text only on desktop */}
                 {!scrolled && (
-                    <span className="hidden md:block text-2xl font-bold tracking-widest text-white">
+                    <span className="hidden md:block text-xl font-bold tracking-widest text-white">
                         VITSION
                     </span>
                 )}
@@ -66,10 +76,10 @@ const FloatingDockNav = () => {
             <div
                 className={cn(
                     "flex items-center",
-                    "overflow-x-auto scrollbar-hide",
+                    "overflow-x-auto no-scrollbar",
                     "mx-2",
                     scrolled
-                        ? "gap-1"
+                        ? "gap-1 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-1 py-1 md:bg-transparent md:border-none md:p-0"
                         : "bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-1 py-1 gap-1"
                 )}
             >
@@ -85,9 +95,10 @@ const FloatingDockNav = () => {
                                 // ✅ Mobile-friendly tap size
                                 "px-4 py-2 md:px-4 md:py-1.5",
                                 "text-xs md:text-sm",
-                                isActive
-                                    ? "bg-white text-black"
-                                    : "text-gray-300 active:bg-white/20 md:hover:bg-white/10"
+                                isActive || link.label === "Contact"
+                                    ? "bg-white text-black font-bold"
+                                    : "text-gray-300 active:bg-white/20 md:hover:bg-white/10",
+                                link.label === "Contact" ? (scrolled ? "block md:hidden" : "hidden") : ""
                             )}
                         >
                             {link.label}
@@ -100,6 +111,7 @@ const FloatingDockNav = () => {
             <button
                 onClick={() => navigate('/contact')}
                 className={cn(
+                    scrolled ? "hidden md:block" : "block", // Hide on mobile when scrolled
                     "rounded-full bg-white text-black font-bold uppercase tracking-wider",
                     "transition-all",
                     // ✅ Bigger touch target on mobile

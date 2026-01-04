@@ -477,7 +477,14 @@ const Admin = () => {
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     {homeData.upcomingMovie.images?.map((img, index) => (
                                         <div key={index} className="relative group aspect-[2/3] bg-black/50 rounded-lg overflow-hidden border border-white/10">
-                                            <img src={img} alt="Upcoming" className="w-full h-full object-cover" />
+                                            <img
+                                                src={img}
+                                                alt="Upcoming"
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => {
+                                                    e.currentTarget.src = "https://via.placeholder.com/400x600?text=Image+Error";
+                                                }}
+                                            />
                                             <button
                                                 onClick={() => {
                                                     const newImages = homeData.upcomingMovie.images.filter((_, i) => i !== index);
@@ -736,22 +743,29 @@ const Admin = () => {
                     <div className="space-y-12">
                         {!editingFilm ? (
                             <>
-                                {['row1', 'row2'].map(row => (
-                                    <div key={row}>
-                                        <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
-                                            <h2 className="text-2xl font-bold uppercase">{row === 'row1' ? 'Now Showing (Row 1)' : 'Upcoming (Row 2)'}</h2>
-                                            <Button onClick={() => { setEditingFilm({ title: '', desc: '', poster: '', director: '', link: '' }); setEditingFilmRow(row); }} className="bg-[#d1ab2e] text-black">ADD FILM</Button>
-                                        </div>
-                                        <div className="flex gap-4 overflow-x-auto pb-4">
+                                <div className="flex justify-between items-center bg-[#222] p-4 rounded-xl border border-white/10 mb-8 sticky top-0 z-10 shadow-xl">
+                                    <h2 className="text-2xl font-bold">Manage Films</h2>
+                                    <Button onClick={() => { setEditingFilm({ title: '', desc: '', poster: '', director: '', link: '' }); setEditingFilmRow('row1'); }} className="bg-[#d1ab2e] text-black">ADD FILM</Button>
+                                </div>
+
+                                {['row1', 'row2'].map((row) => (
+                                    <div key={row} className="space-y-6">
+                                        <h3 className="text-xl font-bold uppercase text-gray-400 border-b border-white/10 pb-2">
+                                            {row === 'row1' ? 'Now Showing (Row 1)' : 'Upcoming (Row 2)'}
+                                        </h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                             {filmsData[row as 'row1' | 'row2'].map((film, i) => (
-                                                <div key={i} className="min-w-[200px] w-[200px] bg-[#222] p-3 rounded border border-white/10">
-                                                    <div className="h-[300px] mb-3 overflow-hidden rounded">
-                                                        <img src={film.poster} className="w-full h-full object-cover" />
+                                                <div key={i} className="group relative bg-[#111] rounded-xl overflow-hidden border border-white/10 hover:border-[#d1ab2e] transition-all">
+                                                    <div className="aspect-[2/3] w-full relative">
+                                                        <img src={film.poster} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                                                            <Button onClick={() => { setEditingFilm({ ...film, originalTitle: film.title }); setEditingFilmRow(row); }} className="bg-white text-black hover:bg-[#d1ab2e]">EDIT</Button>
+                                                            <Button onClick={() => handleFilmDelete(film, row as 'row1' | 'row2')} variant="destructive">DELETE</Button>
+                                                        </div>
                                                     </div>
-                                                    <h3 className="font-bold truncate">{film.title}</h3>
-                                                    <div className="flex gap-2 mt-2">
-                                                        <Button onClick={() => { setEditingFilm({ ...film, originalTitle: film.title }); setEditingFilmRow(row); }} variant="outline" size="sm" className="flex-1">Edit</Button>
-                                                        <Button onClick={() => handleFilmDelete(film, row as 'row1' | 'row2')} variant="destructive" size="sm" className="flex-1">Del</Button>
+                                                    <div className="p-3">
+                                                        <h4 className="font-bold truncate" title={film.title}>{film.title}</h4>
+                                                        <p className="text-xs text-gray-400 truncate">{film.director || 'Unknown Director'}</p>
                                                     </div>
                                                 </div>
                                             ))}
@@ -760,45 +774,72 @@ const Admin = () => {
                                 ))}
                             </>
                         ) : (
-                            <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-                                <div className="bg-[#1a1a1a] p-8 rounded-2xl w-full max-w-2xl border border-white/20 max-h-[90vh] overflow-y-auto">
-                                    <h2 className="text-3xl font-bold mb-6 text-[#d1ab2e]">Edit Film</h2>
-                                    <div className="space-y-4">
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <input value={editingFilm.title} onChange={e => setEditingFilm({ ...editingFilm, title: e.target.value })} placeholder="Title" className="input-field" />
-                                            <input value={editingFilm.director} onChange={e => setEditingFilm({ ...editingFilm, director: e.target.value })} placeholder="Director" className="input-field" />
-                                        </div>
-                                        <textarea value={editingFilm.desc} onChange={e => setEditingFilm({ ...editingFilm, desc: e.target.value })} placeholder="Description" className="input-field h-32" />
-                                        <input value={editingFilm.link} onChange={e => setEditingFilm({ ...editingFilm, link: e.target.value })} placeholder="Youtube Link" className="input-field" />
+                            <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4">
+                                <div className="bg-[#111] p-8 rounded-2xl w-full max-w-2xl border border-white/20 max-h-[90vh] overflow-y-auto relative">
+                                    <button onClick={() => setEditingFilm(null)} className="absolute top-4 right-4 text-gray-400 hover:text-white"><X /></button>
+                                    <h2 className="text-3xl font-bold mb-8 text-[#d1ab2e] border-b border-white/10 pb-4">
+                                        {editingFilm.originalTitle ? 'Edit Film' : 'New Film'}
+                                    </h2>
 
-                                        <div className="flex items-center gap-4 bg-black/30 p-4 rounded">
-                                            <label className="text-gray-400">Row:</label>
-                                            <select value={editingFilmRow} onChange={e => setEditingFilmRow(e.target.value)} className="bg-black border border-white/20 rounded p-2 text-white">
-                                                <option value="row1">Row 1 (Now Showing)</option>
-                                                <option value="row2">Row 2 (Upcoming)</option>
-                                            </select>
+                                    <div className="space-y-6">
+                                        <div className="grid grid-cols-2 gap-6">
+                                            <div>
+                                                <label className="text-gray-400 text-sm mb-1 block">Title</label>
+                                                <input value={editingFilm.title} onChange={e => setEditingFilm({ ...editingFilm, title: e.target.value })} className="input-field" />
+                                            </div>
+                                            <div>
+                                                <label className="text-gray-400 text-sm mb-1 block">Director</label>
+                                                <input value={editingFilm.director} onChange={e => setEditingFilm({ ...editingFilm, director: e.target.value })} className="input-field" />
+                                            </div>
                                         </div>
 
                                         <div>
-                                            <label className="block text-gray-400 mb-2">Poster</label>
-                                            <input type="file" onChange={(e) => handleFilmImageUpload(e, 'poster')} className="file-input" />
-                                            {editingFilm.poster && (
-                                                <div className="mt-4 relative inline-block group">
-                                                    <img src={editingFilm.poster} className="h-48 rounded border border-white/20" />
-                                                    <button
-                                                        onClick={() => handleReCrop(editingFilm.poster, 'film_poster')}
-                                                        className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-[#d1ab2e] text-white hover:text-black rounded-full transition-colors opacity-0 group-hover:opacity-100"
-                                                        title="Re-crop Image"
-                                                    >
-                                                        <CropIcon size={16} />
-                                                    </button>
-                                                </div>
-                                            )}
+                                            <label className="text-gray-400 text-sm mb-1 block">Description</label>
+                                            <textarea value={editingFilm.desc} onChange={e => setEditingFilm({ ...editingFilm, desc: e.target.value })} className="input-field h-32" />
                                         </div>
 
-                                        <div className="flex gap-4 pt-4">
-                                            <Button onClick={handleFilmSave} className="save-btn flex-1">SAVE FILM</Button>
-                                            <Button onClick={() => setEditingFilm(null)} variant="ghost" className="flex-1">CANCEL</Button>
+                                        <div className="grid grid-cols-2 gap-6">
+                                            <div>
+                                                <label className="text-gray-400 text-sm mb-1 block">YouTube Link</label>
+                                                <input value={editingFilm.link} onChange={e => setEditingFilm({ ...editingFilm, link: e.target.value })} className="input-field" />
+                                            </div>
+                                            <div>
+                                                <label className="text-gray-400 text-sm mb-1 block">Row Assignment</label>
+                                                <select value={editingFilmRow} onChange={e => setEditingFilmRow(e.target.value)} className="input-field">
+                                                    <option value="row1">Now Showing (Row 1)</option>
+                                                    <option value="row2">Upcoming (Row 2)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="text-gray-400 text-sm mb-2 block">Poster Image</label>
+                                            <div className="flex gap-4 items-start">
+                                                {editingFilm.poster ? (
+                                                    <div className="relative group w-32 aspect-[2/3] rounded overflow-hidden border border-white/10">
+                                                        <img src={editingFilm.poster} className="w-full h-full object-cover" />
+                                                        <button
+                                                            onClick={() => handleReCrop(editingFilm.poster, 'film_poster')}
+                                                            className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white"
+                                                        >
+                                                            <CropIcon />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div className="w-32 aspect-[2/3] bg-white/5 rounded flex items-center justify-center border border-white/10 text-gray-500 text-xs text-center p-2">
+                                                        No Image
+                                                    </div>
+                                                )}
+                                                <div className="flex-1">
+                                                    <input type="file" onChange={(e) => handleFilmImageUpload(e, 'poster')} className="file-input" />
+                                                    <p className="text-xs text-gray-500 mt-2">Recommended: Portrait aspect ratio (2:3). Click crop icon on image to adjust.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-4 pt-6 border-t border-white/10">
+                                            <Button onClick={handleFilmSave} className="bg-[#d1ab2e] text-black hover:bg-white font-bold flex-1 py-6">SAVE CHANGES</Button>
+                                            <Button onClick={() => setEditingFilm(null)} variant="ghost" className="flex-1 py-6">CANCEL</Button>
                                         </div>
                                     </div>
                                 </div>
