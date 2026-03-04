@@ -1,0 +1,124 @@
+/* InfiniteMenu.css */
+
+#infinite-grid-menu-canvas {
+  cursor: grab;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  outline: none;
+  touch-action: none;
+}
+
+#infinite-grid-menu-canvas:active {
+  cursor: grabbing;
+}
+
+/* --- Container for Text Info --- */
+.face-info-container {
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translate(-50%, 0);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  padding-bottom: 2rem;
+  /* Reduced from 3rem to push visual weight down */
+  pointer-events: none;
+  z-index: 10;
+
+  /* Transition for the whole container */
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Typography --- */
+
+.face-title {
+  text-align: center;
+  font-weight: 800;
+  font-size: 2.2rem;
+  /* Slightly smaller for better PC proportions */
+  line-height: 1.1;
+  color: white;
+  margin: 0;
+  margin-bottom: 0.25rem;
+  /* Tighter gap */
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+}
+
+.face-description {
+  text-align: center;
+  font-size: 0.9rem;
+  /* Smaller, sharper */
+  color: #fbbf24;
+  margin: 0;
+
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* --- Animation States (Applied to Container) --- */
+
+.face-info-container.active {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  filter: blur(0px);
+}
+
+.face-info-container.inactive {
+  opacity: 0;
+  transform: translate(-50%, 20px);
+  /* Slide down slightly */
+  filter: blur(8px);
+  transition: all 0.2s ease-in;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .face-info-container {
+    bottom: 0px;
+    /* Keep it tight to bottom on mobile */
+    padding-bottom: 4rem;
+    /* More breathing room for touch/nav bars */
+  }
+
+  .face-title {
+    font-size: 2rem;
+    width: 90%;
+    /* Prevent edge collision */
+  }
+
+  .face-description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Really small screens */
+  .face-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-height: 600px) {
+
+  /* Landscape mobile */
+  .face-info-container {
+    padding-bottom: 2rem;
+  }
+
+  .face-title {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "row1": [
+    {
+      "title": "Cross talk",
+      "desc": "CROSS TALK is a Tamil language Thriller Short Film written and Directed by Ramanan, Starring Dhanvant and Srivatsan in prominent roles and the Female lead played by Thanmaya.",
+      "poster": "/uploads/file-1767253094787-802762435.webp",
+      "banner": "https://images.unsplash.com/photo-1604871000636-074fa5117945?auto=format&fit=crop&q=80&w=2000",
+      "color": "#F4EDE4",
+      "year": "2010",
+      "certificate": "UA",
+      "duration": "2h 28m",
+      "language": "English",
+      "genre": "Sci-Fi | Action | Thriller",
+      "tags": [
+        "Mind-Bending",
+        "Dream Heist",
+        "Visual Masterpiece"
+      ],
+      "link": "youtube.com/watch?si=G3M__xDD8YeS5XUv&v=3l5vtIZThxA&feature=youtu.be",
+      "director": "Mohana Ramanan"
+    },
+    {
+      "title": "Cameo",
+      "desc": "CAMEO is a silent short film Written and Directed by Mohana Ramanan(DMR) and performed by Hemshyam, Spoorthi",
+      "poster": "/uploads/file-1767271688544-584470004.webp",
+      "director": " Mohana Ramanan",
+      "link": "https://youtu.be/HMlmdInIsF8?si=at3zGUD3s6QA4Bt7"
+    }
+  ],
+  "row2": [
+    {
+      "title": "UNNODU NADANTHA",
+      "desc": "Dev and Yazhini’s journey dances in whispers and silences, weaving the essence of their unspoken bond. A story that transcends words.",
+      "poster": "/uploads/file-1767271361739-19459036.webp",
+      "director": "Bhuvaan Palanivel",
+      "link": "https://youtu.be/NefikgTtvAw?si=nTL8EJEwe77c4lL4"
+    },
+    {
+      "title": "DUPE",
+      "desc": "DUPE is a Tamil Thriller short film starring Sibi, Ramanan, Divyesh, Madesh. This film is a pure work of confusion. If you don’t understand the film mean that the film worked for you.",
+      "poster": "/uploads/file-1767271805066-364268994.webp",
+      "banner": "https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&q=80&w=2000",
+      "color": "#F7F3E7",
+      "year": "2021",
+      "certificate": "UA",
+      "duration": "2h 35m",
+      "language": "English",
+      "genre": "Action | Adventure | Drama",
+      "tags": [
+        "Epic",
+        "Desert",
+        "Space Opera"
+      ],
+      "link": "https://youtu.be/sPEp1kH1H30?si=-FZgANPYkoGP_maF",
+      "director": "Mohana Ramanan"
+    }
+  ]
+}

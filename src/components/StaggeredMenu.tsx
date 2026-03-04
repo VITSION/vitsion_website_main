@@ -1,0 +1,504 @@
+// @ts-nocheck
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import gsap from 'gsap';
+import { Instagram, Youtube, Facebook, Twitter, Clapperboard, Linkedin, X } from 'lucide-react';
+import './StaggeredMenu.css';
+
+export const StaggeredMenu = ({
+    position = 'right',
+    colors = ['#B19EEF', '#5227FF'],
+    items = [],
+    socialItems = [],
+    displaySocials = true,
+    displayItemNumbering = false,
+    className,
+    logoUrl = '/vitsion_new_logo.webp',
+    menuButtonColor = '#fff',
+    openMenuButtonColor = '#fff',
+    accentColor = '#5227FF',
+    changeMenuColorOnOpen = true,
+    isFixed = false,
+    closeOnClickAway = true,
+    onMenuOpen,
+    onMenuClose
+}) => {
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const openRef = useRef(false);
+    const panelRef = useRef(null);
+
+    const plusHRef = useRef(null);
+    const plusVRef = useRef(null);
+    const iconRef = useRef(null);
+    const textInnerRef = useRef(null);
+    const textWrapRef = useRef(null);
+    const [textLines, setTextLines] = useState(['Menu', 'Close']);
+
+    const openTlRef = useRef(null);
+    const closeTweenRef = useRef(null);
+    const spinTweenRef = useRef(null);
+    const textCycleAnimRef = useRef(null);
+    const colorTweenRef = useRef(null);
+    const toggleBtnRef = useRef(null);
+    const busyRef = useRef(false);
+    const itemEntranceTweenRef = useRef(null);
+
+    const [showHeader, setShowHeader] = useState(true);
+    const lastScrollY = useRef(0);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+                setShowHeader(false);
+            } else {
+                setShowHeader(true);
+            }
+            lastScrollY.current = currentScrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            const panel = panelRef.current;
+            const plusH = plusHRef.current;
+            const plusV = plusVRef.current;
+            const icon = iconRef.current;
+            const textInner = textInnerRef.current;
+            if (!panel || !plusH || !plusV || !icon || !textInner) return;
+
+            // Initialize panel: scale 0 from corner
+            const origin = position === 'left' ? 'top left' : 'top right';
+            gsap.set(panel, { scale: 0, opacity: 0, transformOrigin: origin });
+
+            // Standard inits
+            gsap.set(plusH, { transformOrigin: '50% 50%', rotate: 0 });
+            gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 90 });
+            gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' });
+            gsap.set(textInner, { yPercent: 0 });
+            if (toggleBtnRef.current) gsap.set(toggleBtnRef.current, { color: menuButtonColor });
+        });
+        return () => ctx.revert();
+    }, [menuButtonColor, position]);
+
+    const buildOpenTimeline = useCallback(() => {
+        const panel = panelRef.current;
+        if (!panel) return null;
+
+        openTlRef.current?.kill();
+        if (closeTweenRef.current) {
+            closeTweenRef.current.kill();
+            closeTweenRef.current = null;
+        }
+        itemEntranceTweenRef.current?.kill();
+
+        const itemEls = Array.from(panel.querySelectorAll('.sm-panel-itemLabel'));
+        const numberEls = Array.from(panel.querySelectorAll('.sm-panel-list[data-numbering] .sm-panel-item'));
+        const socialTitle = panel.querySelector('.sm-socials-title');
+        const socialLinks = Array.from(panel.querySelectorAll('.sm-socials-link'));
+
+        // Reset items for entrance
+        if (itemEls.length) {
+            gsap.set(itemEls, { yPercent: 120, opacity: 0 });
+        }
+        if (numberEls.length) {
+            gsap.set(numberEls, { '--sm-num-opacity': 0 });
+        }
+        if (socialTitle) {
+            gsap.set(socialTitle, { opacity: 0 });
+        }
+        if (socialLinks.length) {
+            gsap.set(socialLinks, { y: 20, opacity: 0 });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+
+        // Panel Expansion - The Festember "Corner Growth"
+        // Uses cubic-bezier for that organic "pop" feel
+        tl.to(panel, {
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.inOut" // Or a custom bezier like cubic-bezier(0.76, 0, 0.24, 1)
+        });
+
+        const itemsStart = 0.35; // Start showing items halfway through panel expansion
+
+        if (itemEls.length) {
+            tl.to(
+                itemEls,
+                {
+                    yPercent: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    stagger: { each: 0.06, from: 'start' }
+                },
+                itemsStart
+            );
+            if (numberEls.length) {
+                tl.to(
+                    numberEls,
+                    {
+                        duration: 0.6,
+                        ease: 'power2.out',
+                        '--sm-num-opacity': 1,
+                        stagger: { each: 0.08, from: 'start' }
+                    },
+                    itemsStart + 0.1
+                );
+            }
+        }
+
+        if (socialTitle || socialLinks.length) {
+            const socialsStart = itemsStart + 0.4;
+            if (socialTitle) {
+                tl.to(socialTitle, { opacity: 1, duration: 0.5 }, socialsStart);
+            }
+            if (socialLinks.length) {
+                tl.to(
+                    socialLinks,
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.5,
+                        stagger: 0.05,
+                        ease: 'back.out(1.5)'
+                    },
+                    socialsStart
+                );
+            }
+        }
+
+        openTlRef.current = tl;
+        return tl;
+    }, []);
+
+    const playOpen = useCallback(() => {
+        if (busyRef.current) return;
+        busyRef.current = true;
+        const tl = buildOpenTimeline();
+        if (tl) {
+            tl.eventCallback('onComplete', () => {
+                busyRef.current = false;
+            });
+            tl.play(0);
+        } else {
+            busyRef.current = false;
+        }
+    }, [buildOpenTimeline]);
+
+    const playClose = useCallback(() => {
+        openTlRef.current?.kill();
+        openTlRef.current = null;
+        itemEntranceTweenRef.current?.kill();
+
+        const panel = panelRef.current;
+        if (!panel) return;
+
+        closeTweenRef.current?.kill();
+
+        // Reverse expansion
+        closeTweenRef.current = gsap.to(panel, {
+            scale: 0,
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power3.in', // Fast retraction
+            overwrite: 'auto',
+            onComplete: () => {
+                const itemEls = Array.from(panel.querySelectorAll('.sm-panel-itemLabel'));
+                if (itemEls.length) {
+                    gsap.set(itemEls, { yPercent: 120, opacity: 0 });
+                }
+                const numberEls = Array.from(panel.querySelectorAll('.sm-panel-list[data-numbering] .sm-panel-item'));
+                if (numberEls.length) {
+                    gsap.set(numberEls, { '--sm-num-opacity': 0 });
+                }
+                const socialTitle = panel.querySelector('.sm-socials-title');
+                const socialLinks = Array.from(panel.querySelectorAll('.sm-socials-link'));
+                if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
+                if (socialLinks.length) gsap.set(socialLinks, { y: 20, opacity: 0 });
+                busyRef.current = false;
+            }
+        });
+    }, [position]);
+
+    const animateIcon = useCallback(opening => {
+        const icon = iconRef.current;
+        if (!icon) return;
+        spinTweenRef.current?.kill();
+        if (opening) {
+            spinTweenRef.current = gsap.to(icon, { rotate: 225, duration: 0.8, ease: 'power4.out', overwrite: 'auto' });
+        } else {
+            spinTweenRef.current = gsap.to(icon, { rotate: 0, duration: 0.35, ease: 'power3.inOut', overwrite: 'auto' });
+        }
+    }, []);
+
+    const animateColor = useCallback(
+        opening => {
+            const btn = toggleBtnRef.current;
+            if (!btn) return;
+            colorTweenRef.current?.kill();
+            if (changeMenuColorOnOpen) {
+                const targetColor = opening ? openMenuButtonColor : menuButtonColor;
+                colorTweenRef.current = gsap.to(btn, {
+                    color: targetColor,
+                    delay: 0.18,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            } else {
+                gsap.set(btn, { color: menuButtonColor });
+            }
+        },
+        [openMenuButtonColor, menuButtonColor, changeMenuColorOnOpen]
+    );
+
+    React.useEffect(() => {
+        if (toggleBtnRef.current) {
+            if (changeMenuColorOnOpen) {
+                const targetColor = openRef.current ? openMenuButtonColor : menuButtonColor;
+                gsap.set(toggleBtnRef.current, { color: targetColor });
+            } else {
+                gsap.set(toggleBtnRef.current, { color: menuButtonColor });
+            }
+        }
+    }, [changeMenuColorOnOpen, menuButtonColor, openMenuButtonColor]);
+
+    const animateText = useCallback(opening => {
+        const inner = textInnerRef.current;
+        if (!inner) return;
+        textCycleAnimRef.current?.kill();
+
+        const currentLabel = opening ? 'Menu' : 'Close';
+        const targetLabel = opening ? 'Close' : 'Menu';
+        const cycles = 3;
+        const seq = [currentLabel];
+        let last = currentLabel;
+        for (let i = 0; i < cycles; i++) {
+            last = last === 'Menu' ? 'Close' : 'Menu';
+            seq.push(last);
+        }
+        if (last !== targetLabel) seq.push(targetLabel);
+        seq.push(targetLabel);
+        setTextLines(seq);
+
+        gsap.set(inner, { yPercent: 0 });
+        const lineCount = seq.length;
+        const finalShift = ((lineCount - 1) / lineCount) * 100;
+        textCycleAnimRef.current = gsap.to(inner, {
+            yPercent: -finalShift,
+            duration: 0.5 + lineCount * 0.07,
+            ease: 'power4.out'
+        });
+    }, []);
+
+    const toggleMenu = useCallback(() => {
+        const target = !openRef.current;
+        openRef.current = target;
+        setOpen(target);
+        if (target) {
+            onMenuOpen?.();
+            playOpen();
+        } else {
+            onMenuClose?.();
+            playClose();
+        }
+        animateIcon(target);
+        animateColor(target);
+        animateText(target);
+    }, [playOpen, playClose, animateIcon, animateColor, animateText, onMenuOpen, onMenuClose]);
+
+    const closeMenu = useCallback(() => {
+        if (openRef.current) {
+            openRef.current = false;
+            setOpen(false);
+            onMenuClose?.();
+            playClose();
+            animateIcon(false);
+            animateColor(false);
+            animateText(false);
+        }
+    }, [playClose, animateIcon, animateColor, animateText, onMenuClose]);
+
+    React.useEffect(() => {
+        if (!closeOnClickAway || !open) return;
+
+        const handleClickOutside = event => {
+            if (
+                panelRef.current &&
+                !panelRef.current.contains(event.target) &&
+                toggleBtnRef.current &&
+                !toggleBtnRef.current.contains(event.target)
+            ) {
+                closeMenu();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [closeOnClickAway, open, closeMenu]);
+
+    return (
+        <div
+            className={(className ? className + ' ' : '') + 'staggered-menu-wrapper' + (isFixed ? ' fixed-wrapper' : '')}
+            style={accentColor ? { ['--sm-accent']: accentColor } : undefined}
+            data-position={position}
+            data-open={open || undefined}
+        >
+
+            <header className={`staggered-menu-header ${!showHeader && !open && !openRef.current ? 'hidden' : ''}`} aria-label="Main navigation header" style={{ pointerEvents: 'none' }}>
+                <div
+                    className="sm-logo"
+                    aria-label="Logo"
+                    style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                    onClick={() => navigate('/')}
+                >
+                    <img
+                        src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
+                        alt="Logo"
+                        className="sm-logo-img"
+                        draggable={false}
+                        width={200}
+                        height={24}
+                    />
+
+                </div>
+                <button
+                    ref={toggleBtnRef}
+                    className="sm-toggle"
+                    aria-label={open ? 'Close menu' : 'Open menu'}
+                    aria-expanded={open}
+                    aria-controls="staggered-menu-panel"
+                    onClick={toggleMenu}
+                    type="button"
+                    style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                >
+                    <span ref={textWrapRef} className="sm-toggle-textWrap" aria-hidden="true">
+                        <span ref={textInnerRef} className="sm-toggle-textInner">
+                            {textLines.map((l, i) => (
+                                <span className="sm-toggle-line" key={i}>
+                                    {l}
+                                </span>
+                            ))}
+                        </span>
+                    </span>
+                    <span ref={iconRef} className="sm-icon" aria-hidden="true">
+                        <span ref={plusHRef} className="sm-icon-line" />
+                        <span ref={plusVRef} className="sm-icon-line sm-icon-line-v" />
+                    </span>
+                </button>
+            </header>
+
+            <aside id="staggered-menu-panel" ref={panelRef} className="staggered-menu-panel" aria-hidden={!open} style={{ pointerEvents: open ? 'auto' : 'none' }}>
+                <div className="sm-panel-inner">
+                    <div className="sm-panel-header">
+                        <button
+                            className="sm-close-btn"
+                            aria-label="Close menu"
+                            onClick={closeMenu}
+                        >
+                            <X size={32} />
+                        </button>
+                        <img src={logoUrl} alt="Logo" className="sm-panel-logo-img" />
+                        <h2 className="sm-panel-heading-text">VITSION</h2>
+                    </div>
+                    <ul className="sm-panel-list" role="list" data-numbering={displayItemNumbering || undefined}>
+                        {items && items.length ? (
+                            items.map((it, idx) => (
+                                <li className="sm-panel-itemWrap" key={it.label + idx}>
+                                    <a
+                                        className="sm-panel-item"
+                                        href={it.link}
+                                        aria-label={it.ariaLabel}
+                                        data-index={idx + 1}
+                                        onClick={(e) => {
+                                            if (it.link.startsWith('#')) return; // Allow normal anchor for # links
+                                            e.preventDefault();
+                                            navigate(it.link);
+                                            toggleMenu(); // Close menu on navigation
+                                        }}
+                                        style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                                    >
+                                        <span className="sm-panel-itemLabel">{it.label}</span>
+                                    </a>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="sm-panel-itemWrap" aria-hidden="true">
+                                <span className="sm-panel-item">
+                                    <span className="sm-panel-itemLabel">No items</span>
+                                </span>
+                            </li>
+                        )}
+                    </ul>
+                    {displaySocials && socialItems && socialItems.length > 0 && (
+                        <div className="sm-socials" aria-label="Social links">
+                            <ul className="sm-socials-list flex gap-4" role="list">
+                                {socialItems.map((s, i) => {
+                                    let Icon = null;
+                                    let colorClass = "text-white";
+                                    // Determine icon and specific hover color
+                                    switch (s.label.toLowerCase()) {
+                                        case 'instagram':
+                                            Icon = Instagram;
+                                            colorClass = "hover:text-[#E1306C]";
+                                            break;
+                                        case 'facebook':
+                                            Icon = Facebook;
+                                            colorClass = "hover:text-[#1877F2]";
+                                            break;
+                                        case 'youtube':
+                                            Icon = Youtube;
+                                            colorClass = "hover:text-[#ea4335]";
+                                            break;
+                                        case 'twitter':
+                                        case 'x':
+                                            Icon = Twitter; // Using Twitter icon for X, commonly done or import simple 'X'
+                                            colorClass = "hover:text-gray-400";
+                                            break;
+                                        case 'letterbox':
+                                        case 'letterboxd':
+                                            Icon = Clapperboard; // Placeholder for Letterboxd if not available
+                                            colorClass = "hover:text-[#40bcf4]";
+                                            break;
+                                        case 'linkedin':
+                                        case 'linked in':
+                                            Icon = Linkedin;
+                                            colorClass = "hover:text-[#0077b5]";
+                                            break;
+                                        default:
+                                            Icon = null;
+                                    }
+
+                                    return (
+                                        <li key={s.label + i} className="sm-socials-item">
+                                            <a
+                                                href={s.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={`sm-socials-link transition-transform hover:scale-110 duration-300 ${colorClass}`}
+                                                style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'center' }}
+                                                title={s.label}
+                                            >
+                                                {Icon ? <Icon size={32} /> : s.label}
+                                            </a>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </aside>
+        </div>
+    );
+};
+
+export default StaggeredMenu;

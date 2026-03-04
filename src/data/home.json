@@ -1,0 +1,14 @@
+{
+  "upcomingMovie": {
+    "images": [
+      "/film1.webp"
+    ]
+  },
+  "eventAnnouncement": {
+    "title": "Globus '26",
+    "description": "The ultimate convergence of cinematic art and student creativity. Prepare for an unforgettable journey through sound and vision.",
+    "buttonText": "EXPLORE",
+    "buttonLink": "/globus",
+    "backgroundImage": "/uploads/file-1767215467035-604449331.webp"
+  }
+}
