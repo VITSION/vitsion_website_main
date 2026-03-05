@@ -10,6 +10,8 @@ interface GlobusWorkshop {
     title: string;
     desc: string;
     date: string;
+    time: string;
+    venue: string;
     poster: string;
     infoImages: string[];
 }
@@ -24,6 +26,8 @@ const Workshop = () => {
             title: "SCRIPT WRITING WORKSHOP",
             desc: "Learn the subtle art of Script Writing in this workshop with industry experts from Kollywood Cine Industry.",
             date: "25 MAR",
+            time: "2:00 PM",
+            venue: "Netaji Audi",
             poster: "/Globus/globus_posters/33.png",
             infoImages: ["/Globus/globus_posters/34.png", "/Globus/globus_posters/35.png"]
         },
@@ -32,6 +36,8 @@ const Workshop = () => {
             title: "ART OF DIRECTION WORKSHOP",
             desc: "Learn the subtle art of Film Direction in this workshop with industry experts from Kollywood Cine Industry.",
             date: "27 MAR",
+            time: "9:00 AM",
+            venue: "Netaji Audi",
             poster: "/Globus/globus_posters/36.png",
             infoImages: ["/Globus/globus_posters/37.png", "/Globus/globus_posters/38.png"]
         }
@@ -79,15 +85,36 @@ const Workshop = () => {
                                 <img src={workshop.poster} alt={workshop.title} className="w-full h-auto max-h-72 object-contain rounded-xl transition-transform duration-700 hover:scale-[1.02]" />
                             </div>
                             <div className="p-6 flex flex-col flex-grow">
-                                <div className="text-[#CFCFCF] font-bold tracking-widest mb-3 uppercase">{workshop.date}</div>
+                                {/* Date / Time / Venue badges */}
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                    <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-[#A6FF00] bg-[#A6FF00]/10 border border-[#A6FF00]/30 rounded-full px-3 py-1">
+                                        📅 {workshop.date}
+                                    </span>
+                                    <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-[#FF3FA4] bg-[#FF3FA4]/10 border border-[#FF3FA4]/30 rounded-full px-3 py-1">
+                                        🕐 {workshop.time}
+                                    </span>
+                                    <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-[#FFD84A] bg-[#FFD84A]/10 border border-[#FFD84A]/30 rounded-full px-3 py-1">
+                                        📍 {workshop.venue}
+                                    </span>
+                                </div>
                                 <h3 className="text-2xl font-black mb-3 text-[#FF3FA4] line-clamp-1 uppercase">{workshop.title}</h3>
                                 <p className="text-[#CFCFCF] mb-8 flex-grow line-clamp-2">{workshop.desc}</p>
-                                <button
-                                    onClick={() => setSelectedWorkshop(workshop)}
-                                    className="w-full py-4 rounded-xl bg-[#d3ab00] text-[#000000] font-black uppercase tracking-wider transition-colors mt-auto"
-                                >
-                                    More Info
-                                </button>
+                                <div className="flex flex-col gap-3 mt-auto">
+                                    <button
+                                        onClick={() => setSelectedWorkshop(workshop)}
+                                        className="w-full py-4 rounded-xl bg-[#d3ab00] text-[#000000] font-black uppercase tracking-wider transition-colors"
+                                    >
+                                        More Info
+                                    </button>
+                                    <a
+                                        href="https://eventhubcc.vit.ac.in/EventHub/login"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full py-3 rounded-xl bg-transparent border-2 border-[#FF3FA4] text-[#FF3FA4] font-black uppercase tracking-wider text-center transition-all duration-200 hover:bg-[#FF3FA4] hover:text-[#000000]"
+                                    >
+                                        Register Now
+                                    </a>
+                                </div>
                             </div>
                         </motion.div>
                     ))}

@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const location = useLocation();
 
     // Check for paths where footer should be hidden
-    const hideFooterPaths = ['/admin', '/globus'];
+    const hideFooterPaths = ['/admin', '/globus', '/workshop', '/main-events', '/online-events'];
     const shouldHideFooter = hideFooterPaths.some(path => location.pathname.startsWith(path));
 
     return (

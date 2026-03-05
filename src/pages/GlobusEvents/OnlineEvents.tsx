@@ -10,6 +10,8 @@ interface GlobusEvent {
     title: string;
     desc: string;
     date: string;
+    time: string;
+    venue: string;
     poster: string;
     infoImages: string[];
 }
@@ -20,27 +22,27 @@ const OnlineEvents = () => {
 
     const events: GlobusEvent[] = [
         {
-            id: 1, title: "FRAME BY FRAME", desc: "Add your magic (edit) to a given movie. Let every cut, beat, and transition speak your vision.", date: "23 MAR",
+            id: 1, title: "FRAME BY FRAME", desc: "Add your magic (edit) to a given movie. Let every cut, beat, and transition speak your vision.", date: "23 MAR", time: "12:00 PM", venue: "Online",
             poster: "/Globus/globus_posters/1.png", infoImages: ["/Globus/globus_posters/2.png", "/Globus/globus_posters/3.png"]
         },
         {
-            id: 2, title: "SHUTTER SHOWDOWN", desc: "Capture a moment that speaks without words. Frame your vision and let your lens tell the story.", date: "23 MAR",
+            id: 2, title: "SHUTTER SHOWDOWN", desc: "Capture a moment that speaks without words. Frame your vision and let your lens tell the story.", date: "23 MAR", time: "12:00 PM", venue: "Online",
             poster: "/Globus/globus_posters/4.png", infoImages: ["/Globus/globus_posters/5.png", "/Globus/globus_posters/6.png"]
         },
         {
-            id: 3, title: "REFRAME", desc: "Reimagine a classic with bold creativity. Design a poster that demands a second look.", date: "23 MAR",
+            id: 3, title: "REFRAME", desc: "Reimagine a classic with bold creativity. Design a poster that demands a second look.", date: "23 MAR", time: "12:00 PM", venue: "Online",
             poster: "/Globus/globus_posters/7.png", infoImages: ["/Globus/globus_posters/8.png", "/Globus/globus_posters/9.png"]
         },
         {
-            id: 4, title: "THE WRITER'S ROOM", desc: "Turn imagination into a gripping screenplay. Create characters and stories that feel real and unforgettable.", date: "23 MAR",
+            id: 4, title: "THE WRITER'S ROOM", desc: "Turn imagination into a gripping screenplay. Create characters and stories that feel real and unforgettable.", date: "23 MAR", time: "12:00 PM", venue: "Online",
             poster: "/Globus/globus_posters/10.png", infoImages: ["/Globus/globus_posters/11.png", "/Globus/globus_posters/12.png"]
         },
         {
-            id: 5, title: "DIALOGUE SHOWCASE", desc: "Write conversations that spark emotion and tension. Make every line powerful, natural, and memorable.", date: "23 MAR",
+            id: 5, title: "DIALOGUE SHOWCASE", desc: "Write conversations that spark emotion and tension. Make every line powerful, natural, and memorable.", date: "23 MAR", time: "12:00 PM", venue: "Online",
             poster: "/Globus/globus_posters/13.png", infoImages: ["/Globus/globus_posters/14.png", "/Globus/globus_posters/15.png"]
         },
         {
-            id: 6, title: "FINAL CUT", desc: "Tell a powerful story in just a few minutes. Make every frame count.", date: "26 MAR",
+            id: 6, title: "FINAL CUT", desc: "Tell a powerful story in just a few minutes. Make every frame count.", date: "26 MAR", time: "10:00 AM", venue: "Netaji Audi",
             poster: "/Globus/globus_posters/16.png", infoImages: ["/Globus/globus_posters/17.png", "/Globus/globus_posters/18.png", "/Globus/globus_posters/19.png", "/Globus/globus_posters/20.png"]
         },
     ];
@@ -62,8 +64,17 @@ const OnlineEvents = () => {
         <section className="min-h-screen w-full bg-[#000000] text-[#FFFFFF] pt-32 pb-16 px-6 relative overflow-hidden flex flex-col">
             <GlobusNavbar />
 
-            {/* Dark Grey Swirl/Gradient Background */}
-            <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#1A1A1A] via-[#000000] to-[#000000]"></div>
+            {/* Comic Marble Background */}
+            <div
+                className="absolute inset-0 pointer-events-none opacity-40"
+                style={{
+                    backgroundImage: "url('/Globus/globus_bg.png')",
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            ></div>
+            <div className="absolute inset-0 pointer-events-none opacity-60 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-transparent via-[#000000]/80 to-[#000000]"></div>
 
             <div className="max-w-7xl mx-auto relative z-10 w-full mb-auto mt-20">
                 {/* Header */}
@@ -95,15 +106,36 @@ const OnlineEvents = () => {
                                 <img src={event.poster} alt={event.title} className="w-full h-auto max-h-72 object-contain rounded-xl transition-transform duration-700 hover:scale-[1.02]" />
                             </div>
                             <div className="p-6 flex flex-col flex-grow">
-                                <div className="text-[#CFCFCF] text-sm font-bold tracking-widest mb-2 uppercase">{event.date}</div>
+                                {/* Date / Time / Venue badges */}
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                    <span className="text-xs font-bold uppercase tracking-wider text-[#A6FF00] bg-[#A6FF00]/10 border border-[#A6FF00]/30 rounded-full px-3 py-1">
+                                        📅 {event.date}
+                                    </span>
+                                    <span className="text-xs font-bold uppercase tracking-wider text-[#FF3FA4] bg-[#FF3FA4]/10 border border-[#FF3FA4]/30 rounded-full px-3 py-1">
+                                        🕐 {event.time}
+                                    </span>
+                                    <span className="text-xs font-bold uppercase tracking-wider text-[#FFD84A] bg-[#FFD84A]/10 border border-[#FFD84A]/30 rounded-full px-3 py-1">
+                                        📍 {event.venue}
+                                    </span>
+                                </div>
                                 <h3 className="text-xl font-black mb-2 text-[#FF3FA4] line-clamp-1 uppercase">{event.title}</h3>
                                 <p className="text-[#CFCFCF] text-sm mb-6 flex-grow line-clamp-2">{event.desc}</p>
-                                <button
-                                    onClick={() => setSelectedEvent(event)}
-                                    className="w-full py-4 rounded-xl bg-[#0f3257] text-[#000000] font-black uppercase tracking-wider transition-colors mt-auto"
-                                >
-                                    More Info
-                                </button>
+                                <div className="flex flex-col gap-3 mt-auto">
+                                    <button
+                                        onClick={() => setSelectedEvent(event)}
+                                        className="w-full py-3 rounded-xl bg-[#0f3257] text-[#ffffff] font-black uppercase tracking-wider transition-colors hover:bg-[#1a4a7a]"
+                                    >
+                                        More Info
+                                    </button>
+                                    <a
+                                        href="https://eventhubcc.vit.ac.in/EventHub/login"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full py-3 rounded-xl bg-transparent border-2 border-[#FF3FA4] text-[#FF3FA4] font-black uppercase tracking-wider text-center transition-all duration-200 hover:bg-[#FF3FA4] hover:text-[#000000]"
+                                    >
+                                        Register Now
+                                    </a>
+                                </div>
                             </div>
                         </motion.div>
                     ))}

@@ -10,6 +10,8 @@ interface GlobusEvent {
     title: string;
     desc: string;
     date: string;
+    time: string;
+    venue: string;
     poster: string;
     infoImages: string[];
 }
@@ -20,19 +22,19 @@ const FlagshipEvents = () => {
 
     const events: GlobusEvent[] = [
         {
-            id: 1, title: "CODEFLIX", desc: "Innovate for 24 hours without limits. Build the future of filmmaking from scratch.", date: "23 & 24 MAR",
+            id: 1, title: "CODEFLIX", desc: "Innovate for 24 hours without limits. Build the future of filmmaking from scratch.", date: "23 & 24 MAR", time: "4:00 PM (24 hrs)", venue: "Kasthurba Hall",
             poster: "/Globus/globus_posters/21.png", infoImages: ["/Globus/globus_posters/22.png", "/Globus/globus_posters/23.png"]
         },
         {
-            id: 2, title: "WHAT IF ?", desc: "Flip the script and rewrite the rules. Dare to imagine the unexpected and own the stage.", date: "25 MAR",
+            id: 2, title: "WHAT IF ?", desc: "Flip the script and rewrite the rules. Dare to imagine the unexpected and own the stage.", date: "25 MAR", time: "11:40 AM", venue: "AB-1 701",
             poster: "/Globus/globus_posters/24.png", infoImages: ["/Globus/globus_posters/25.png", "/Globus/globus_posters/26.png"]
         },
         {
-            id: 3, title: "MOVIE MINDS", desc: "Test your cinematic knowledge under pressure. Only the fastest and sharpest minds will win.", date: "25 MAR",
+            id: 3, title: "MOVIE MINDS", desc: "Test your cinematic knowledge under pressure. Only the fastest and sharpest minds will win.", date: "25 MAR", time: "11:40 AM", venue: "AB-1 702",
             poster: "/Globus/globus_posters/27.png", infoImages: ["/Globus/globus_posters/28.png", "/Globus/globus_posters/29.png"]
         },
         {
-            id: 4, title: "RETAKE", desc: "Relive iconic moments with precision and passion. Bring the screen to life with your performance.", date: "25 MAR",
+            id: 4, title: "RETAKE", desc: "Relive iconic moments with precision and passion. Bring the screen to life with your performance.", date: "25 MAR", time: "11:40 AM", venue: "Netaji Audi",
             poster: "/Globus/globus_posters/30.png", infoImages: ["/Globus/globus_posters/31.png", "/Globus/globus_posters/32.png"]
         },
     ];
@@ -97,15 +99,36 @@ const FlagshipEvents = () => {
                                 <img src={event.poster} alt={event.title} className="w-full h-auto max-h-72 object-contain rounded-xl transition-transform duration-700 hover:scale-[1.02]" />
                             </div>
                             <div className="p-6 flex flex-col flex-grow">
-                                <div className="text-[#CFCFCF] font-bold tracking-widest mb-2 uppercase">{event.date}</div>
+                                {/* Date / Time / Venue badges */}
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                    <span className="text-xs font-bold uppercase tracking-wider text-[#A6FF00] bg-[#A6FF00]/10 border border-[#A6FF00]/30 rounded-full px-3 py-1">
+                                        📅 {event.date}
+                                    </span>
+                                    <span className="text-xs font-bold uppercase tracking-wider text-[#FF3FA4] bg-[#FF3FA4]/10 border border-[#FF3FA4]/30 rounded-full px-3 py-1">
+                                        🕐 {event.time}
+                                    </span>
+                                    <span className="text-xs font-bold uppercase tracking-wider text-[#FFD84A] bg-[#FFD84A]/10 border border-[#FFD84A]/30 rounded-full px-3 py-1">
+                                        📍 {event.venue}
+                                    </span>
+                                </div>
                                 <h3 className="text-2xl font-black mb-3 text-[#FF3FA4] line-clamp-1 uppercase">{event.title}</h3>
                                 <p className="text-[#CFCFCF] mb-6 flex-grow line-clamp-3">{event.desc}</p>
-                                <button
-                                    onClick={() => setSelectedEvent(event)}
-                                    className="w-full py-4 rounded-xl bg-[#6f1f13] text-[#000000] font-black uppercase tracking-wider transition-colors mt-auto"
-                                >
-                                    More Info
-                                </button>
+                                <div className="flex flex-col gap-3 mt-auto">
+                                    <button
+                                        onClick={() => setSelectedEvent(event)}
+                                        className="w-full py-4 rounded-xl bg-[#6f1f13] text-[#ffffff] font-black uppercase tracking-wider transition-colors hover:bg-[#8a2718] mt-auto"
+                                    >
+                                        More Info
+                                    </button>
+                                    <a
+                                        href="https://eventhubcc.vit.ac.in/EventHub/login"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full py-3 rounded-xl bg-transparent border-2 border-[#FF3FA4] text-[#FF3FA4] font-black uppercase tracking-wider text-center transition-all duration-200 hover:bg-[#FF3FA4] hover:text-[#000000]"
+                                    >
+                                        Register Now
+                                    </a>
+                                </div>
                             </div>
                         </motion.div>
                     ))}
