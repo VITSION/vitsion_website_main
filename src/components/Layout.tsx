@@ -31,6 +31,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const hideFooterPaths = ['/admin', '/globus', '/workshop', '/main-events', '/online-events'];
     const shouldHideFooter = hideFooterPaths.some(path => location.pathname.startsWith(path));
 
+    const shouldHideLogo = location.pathname === '/';
+
     return (
         <div className="flex flex-col min-h-screen">
             {/* Global Staggered Floating Menu */}
@@ -47,6 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         changeMenuColorOnOpen={true}
                         colors={["#0a0a0aff", "#f1ececff", "#3a3a3a"]}
                         logoUrl="/vitsion white.webp"
+                        hideLogo={shouldHideLogo}
                         accentColor="#0c0c0cff"
                         isFixed={true}
                         className=""

@@ -73,9 +73,6 @@ const Index = () => {
 
   return (
     <div className="relative w-full overflow-x-hidden bg-black min-h-screen">
-
-
-
       {/* FIXED BACKGROUND VIDEO */}
       <section className="relative h-screen w-full overflow-hidden">
         {/* VIDEO + OVERLAY */}

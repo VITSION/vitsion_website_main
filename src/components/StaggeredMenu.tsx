@@ -14,6 +14,7 @@ export const StaggeredMenu = ({
     displayItemNumbering = false,
     className,
     logoUrl = '/vitsion_new_logo.webp',
+    hideLogo = false,
     menuButtonColor = '#fff',
     openMenuButtonColor = '#fff',
     accentColor = '#5227FF',
@@ -357,8 +358,8 @@ export const StaggeredMenu = ({
                 <div
                     className="sm-logo"
                     aria-label="Logo"
-                    style={{ pointerEvents: 'auto', cursor: 'pointer' }}
-                    onClick={() => navigate('/')}
+                    style={{ pointerEvents: hideLogo ? 'none' : 'auto', cursor: hideLogo ? 'default' : 'pointer', opacity: hideLogo ? 0 : '', visibility: hideLogo ? 'hidden' : 'visible' }}
+                    onClick={() => { if (!hideLogo) navigate('/'); }}
                 >
                     <img
                         src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
