@@ -45,7 +45,7 @@ const Globus = () => {
 
                     {/* Top Text Labels Wrappers */}
                     <motion.div
-                        initial={{ opacity: 0, y: -2}}
+                        initial={{ opacity: 0, y: -2 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         className="w-full flex justify-between absolute top-24 md:top-30 left-0 px-6 md:px-16"
