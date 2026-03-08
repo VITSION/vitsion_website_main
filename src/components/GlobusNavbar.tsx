@@ -8,56 +8,61 @@ const GlobusNavbar = () => {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const links = [
-        { name: 'Home', path: '/globus' },
-        { name: 'Workshops', path: '/workshop' },
-        { name: 'Flagship Events', path: '/main-events' },
-        { name: 'Online Events', path: '/online-events' },
+        { name: 'HOME', path: '/globus' },
+        { name: 'EVENTS', path: '/events' }, // Reusing existing events page? The design says EVENTS, SPONSORS, TEAM. Let's just use placeholder routes or root events.
+        { name: 'SPONSORS', path: '/sponsors' }, // Doesn't exist yet but matching design
+        { name: 'TEAM', path: '/team' },
     ];
 
     return (
-        <>
-            <div className="fixed top-4 md:top-6 left-0 w-screen flex justify-center z-50 pointer-events-none">
-                <motion.div
-                    initial={{ y: -50, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ type: "spring", bounce: 0.25, duration: 0.6 }}
-                    className="flex flex-nowrap items-center max-w-[96vw] w-max bg-[#111111]/90 backdrop-blur-xl border border-white/10 shadow-lg rounded-full p-2 gap-2 pointer-events-auto"
-                >
-                    {/* Logo */}
-                    <div
-                        onClick={() => navigate('/globus')}
-                        className="text-lg md:text-xl font-black text-[#A6FF00] cursor-pointer tracking-wider flex items-center px-4 shrink-0 border-r border-[#333333]"
-                    >
-                        <span className="uppercase">Globus</span>
-                    </div>
-
-                    {/* Desktop and Mobile Links */}
-                    <div className="flex items-center overflow-x-auto no-scrollbar shrink min-w-0 px-1 gap-1">
-                        {links.map((link) => {
-                            const isActive = location.pathname === link.path;
-                            return (
-                                <button
-                                    key={link.name}
-                                    onClick={() => navigate(link.path)}
-                                    className={`rounded-full font-medium tracking-wider whitespace-nowrap transition-all duration-200 shrink-0 px-3 py-1.5 md:px-4 text-[10px] md:text-sm ${isActive
-                                        ? "text-[#000000] bg-[#A6FF00] font-bold"
-                                        : "text-[#CFCFCF] hover:text-[#FFFFFF] hover:bg-[#333333]/50"
-                                        }`}
-                                >
-                                    {link.name}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </motion.div>
+        <div className={`fixed top-0 left-0 w-full flex justify-between items-center z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md py-4' : 'bg-transparent py-6'} px-6 md:px-12`}>
+            {/* Logo / Title Area */}
+            <div
+                onClick={() => navigate('/globus')}
+                className="cursor-pointer flex items-center"
+            >
+                <img src="/Home/VIT15 White Logo.webp" alt="VIT Chennai" className="h-10 md:h-12 w-auto object-contain" />
             </div>
-        </>
+
+            {/* Desktop Links */}
+            <div className="hidden md:flex items-center space-x-8">
+                {links.map((link) => {
+                    const isActive = location.pathname === link.path;
+                    return (
+                        <button
+                            key={link.name}
+                            onClick={() => navigate(link.path)}
+                            className={`text-xs md:text-sm tracking-[0.2em] font-medium transition-colors duration-200 ${isActive
+                                ? "text-[#A6FF00]"
+                                : "text-white hover:text-[#A6FF00]"
+                                }`}
+                        >
+                            {link.name}
+                        </button>
+                    );
+                })}
+            </div>
+
+            {/* Mobile Setup (Minimal) */}
+            <div className="md:hidden flex items-center">
+                <button
+                    className="text-white hover:text-[#A6FF00] p-2"
+                    aria-label="Menu"
+                >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
     );
 };
 
