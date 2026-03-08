@@ -17,7 +17,7 @@ const GlobusNavbar = () => {
     }, []);
 
     const links = [
-        { name: 'Home', path: '/globus' },
+        
         { name: 'Workshops', path: '/workshop' },
         { name: 'Flagship Events', path: '/main-events' },
         { name: 'Online Events', path: '/online-events' },
