@@ -62,7 +62,8 @@ const Globus = () => {
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ duration: 1, delay: 0.2 }}
-                            className="font-glitch text-[#A6FF00] text-[6rem] md:text-[14rem] lg:text-[17rem] leading-none opacity-95 tracking-tight md:tracking-widest drop-shadow-[0_0_25px_rgba(166,255,0,0.5)] select-none text-center flex flex-col md:flex-row absolute md:-top-16 lg:-top-24 gap-4 md:gap-0"
+                            className="text-[#A6FF00] text-[6rem] md:text-[14rem] lg:text-[17rem] leading-none opacity-95 tracking-tight md:tracking-widest drop-shadow-[0_0_25px_rgba(166,255,0,0.5)] select-none text-center flex flex-col md:flex-row absolute md:-top-16 lg:-top-24 gap-4 md:gap-0"
+                            style={{ fontFamily: "'Arial Black', sans-serif" }}
                         >
                             <span className="">GLOBUS</span>
                         </motion.h1>

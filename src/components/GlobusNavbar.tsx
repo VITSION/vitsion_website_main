@@ -39,7 +39,7 @@ const GlobusNavbar = () => {
                 <div
                     onClick={() => navigate('/globus')}
                     className="cursor-pointer text-xl md:text-2xl font-black text-[#A6FF00] tracking-widest uppercase hover:opacity-80 transition-opacity"
-                    style={{ fontFamily: "'Inter', sans-serif" }} // You can switch to glitch/bebas natively if available
+                    style={{ fontFamily: "'Arial Black', sans-serif" }} // You can switch to glitch/bebas natively if available
                 >
                     GLOBUS
                 </div>

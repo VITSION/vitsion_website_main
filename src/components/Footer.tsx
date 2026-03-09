@@ -39,7 +39,7 @@ const Footer = () => {
                             <FooterLink to="/films">Films</FooterLink>
                             <FooterLink to="/gallery">Gallery</FooterLink>
                             <FooterLink to="/team">Team</FooterLink>
-                            <FooterLink to="/globus">Globus</FooterLink>
+                            <FooterLink to="/globus"><span style={{ fontFamily: "'Arial Black', sans-serif", fontWeight: 900, letterSpacing: '0.05em' }}>Globus</span></FooterLink>
                         </ul>
                     </div>
 
@@ -106,6 +106,7 @@ const FooterLink = ({ to, children }: { to: string; children: React.ReactNode })
     <li>
         <Link
             to={to}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group"
         >
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500/50 group-hover:bg-blue-400 transition-colors" />

@@ -26,10 +26,13 @@ const GlobusFooter = () => {
                         {/* Brand */}
                         <div className="space-y-3 mb-6 flex flex-col items-center">
                             <button
-                                onClick={() => navigate('/globus')}
+                                onClick={() => {
+                                    navigate('/globus');
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }}
                                 className="text-4xl font-black tracking-wider"
                             >
-                                <span className="text-[#A6FF00] uppercase">
+                                <span className="text-[#A6FF00] uppercase" style={{ fontFamily: "'Arial Black', sans-serif" }}>
                                     Globus
                                 </span>
                             </button>
@@ -50,7 +53,10 @@ const GlobusFooter = () => {
                                 {links.map((link) => (
                                     <li key={link.name}>
                                         <button
-                                            onClick={() => navigate(link.path)}
+                                            onClick={() => {
+                                                navigate(link.path);
+                                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                            }}
                                             className="text-[#CFCFCF] hover:text-[#FFFFFF] text-sm sm:text-base font-medium transition-colors duration-200"
                                         >
                                             {link.name}
