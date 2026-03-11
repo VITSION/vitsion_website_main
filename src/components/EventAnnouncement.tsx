@@ -50,11 +50,6 @@ const EventAnnouncement = () => {
             {/* Content - Set to relative so it dictates height, but min-h ensures it matches parent visual */}
             <div className="relative w-full flex flex-col justify-center p-6 md:p-16 items-start z-10 text-white min-h-[500px] md:min-h-[600px]">
                 <div className="space-y-6 max-w-3xl w-full">
-                    {/* Tagline/Label */}
-                    <span className="text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-gray-300">
-                        Coming Soon...!
-                    </span>
-
                     <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase font-sans drop-shadow-lg leading-tight">
                         {data.title}
                     </h2>

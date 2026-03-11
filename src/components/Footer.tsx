@@ -39,7 +39,7 @@ const Footer = () => {
                             <FooterLink to="/films">Films</FooterLink>
                             <FooterLink to="/gallery">Gallery</FooterLink>
                             <FooterLink to="/team">Team</FooterLink>
-                            <FooterLink to="/globus"><span style={{ fontFamily: "'Arial Black', sans-serif", fontWeight: 900, letterSpacing: '0.05em' }}>Globus</span></FooterLink>
+                            <FooterLink to="/globus">Globus</FooterLink>
                         </ul>
                     </div>
 
