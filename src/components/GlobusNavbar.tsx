@@ -17,9 +17,10 @@ const GlobusNavbar = () => {
     }, []);
 
     const links = [
-        { name: 'Workshops', path: '/workshop' },
-        { name: 'Flagship Events', path: '/main-events' },
-        { name: 'Online Events', path: '/online-events' },
+        { name: 'Sponsors', path: '/globus#sponsors' },
+        { name: 'Create', path: '/online-events' },
+        { name: 'Compete', path: '/main-events' },
+        { name: 'Conquer', path: '/workshop' },
     ];
 
     return (
@@ -54,14 +55,32 @@ const GlobusNavbar = () => {
                         return (
                             <button
                                 key={link.name}
-                                onClick={() => navigate(link.path)}
+                                onClick={() => {
+                                    if (link.path.includes('#')) {
+                                        const hashTarget = link.path.split('#')[1];
+                                        if (location.pathname === '/globus') {
+                                            const element = document.getElementById(hashTarget);
+                                            if (element) {
+                                                element.scrollIntoView({ behavior: 'smooth' });
+                                            }
+                                        } else {
+                                            navigate(link.path);
+                                            setTimeout(() => {
+                                                document.getElementById(hashTarget)?.scrollIntoView({ behavior: 'smooth' });
+                                            }, 100);
+                                        }
+                                    } else {
+                                        navigate(link.path);
+                                    }
+                                }}
                                 className={cn(
-                                    "rounded-full font-semibold transition-all duration-300",
-                                    "px-4 py-2 text-xs md:text-sm whitespace-nowrap",
-                                    isActive
+                                    "rounded-full font-black uppercase transition-all duration-300 tracking-widest",
+                                    "px-4 py-2 text-[11px] md:text-[13px] whitespace-nowrap",
+                                    isActive || (location.pathname === '/globus' && link.name === 'Sponsors')
                                         ? "bg-[#A6FF00] text-black shadow-[0_0_15px_rgba(166,255,0,0.5)]"
-                                        : "text-gray-300 hover:text-white hover:bg-white/10"
+                                        : "text-gray-400 hover:text-[#A6FF00] hover:bg-white/5 hover:drop-shadow-[0_0_8px_rgba(166,255,0,0.4)]"
                                 )}
+                                style={{ fontFamily: "'Arial Black', sans-serif" }}
                             >
                                 {link.name}
                             </button>

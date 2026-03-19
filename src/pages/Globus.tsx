@@ -21,6 +21,10 @@ const Globus = () => {
                         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
                         opacity: 0.05;
                     }
+                    .glass-tile-pattern {
+                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cdefs%3E%3CradialGradient id='t' cx='30%25' cy='30%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='rgba(255,255,255,0.1)'/%3E%3Cstop offset='100%25' stop-color='rgba(0,0,0,0.3)'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='20' height='20' fill='url(%23t)' stroke='rgba(0,0,0,0.3)' stroke-width='0.5'/%3E%3C/svg%3E");
+                        background-size: 20px 20px;
+                    }
                 `}
             </style>
 
@@ -31,57 +35,18 @@ const Globus = () => {
                 <div
                     className="absolute inset-0 w-full h-full z-0"
                     style={{
-                        backgroundImage: "url('/Globus/hero_tv_man.jpg')",
+                        backgroundImage: "url('/Globus/hero_tv_man.webp')",
                         backgroundSize: 'cover',
-                        backgroundPosition: 'center 20%',
+                        backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat'
                     }}
                 >
-                    {/* Optional subtle gradient fading at bottom to blend into next section */}
-                    <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black to-transparent"></div>
                 </div>
 
-                <div className="relative z-10 w-full max-w-7xl px-4 md:px-6 flex flex-col items-center h-full pt-32 pb-16 justify-between pointer-events-none">
-
-                    {/* Top Text Labels Wrappers */}
-                    <motion.div
-                        initial={{ opacity: 0, y: -2 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="w-full flex justify-between absolute top-24 md:top-30 left-0 px-6 md:px-16"
-                    >
-                        <span className="font-bebas text-white text-2xl md:text-3xl lg:text-4xl tracking-widest uppercase truncate max-w-[40%] text-left drop-shadow-md">VIT CHENNAI</span>
-                        <span className="font-bebas text-white text-2xl md:text-3xl lg:text-4xl tracking-widest uppercase truncate max-w-[40%] text-right drop-shadow-md">MARCH 23 - 27</span>
-                    </motion.div>
-
-                    {/* Central Text Overlaid above image */}
-                    <div className="relative flex flex-col justify-center items-center w-full flex-grow mt-12 md:mt-16">
-
-                        {/* GLOBUS Text positioned behind TV man conceptually by design (z-index wise handled by image/text contrast) */}
-                        <motion.h1
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                            className="text-[#A6FF00] text-[6rem] md:text-[14rem] lg:text-[17rem] leading-none opacity-95 tracking-tight md:tracking-widest drop-shadow-[0_0_25px_rgba(166,255,0,0.5)] select-none text-center flex flex-col md:flex-row absolute md:-top-16 lg:-top-24 gap-4 md:gap-0"
-                            style={{ fontFamily: "'Arial Black', sans-serif" }}
-                        >
-                            <span className="">GLOBUS</span>
-                        </motion.h1>
-
-                        {/* 2K 26 Text positioned below GLOBUS & TV Head */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 1, delay: 0.6 }}
-                            className="w-[85%] md:w-[70%] lg:w-[60%] flex justify-between z-10 absolute bottom-[25%]"
-                        >
-                            <span className="font-glitch text-[#A6FF00] text-6xl md:text-8xl lg:text-[9rem] drop-shadow-[0_0_20px_rgba(166,255,0,0.6)]">2K</span>
-                            <span className="font-glitch text-[#A6FF00] text-6xl md:text-8xl lg:text-[9rem] drop-shadow-[0_0_20px_rgba(166,255,0,0.6)]">26</span>
-                        </motion.div>
-                    </div>
+                <div className="relative z-10 w-full mx-auto px-4 md:px-8 flex flex-col items-center justify-center h-full min-h-screen pt-24 pb-16 pointer-events-none">
 
                     {/* Down Indicator */}
-                    <div className="absolute bottom-8 animate-bounce text-white/70 z-30">
+                    <div className="absolute bottom-10 text-white/70 z-30">
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                         </svg>
@@ -89,32 +54,116 @@ const Globus = () => {
                 </div>
             </div>
 
+            {/* SPONSORS SECTION */}
+            <div
+                id="sponsors"
+                className="relative w-full z-20 border-t border-white/5 flex flex-col items-center py-16 sm:py-24 md:py-32 bg-black"
+                style={{
+                    backgroundImage: "url('/Globus/logo background.png')",
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}
+            >
+                {/* Optional subtle overlay to ensure logos always contrast */}
+                <div className="absolute inset-0 bg-black/10 pointer-events-none z-0"></div>
+
+                {/* Vertical Sponsor Layout Structure */}
+                <div className="relative w-full flex flex-col justify-around gap-16 sm:gap-24 md:gap-32 z-10 pointer-events-none">
+
+                    {/* Top: Title Sponsor */}
+                    <div className="w-full flex flex-col items-center justify-center gap-4 sm:gap-8 pointer-events-auto">
+                        <div className="drop-shadow-[0_0_15px_rgba(0,0,0,0.9)] px-4">
+                            <h2
+                                className="text-3xl sm:text-5xl md:text-6xl font-black tracking-widest text-[#A6FF00] drop-shadow-[0_0_20px_rgba(166,255,0,0.6)] uppercase text-center"
+                                style={{ fontFamily: "'Arial Black', sans-serif" }}
+                            >
+                                TITLE SPONSORS
+                            </h2>
+                        </div>
+
+                        {/* Title Sponsor Logos */}
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-12 sm:gap-20 md:gap-32 w-full mt-2 md:mt-6">
+                            <img
+                                src="/Globus/t1.png"
+                                alt="Title Sponsor 1"
+                                className="h-32 sm:h-48 md:h-64 lg:h-[22rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(166,255,0,0.3)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(166,255,0,0.6)] transition-all duration-500 cursor-pointer"
+                            />
+                            <img
+                                src="/Globus/t2.png"
+                                alt="Title Sponsor 2"
+                                className="h-32 sm:h-48 md:h-64 lg:h-[22rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(166,255,0,0.3)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(166,255,0,0.6)] transition-all duration-500 cursor-pointer"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Bottom: Silver Sponsor */}
+                    <div className="w-full flex flex-col items-center justify-center gap-4 sm:gap-8 pointer-events-auto">
+                        <div className="drop-shadow-[0_0_15px_rgba(0,0,0,0.9)] px-4">
+                            <h2
+                                className="text-3xl sm:text-5xl md:text-6xl font-black tracking-widest text-slate-300 drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] uppercase text-center"
+                                style={{ fontFamily: "'Arial Black', sans-serif" }}
+                            >
+                                SILVER SPONSORS
+                            </h2>
+                        </div>
+
+                        {/* Silver Sponsor Logos */}
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-12 sm:gap-20 md:gap-32 w-full mt-2 md:mt-6">
+                            <img
+                                src="/Globus/s1.png"
+                                alt="Silver Sponsor 1"
+                                className="h-28 sm:h-40 md:h-56 lg:h-[18rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(255,255,255,0.5)] transition-all duration-500 cursor-pointer"
+                            />
+                            <img
+                                src="/Globus/s2.png"
+                                alt="Silver Sponsor 2"
+                                className="h-28 sm:h-40 md:h-56 lg:h-[18rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(255,255,255,0.5)] transition-all duration-500 cursor-pointer"
+                            />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             {/* CARDS SECTION */}
-            <div className="relative z-20 w-full min-h-screen py-24 flex items-center bg-black">
+            <div
+                className="relative z-20 w-full min-h-screen py-24 flex items-center bg-black bg-center bg-cover bg-no-repeat"
+                style={{
+                    backgroundImage: "url('/Globus/globus_bg.png')",
+                    backgroundAttachment: "fixed"
+                }}
+            >
                 {/* Marbled/Swirly Background Setup */}
                 <div className="absolute inset-0 noise-bg z-0 mix-blend-overlay"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/5 via-black to-black opacity-80 pointer-events-none z-0"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black/20 via-black/80 to-black z-0 pointer-events-none"></div>
 
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 w-full z-10">
 
-                    {/* Workshop Card */}
+                    {/* Online Events Card */}
                     <motion.div
                         whileHover={{ y: -10 }}
                         transition={{ duration: 0.3 }}
-                        onClick={() => navigate('/workshop')}
-                        className="cursor-pointer rounded-2xl overflow-hidden p-8 h-[24rem] flex flex-col justify-end bg-gradient-to-b from-[#111111]/80 to-[#1A1A1A] backdrop-blur-md border border-white/5 group relative shadow-[0_20px_50px_-20px_rgba(255,215,0,0.3)]"
+                        onClick={() => navigate('/online-events')}
+                        className="cursor-pointer rounded-2xl overflow-hidden p-8 h-[24rem] flex flex-col justify-end border border-white/5 group relative shadow-[0_20px_50px_-20px_rgba(0,170,255,0.3)] bg-black"
                     >
+                        {/* Base Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-[#111111] to-[rgba(0,170,255,0.4)] opacity-80 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+
+                        {/* Glass Tile Overlay */}
+                        <div className="absolute inset-0 glass-tile-pattern opacity-60 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+
                         {/* Glowing Bottom Accent */}
-                        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#FFD700] to-transparent opacity-30 group-hover:opacity-60 transition-opacity duration-500 blur-xl"></div>
-                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#FFD700] shadow-[0_0_20px_#FFD700]"></div>
+                        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#00AAFF] to-transparent opacity-40 group-hover:opacity-70 transition-opacity duration-500 blur-xl z-0"></div>
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#00AAFF] shadow-[0_0_20px_#00AAFF] z-10"></div>
 
                         <div className="relative z-10 flex flex-col gap-4">
-                            <h2 className="text-3xl font-bold text-white tracking-wide">Workshops</h2>
+                            <h2 className="text-3xl font-bold text-white tracking-wide">Create</h2>
                             <p className="text-[#CFCFCF] text-sm leading-relaxed">
-                                Enhance your professional skills with our exclusive hands on learning session
+                                Join interactively from anywhere in the world with our virtual event platform
                             </p>
                             <span className="text-white text-sm font-semibold flex items-center gap-2 group-hover:gap-4 transition-all duration-300 mt-2">
-                                Learn more <span className="text-[#FFD700]">&rarr;</span>
+                                Learn more <span className="text-[#00AAFF]">&rarr;</span>
                             </span>
                         </div>
                     </motion.div>
@@ -124,14 +173,20 @@ const Globus = () => {
                         whileHover={{ y: -10 }}
                         transition={{ duration: 0.3 }}
                         onClick={() => navigate('/main-events')}
-                        className="cursor-pointer rounded-2xl overflow-hidden p-8 h-[24rem] flex flex-col justify-end bg-gradient-to-b from-[#111111]/80 to-[#1A1A1A] backdrop-blur-md border border-white/5 group relative shadow-[0_20px_50px_-20px_rgba(255,0,51,0.3)]"
+                        className="cursor-pointer rounded-2xl overflow-hidden p-8 h-[24rem] flex flex-col justify-end border border-white/5 group relative shadow-[0_20px_50px_-20px_rgba(255,0,51,0.3)] bg-black"
                     >
+                        {/* Base Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-[#111111] to-[rgba(255,0,51,0.4)] opacity-80 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+
+                        {/* Glass Tile Overlay */}
+                        <div className="absolute inset-0 glass-tile-pattern opacity-60 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+
                         {/* Glowing Bottom Accent */}
-                        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#FF0033] to-transparent opacity-30 group-hover:opacity-60 transition-opacity duration-500 blur-xl"></div>
-                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#FF0033] shadow-[0_0_20px_#FF0033]"></div>
+                        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#FF0033] to-transparent opacity-40 group-hover:opacity-70 transition-opacity duration-500 blur-xl z-0"></div>
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#FF0033] shadow-[0_0_20px_#FF0033] z-10"></div>
 
                         <div className="relative z-10 flex flex-col gap-4">
-                            <h2 className="text-3xl font-bold text-white tracking-wide">Flagship Events</h2>
+                            <h2 className="text-3xl font-bold text-white tracking-wide">Compete</h2>
                             <p className="text-[#CFCFCF] text-sm leading-relaxed">
                                 Experience our flagship collaborative sessions and global networking gatherings
                             </p>
@@ -141,24 +196,30 @@ const Globus = () => {
                         </div>
                     </motion.div>
 
-                    {/* Online Events Card */}
+                    {/* Workshop Card */}
                     <motion.div
                         whileHover={{ y: -10 }}
                         transition={{ duration: 0.3 }}
-                        onClick={() => navigate('/online-events')}
-                        className="cursor-pointer rounded-2xl overflow-hidden p-8 h-[24rem] flex flex-col justify-end bg-gradient-to-b from-[#111111]/80 to-[#1A1A1A] backdrop-blur-md border border-white/5 group relative shadow-[0_20px_50px_-20px_rgba(0,170,255,0.3)]"
+                        onClick={() => navigate('/workshop')}
+                        className="cursor-pointer rounded-2xl overflow-hidden p-8 h-[24rem] flex flex-col justify-end border border-white/5 group relative shadow-[0_20px_50px_-20px_rgba(255,215,0,0.3)] bg-black"
                     >
+                        {/* Base Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-[#111111] to-[rgba(255,215,0,0.4)] opacity-80 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+
+                        {/* Glass Tile Overlay */}
+                        <div className="absolute inset-0 glass-tile-pattern opacity-60 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+
                         {/* Glowing Bottom Accent */}
-                        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#00AAFF] to-transparent opacity-30 group-hover:opacity-60 transition-opacity duration-500 blur-xl"></div>
-                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#00AAFF] shadow-[0_0_20px_#00AAFF]"></div>
+                        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#FFD700] to-transparent opacity-40 group-hover:opacity-70 transition-opacity duration-500 blur-xl z-0"></div>
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#FFD700] shadow-[0_0_20px_#FFD700] z-10"></div>
 
                         <div className="relative z-10 flex flex-col gap-4">
-                            <h2 className="text-3xl font-bold text-white tracking-wide">Online Events</h2>
+                            <h2 className="text-3xl font-bold text-white tracking-wide">Conquer</h2>
                             <p className="text-[#CFCFCF] text-sm leading-relaxed">
-                                Join interactively from anywhere in the world with our virtual event platform
+                                Enhance your professional skills with our exclusive hands on learning session
                             </p>
                             <span className="text-white text-sm font-semibold flex items-center gap-2 group-hover:gap-4 transition-all duration-300 mt-2">
-                                Learn more <span className="text-[#00AAFF]">&rarr;</span>
+                                Learn more <span className="text-[#FFD700]">&rarr;</span>
                             </span>
                         </div>
                     </motion.div>

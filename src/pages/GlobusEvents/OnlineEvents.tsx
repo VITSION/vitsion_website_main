@@ -42,8 +42,8 @@ const OnlineEvents = () => {
             poster: "/Globus/globus_posters/13.png", infoImages: ["/Globus/globus_posters/14.png", "/Globus/globus_posters/15.png"]
         },
         {
-            id: 6, title: "FINAL CUT", desc: "Tell a powerful story in just a few minutes. Make every frame count.", date: "26 MAR", time: "10:00 AM", venue: "Netaji Audi",
-            poster: "/Globus/globus_posters/16.png", infoImages: ["/Globus/globus_posters/17.png", "/Globus/globus_posters/18.png", "/Globus/globus_posters/19.png", "/Globus/globus_posters/20.png"]
+            id: 6, title: "RETAKE", desc: "Relive iconic moments with precision and passion. Bring the screen to life with your performance.", date: "25 MAR", time: "11:40 AM", venue: "Netaji Audi",
+            poster: "/Globus/globus_posters/30.png", infoImages: ["/Globus/globus_posters/31.png", "/Globus/globus_posters/32.png"]
         },
     ];
 
@@ -78,14 +78,20 @@ const OnlineEvents = () => {
 
             <div className="max-w-7xl mx-auto relative z-10 w-full mb-auto mt-20">
                 {/* Header */}
-                <div className="flex items-center gap-6 mb-16">
+                <div className="flex items-start gap-5 sm:gap-6 mb-16">
                     <button
                         onClick={() => navigate(-1)}
-                        className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0"
+                        className="w-10 h-10 sm:w-12 sm:h-12 mt-1 sm:mt-2 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0"
                     >
                         <svg className="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                     </button>
-                    <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-[#A6FF00] drop-shadow-lg uppercase">Online Events</h1>
+                    <div className="flex flex-col">
+                        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-[#A6FF00] drop-shadow-[0_0_25px_rgba(166,255,0,0.4)] uppercase leading-none" style={{ fontFamily: "'Arial Black', Arial, sans-serif" }}>Create</h1>
+                        <div className="flex items-center gap-4 mt-3 md:mt-4 ml-1">
+                            <div className="h-[2px] w-10 sm:w-16 bg-gradient-to-r from-[#A6FF00] to-transparent shadow-[0_0_10px_rgba(166,255,0,0.6)]"></div>
+                            <p className="text-white/80 text-[10px] sm:text-xs md:text-sm font-semibold uppercase tracking-[0.4em]" style={{ fontFamily: "Arial, sans-serif" }}>Where ideas go live</p>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Grid */}

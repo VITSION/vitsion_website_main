@@ -8,9 +8,9 @@ const GlobusFooter = () => {
 
     const links = [
         { name: 'Home', path: '/globus' },
-        { name: 'Workshops', path: '/workshop' },
-        { name: 'Flagship Events', path: '/main-events' },
-        { name: 'Online Events', path: '/online-events' },
+        { name: 'Create', path: '/online-events' },
+        { name: 'Compete', path: '/main-events' },
+        { name: 'Conquer', path: '/workshop' },
     ];
 
     return (
