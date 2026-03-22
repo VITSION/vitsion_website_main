@@ -22,8 +22,8 @@ const FlagshipEvents = () => {
 
     const events: GlobusEvent[] = [
         {
-            id: 1, title: "FINAL CUT", desc: "Tell a powerful story in just a few minutes. Make every frame count.", date: "26 MAR", time: "10:00 AM", venue: "Netaji Audi",
-            poster: "/Globus/globus_posters/16.png", infoImages: ["/Globus/globus_posters/17.png", "/Globus/globus_posters/18.png", "/Globus/globus_posters/19.png", "/Globus/globus_posters/20.png"]
+            id: 1, title: "RETAKE", desc: "Relive iconic moments with precision and passion. Bring the screen to life with your performance.", date: "25 MAR", time: "11:40 AM", venue: "Netaji Audi",
+            poster: "/Globus/globus_posters/30.png", infoImages: ["/Globus/globus_posters/31.png", "/Globus/globus_posters/32.png"]
         },
         {
             id: 2, title: "CODEFLIX", desc: "Innovate for 24 hours without limits. Build the future of filmmaking from scratch.", date: "23 & 24 MAR", time: "4:00 PM (24 hrs)", venue: "Kasthurba Hall",

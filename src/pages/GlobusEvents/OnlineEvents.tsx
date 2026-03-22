@@ -42,8 +42,8 @@ const OnlineEvents = () => {
             poster: "/Globus/globus_posters/13.png", infoImages: ["/Globus/globus_posters/14.png", "/Globus/globus_posters/15.png"]
         },
         {
-            id: 6, title: "RETAKE", desc: "Relive iconic moments with precision and passion. Bring the screen to life with your performance.", date: "25 MAR", time: "11:40 AM", venue: "Netaji Audi",
-            poster: "/Globus/globus_posters/30.png", infoImages: ["/Globus/globus_posters/31.png", "/Globus/globus_posters/32.png"]
+            id: 6, title: "FINAL CUT", desc: "Tell a powerful story in just a few minutes. Make every frame count.", date: "26 MAR", time: "10:00 AM", venue: "Netaji Audi",
+            poster: "/Globus/globus_posters/16.png", infoImages: ["/Globus/globus_posters/17.png", "/Globus/globus_posters/18.png", "/Globus/globus_posters/19.png", "/Globus/globus_posters/20.png"]
         },
     ];
 

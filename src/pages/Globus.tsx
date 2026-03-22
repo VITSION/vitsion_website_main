@@ -57,10 +57,10 @@ const Globus = () => {
             {/* SPONSORS SECTION */}
             <div
                 id="sponsors"
-                className="relative w-full z-20 border-t border-white/5 flex flex-col items-center py-16 sm:py-24 md:py-32 bg-black"
+                className="relative w-full z-20 border-t border-white/5 flex flex-col items-center py-20 sm:py-28 md:py-36 bg-black"
                 style={{
                     backgroundImage: "url('/Globus/logo background.png')",
-                    backgroundSize: 'cover',
+                    backgroundSize: '100% 100%',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat'
                 }}
@@ -69,7 +69,7 @@ const Globus = () => {
                 <div className="absolute inset-0 bg-black/10 pointer-events-none z-0"></div>
 
                 {/* Vertical Sponsor Layout Structure */}
-                <div className="relative w-full flex flex-col justify-around gap-16 sm:gap-24 md:gap-32 z-10 pointer-events-none">
+                <div className="relative w-full flex flex-col justify-around gap-20 sm:gap-28 md:gap-36 z-10 pointer-events-none">
 
                     {/* Top: Title Sponsor */}
                     <div className="w-full flex flex-col items-center justify-center gap-4 sm:gap-8 pointer-events-auto">
@@ -90,9 +90,30 @@ const Globus = () => {
                                 className="h-32 sm:h-48 md:h-64 lg:h-[22rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(166,255,0,0.3)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(166,255,0,0.6)] transition-all duration-500 cursor-pointer"
                             />
                             <img
-                                src="/Globus/t2.png"
+                                src="/Globus/t2.webp"
                                 alt="Title Sponsor 2"
                                 className="h-32 sm:h-48 md:h-64 lg:h-[22rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(166,255,0,0.3)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(166,255,0,0.6)] transition-all duration-500 cursor-pointer"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Middle: Gold Sponsor */}
+                    <div className="w-full flex flex-col items-center justify-center gap-4 sm:gap-8 pointer-events-auto">
+                        <div className="drop-shadow-[0_0_15px_rgba(0,0,0,0.9)] px-4">
+                            <h2
+                                className="text-3xl sm:text-5xl md:text-6xl font-black tracking-widest text-[#FFD700] drop-shadow-[0_0_20px_rgba(255,215,0,0.6)] uppercase text-center"
+                                style={{ fontFamily: "'Arial Black', sans-serif" }}
+                            >
+                                GOLD SPONSOR
+                            </h2>
+                        </div>
+
+                        {/* Gold Sponsor Logo */}
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-12 sm:gap-20 md:gap-32 w-full mt-2 md:mt-6">
+                            <img
+                                src="/Globus/s2.png"
+                                alt="Gold Sponsor"
+                                className="h-28 sm:h-44 md:h-60 lg:h-[20rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(255,215,0,0.7)] transition-all duration-500 cursor-pointer"
                             />
                         </div>
                     </div>
@@ -104,20 +125,15 @@ const Globus = () => {
                                 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-widest text-slate-300 drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] uppercase text-center"
                                 style={{ fontFamily: "'Arial Black', sans-serif" }}
                             >
-                                SILVER SPONSORS
+                                SILVER SPONSOR
                             </h2>
                         </div>
 
-                        {/* Silver Sponsor Logos */}
+                        {/* Silver Sponsor Logo */}
                         <div className="flex flex-col md:flex-row items-center justify-center gap-12 sm:gap-20 md:gap-32 w-full mt-2 md:mt-6">
                             <img
                                 src="/Globus/s1.png"
-                                alt="Silver Sponsor 1"
-                                className="h-28 sm:h-40 md:h-56 lg:h-[18rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(255,255,255,0.5)] transition-all duration-500 cursor-pointer"
-                            />
-                            <img
-                                src="/Globus/s2.png"
-                                alt="Silver Sponsor 2"
+                                alt="Silver Sponsor"
                                 className="h-28 sm:h-40 md:h-56 lg:h-[18rem] w-auto max-w-[90vw] object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 hover:drop-shadow-[0_0_40px_rgba(255,255,255,0.5)] transition-all duration-500 cursor-pointer"
                             />
                         </div>
