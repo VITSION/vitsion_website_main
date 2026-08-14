@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import GlobusNavbar from '@/components/GlobusNavbar';
 import GlobusFooter from '@/components/GlobusFooter';
 
 const Globus = () => {
@@ -9,7 +8,6 @@ const Globus = () => {
 
     return (
         <section className="min-h-screen w-full bg-[#000000] text-[#FFFFFF] relative overflow-x-hidden flex flex-col font-['Inter',sans-serif]">
-            <GlobusNavbar />
 
             {/* Internal Styles for Web Fonts */}
             <style>
@@ -46,7 +44,7 @@ const Globus = () => {
                 <div className="relative z-10 w-full mx-auto px-4 md:px-8 flex flex-col items-center justify-center h-full min-h-screen pt-24 pb-16 pointer-events-none">
 
                     {/* Down Indicator */}
-                    <div className="absolute bottom-10 text-white/70 z-30">
+                    <div className="absolute bottom-10 text-white/70 z-30 animate-bounce">
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                         </svg>

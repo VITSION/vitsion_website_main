@@ -19,7 +19,6 @@ const Events25_26 = lazy(() => import("./pages/Events/Events25-26"));
 const Films = lazy(() => import("./pages/Films"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Admin = lazy(() => import("./pages/Admin"));
-const Core = lazy(() => import("./pages/Core"));
 
 const Workshop = lazy(() => import("./pages/GlobusEvents/Workshop"));
 const FlagshipEvents = lazy(() => import("./pages/GlobusEvents/FlagshipEvents"));
@@ -67,7 +66,6 @@ const App = () => {
 
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/admin" element={<Admin />} />
-                <Route path="/core" element={<Core />} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

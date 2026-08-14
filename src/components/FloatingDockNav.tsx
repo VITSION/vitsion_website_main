@@ -17,7 +17,7 @@ const FloatingDockNav = () => {
     ];
 
     return (
-        <div className="fixed top-0 left-0 w-full h-[60px] md:h-[80px] z-50 flex items-center px-4 md:px-8 pointer-events-none">
+        <div className="fixed top-0 left-0 w-full h-[60px] md:h-[80px] z-50 hidden md:flex items-center px-4 md:px-8 pointer-events-none">
 
             {/* Left: LOGO */}
             <div
@@ -27,7 +27,7 @@ const FloatingDockNav = () => {
                 <img
                     src="/vitsion%20white.webp"
                     alt="Logo"
-                    className="object-contain w-8 h-8 md:w-10 md:h-10"
+                    className="object-contain w-12 h-12 md:w-14 md:h-14"
                 />
                 <span className="hidden md:block text-xl font-bold tracking-widest text-white">
                     VITSION

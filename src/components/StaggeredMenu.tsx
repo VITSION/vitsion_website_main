@@ -45,41 +45,16 @@ export const StaggeredMenu = ({
     const busyRef = useRef(false);
     const itemEntranceTweenRef = useRef(null);
 
-    const [showHeader, setShowHeader] = useState(true);
-    const lastScrollY = useRef(0);
-
-    React.useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-            if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
-                setShowHeader(false);
-            } else {
-                setShowHeader(true);
-            }
-            lastScrollY.current = currentScrollY;
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
             const panel = panelRef.current;
-            const plusH = plusHRef.current;
-            const plusV = plusVRef.current;
-            const icon = iconRef.current;
             const textInner = textInnerRef.current;
-            if (!panel || !plusH || !plusV || !icon || !textInner) return;
+            if (!panel || !textInner) return;
 
             // Initialize panel: scale 0 from corner
             const origin = position === 'left' ? 'top left' : 'top right';
             gsap.set(panel, { scale: 0, opacity: 0, transformOrigin: origin });
 
-            // Standard inits
-            gsap.set(plusH, { transformOrigin: '50% 50%', rotate: 0 });
-            gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 90 });
-            gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' });
             gsap.set(textInner, { yPercent: 0 });
             if (toggleBtnRef.current) gsap.set(toggleBtnRef.current, { color: menuButtonColor });
         });
@@ -354,7 +329,7 @@ export const StaggeredMenu = ({
             data-open={open || undefined}
         >
 
-            <header className={`staggered-menu-header ${!showHeader && !open && !openRef.current ? 'hidden' : ''}`} aria-label="Main navigation header" style={{ pointerEvents: 'none' }}>
+            <header className="staggered-menu-header" aria-label="Main navigation header" style={{ pointerEvents: 'none' }}>
                 <div
                     className="sm-logo"
                     aria-label="Logo"
@@ -362,13 +337,14 @@ export const StaggeredMenu = ({
                     onClick={() => { if (!hideLogo) navigate('/'); }}
                 >
                     <img
-                        src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
+                        src={logoUrl || '/vitsion white.webp'}
                         alt="Logo"
                         className="sm-logo-img"
                         draggable={false}
-                        width={200}
-                        height={24}
                     />
+                    <span className="sm-logo-text font-bold tracking-widest text-white">
+                        VITSION
+                    </span>
 
                 </div>
                 <button
@@ -389,10 +365,6 @@ export const StaggeredMenu = ({
                                 </span>
                             ))}
                         </span>
-                    </span>
-                    <span ref={iconRef} className="sm-icon" aria-hidden="true">
-                        <span ref={plusHRef} className="sm-icon-line" />
-                        <span ref={plusVRef} className="sm-icon-line sm-icon-line-v" />
                     </span>
                 </button>
             </header>

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import StaggeredMenu from "@/components/StaggeredMenu";
 import MagicBento from "@/components/MagicBento";
 
 import { X } from "lucide-react";
@@ -36,22 +35,7 @@ export default function Events25_26() {
         */
     }, []);
 
-    const menuItems = [
-        { label: "Home", ariaLabel: "Go to home page", link: "/" },
-        { label: "Globus", ariaLabel: "Globus", link: "/globus" },
-        { label: "Events", ariaLabel: "View our events", link: "/events" },
-        { label: "Films", ariaLabel: "View our films", link: "/films" },
-        { label: "Gallery", ariaLabel: "Browse gallery", link: "/gallery" },
-        { label: "Team", ariaLabel: "Meet the team", link: "/team" },
-        { label: "Contact", ariaLabel: "Get in touch", link: "/contact" },
-    ];
 
-    const socialItems = [
-        { label: "Instagram", link: "https://www.instagram.com/vitsionmoviemakers" },
-        { label: "Linkedin", link: "https://www.linkedin.com/company/vitsionmoviemakersclub/" },
-        { label: "LetterBox", link: "https://letterboxd.com/vitsion/" },
-        { label: "YouTube", link: "http://www.youtube.com/@VITSIONMovieMakers" },
-    ];
 
     // Filter events based on 'row' property
     const firstHalf = eventItems.filter(item => !item.row || item.row === '1');

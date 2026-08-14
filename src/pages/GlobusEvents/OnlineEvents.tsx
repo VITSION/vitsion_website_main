@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import GlobusNavbar from '@/components/GlobusNavbar';
 import GlobusFooter from '@/components/GlobusFooter';
 import EventModal from './EventModal';
 
@@ -62,7 +61,6 @@ const OnlineEvents = () => {
 
     return (
         <section className="min-h-screen w-full bg-[#000000] text-[#FFFFFF] pt-32 pb-16 px-6 relative overflow-hidden flex flex-col">
-            <GlobusNavbar />
 
             {/* Comic Marble Background */}
             <div

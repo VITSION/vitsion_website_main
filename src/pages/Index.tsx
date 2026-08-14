@@ -1,5 +1,4 @@
 
-import FloatingDockNav from "@/components/FloatingDockNav";
 import UpcomingMovie from "@/components/UpcomingMovie";
 import EventAnnouncement from "@/components/EventAnnouncement";
 import AboutSection from "@/components/AboutSection";
@@ -118,10 +117,6 @@ const Index = () => {
         </div>
 
       </section>
-      {/* NAV */}
-      <header className="fixed top-0 left-0 w-full z-50">
-        <FloatingDockNav />
-      </header>
 
       {/* ABOUT SECTION */}
       <section className="relative z-20 overflow-hidden">

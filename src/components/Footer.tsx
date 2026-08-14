@@ -45,14 +45,7 @@ const Footer = () => {
 
                     {/* Contact Info */}
                     <div>
-                        <h3
-                            className="text-white font-semibold tracking-wider mb-6 cursor-pointer select-none"
-                            onDoubleClick={() => {
-                                if (location.pathname === '/team') {
-                                    navigate('/core');
-                                }
-                            }}
-                        >
+                        <h3 className="text-white font-semibold tracking-wider mb-6">
                             CONTACT
                         </h3>
                         <ul className="space-y-4">

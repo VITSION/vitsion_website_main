@@ -1,28 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import StaggeredMenu from "@/components/StaggeredMenu";
-
-
-import StarField from "@/components/StarField";
 
 export default function Team() {
-
-    const menuItems = [
-        { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-        { label: 'Globus', ariaLabel: 'Globus', link: '/globus' },
-        { label: 'Events', ariaLabel: 'View our events', link: '/events' },
-        { label: 'Films', ariaLabel: 'View our films', link: '/films' },
-        { label: 'Gallery', ariaLabel: 'Browse gallery', link: '/gallery' },
-        { label: 'Team', ariaLabel: 'Meet the team', link: '/team' },
-        { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
-    ];
-
-    const socialItems = [
-        { label: 'Instagram', link: 'https://www.instagram.com/vitsionmoviemakers' },
-        { label: 'Linkedin', link: 'https://www.linkedin.com/company/vitsionmoviemakersclub/' },
-        { label: 'LetterBox', link: 'https://letterboxd.com/vitsion/' },
-        { label: 'YouTube', link: 'http://www.youtube.com/@VITSIONMovieMakers' }
-    ];
 
     const teamMembers = [
         {
@@ -98,39 +77,10 @@ export default function Team() {
     return (
         <div className="w-full min-h-screen bg-black overflow-x-hidden relative font-sans overscroll-none">
 
-            {/* STARFIELD BACKGROUND */}
-            <div className="fixed inset-0 z-0 bg-black">
-                <StarField speed={1} backgroundColor="#000000" starColor="#ffffff" />
-            </div>
-
-            {/* MENU - Fixed Wrapper */}
-            <div
-                style={{
-                    position: "fixed",
-                    inset: 0,
-                    zIndex: 999,
-                    pointerEvents: "none",
-                }}
-            >
-                <div style={{ pointerEvents: "auto" }}>
-                    <StaggeredMenu
-                        position="right"
-                        items={menuItems}
-                        socialItems={socialItems}
-                        displaySocials={true}
-                        displayItemNumbering={false}
-                        menuButtonColor="#f1efefff"
-                        openMenuButtonColor="#0f0e0eff"
-                        changeMenuColorOnOpen={true}
-                        colors={['#0a0a0aff', '#f1ececff', '#3a3a3a']}
-                        logoUrl="/vitsion white.webp"
-                        accentColor="#0c0c0cff"
-                        isFixed={true}
-                        className=""
-                        onMenuOpen={() => { }}
-                        onMenuClose={() => { }}
-                    />
-                </div>
+            {/* LIGHTWEIGHT AMBIENT BACKGROUND */}
+            <div className="fixed inset-0 z-0 bg-black pointer-events-none overflow-hidden">
+                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-950/20 rounded-full blur-[140px] pointer-events-none" />
+                <div className="absolute bottom-20 left-1/4 w-[400px] h-[400px] bg-purple-950/15 rounded-full blur-[150px] pointer-events-none" />
             </div>
 
             {/* MAIN CONTENT */}

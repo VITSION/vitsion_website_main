@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Footer from './Footer';
 import StaggeredMenu from './StaggeredMenu';
+import FloatingDockNav from './FloatingDockNav';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -31,11 +32,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const hideFooterPaths = ['/admin', '/globus', '/workshop', '/main-events', '/online-events'];
     const shouldHideFooter = hideFooterPaths.some(path => location.pathname.startsWith(path));
 
-    const shouldHideLogo = location.pathname === '/';
-
     return (
         <div className="flex flex-col min-h-screen">
-            {/* Global Staggered Floating Menu */}
+            {/* Global PC Floating Dock Navigation (hidden on mobile) */}
+            <FloatingDockNav />
+
+            {/* Global Mobile Header & Menu Drawer (hidden on PC) */}
             <div style={{ position: "fixed", inset: 0, zIndex: 999, pointerEvents: "none" }}>
                 <div style={{ pointerEvents: "auto" }}>
                     <StaggeredMenu
@@ -49,7 +51,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         changeMenuColorOnOpen={true}
                         colors={["#0a0a0aff", "#f1ececff", "#3a3a3a"]}
                         logoUrl="/vitsion white.webp"
-                        hideLogo={shouldHideLogo}
+                        hideLogo={false}
                         accentColor="#0c0c0cff"
                         isFixed={true}
                         className=""

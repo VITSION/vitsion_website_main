@@ -1,6 +1,5 @@
 
 import React, { useState } from "react";
-import StaggeredMenu from "@/components/StaggeredMenu";
 
 import { Instagram, Linkedin, Youtube, Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,23 +15,6 @@ const Contact = () => {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-
-    const menuItems = [
-        { label: "Home", ariaLabel: "Go to home page", link: "/" },
-        { label: "Globus", ariaLabel: "Globus", link: "/globus" },
-        { label: "Events", ariaLabel: "View our events", link: "/events" },
-        { label: "Films", ariaLabel: "View our films", link: "/films" },
-        { label: "Gallery", ariaLabel: "Browse gallery", link: "/gallery" },
-        { label: "Team", ariaLabel: "Meet the team", link: "/team" },
-        { label: "Contact", ariaLabel: "Get in touch", link: "/contact" },
-    ];
-
-    const socialItems = [
-        { label: "Instagram", link: "https://www.instagram.com/vitsionmoviemakers" },
-        { label: "Linkedin", link: "https://www.linkedin.com/company/vitsionmoviemakersclub/" },
-        { label: "LetterBox", link: "https://letterboxd.com/vitsion/" },
-        { label: "YouTube", link: "http://www.youtube.com/@VITSIONMovieMakers" },
-    ];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -65,31 +47,6 @@ const Contact = () => {
 
     return (
         <div className="min-h-screen w-full overflow-y-auto md:h-screen md:overflow-hidden bg-[#0a0a0aff] text-white font-sans selection:bg-white/20 flex flex-col items-center justify-center relative">
-
-
-
-            {/* MENU */}
-            <div className="fixed inset-0 z-[999] pointer-events-none">
-                <div className="pointer-events-auto">
-                    <StaggeredMenu
-                        position="right"
-                        items={menuItems}
-                        socialItems={socialItems}
-                        displaySocials={true}
-                        displayItemNumbering={false}
-                        menuButtonColor="#f1efefff"
-                        openMenuButtonColor="#0f0e0eff"
-                        changeMenuColorOnOpen={true}
-                        colors={["#0a0a0aff", "#f1ececff", "#3a3a3a"]}
-                        logoUrl="/vitsion white.webp"
-                        accentColor="#0c0c0cff"
-                        isFixed={true}
-                        className=""
-                        onMenuOpen={() => { }}
-                        onMenuClose={() => { }}
-                    />
-                </div>
-            </div>
 
             <main className="container mx-auto px-6 pt-28 pb-12 md:py-0 relative z-10 w-full max-w-6xl flex-grow flex flex-col justify-center">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
