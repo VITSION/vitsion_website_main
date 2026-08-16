@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import './FlowingMenu.css';
 
@@ -78,11 +79,19 @@ function MenuItem({ link, text, image }) {
         </React.Fragment>
     ));
 
+    const isInternal = link && link.startsWith('/');
+
     return (
         <div className="menu__item section-border" ref={itemRef}>
-            <a className="menu__item-link" href={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                {text}
-            </a>
+            {isInternal ? (
+                <Link className="menu__item-link" to={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    {text}
+                </Link>
+            ) : (
+                <a className="menu__item-link" href={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    {text}
+                </a>
+            )}
             <div className="marquee" ref={marqueeRef}>
                 <div className="marquee__inner-wrap" ref={marqueeInnerRef}>
                     <div className="marquee__inner" aria-hidden="true">

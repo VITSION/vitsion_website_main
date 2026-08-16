@@ -90,35 +90,6 @@ export default function Events25_26() {
                 </div>
             </div>
 
-            {/* MENU */}
-            <div
-                style={{
-                    position: "fixed",
-                    inset: 0,
-                    zIndex: 999,
-                    pointerEvents: "none",
-                }}
-            >
-                <div style={{ pointerEvents: "auto" }}>
-                    <StaggeredMenu
-                        position="right"
-                        items={menuItems}
-                        socialItems={socialItems}
-                        displaySocials={true}
-                        displayItemNumbering={false}
-                        menuButtonColor="#f1efefff"
-                        openMenuButtonColor="#0f0e0eff"
-                        changeMenuColorOnOpen={true}
-                        colors={["#0a0a0aff", "#f1ececff", "#3a3a3a"]}
-                        logoUrl="/vitsion white.webp"
-                        accentColor="#0c0c0cff"
-                        isFixed={true}
-                        className=""
-                        onMenuOpen={() => { }}
-                        onMenuClose={() => { }}
-                    />
-                </div>
-            </div>
 
             {/* PAGE CONTENT */}
             <div className="relative w-full min-h-screen bg-transparent overflow-x-hidden pt-32 md:pt-40 pb-20 font-sans z-10">
